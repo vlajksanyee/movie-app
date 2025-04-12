@@ -25,6 +25,7 @@ struct GenreSectionView: View {
     @StateObject private var viewModel = GenreSectionViewModel()
     
     var body: some View {
+<<<<<<< HEAD
         NavigationStack {
             ZStack(alignment: .topTrailing) {
                 Circle()
@@ -53,6 +54,29 @@ struct GenreSectionView: View {
                 .listStyle(.plain)
                 .navigationTitle("genreSection.title")
             }
+=======
+        NavigationView {
+            List(viewModel.genres) { genre in
+                ZStack {
+                    NavigationLink(destination: Color.gray) {
+                        EmptyView()
+                    }
+                    .opacity(0)
+                    
+                    HStack {
+                        Text(genre.name)
+                            .font(Fonts.title)
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(.rightArrow)
+                    }
+                }
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+            }
+            .listStyle(.plain)
+            .navigationTitle("genreSection.title")
+>>>>>>> 5385288ad03b66421399468757bec69b1334c7a5
         }
         .onAppear {
             viewModel.loadGenres()
