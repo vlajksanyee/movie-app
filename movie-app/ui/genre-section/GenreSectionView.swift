@@ -46,7 +46,7 @@ struct GenreSectionView: View {
                     .position(x: 375, y: -150)
                 List(viewModel.genres) { genre in
                     ZStack {
-                        NavigationLink(destination: Color.gray) {
+                        NavigationLink(destination: MovieListView(genre: genre)) {
                             EmptyView()
                         }
                         .opacity(0)
