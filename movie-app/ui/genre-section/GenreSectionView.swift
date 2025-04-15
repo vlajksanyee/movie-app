@@ -15,7 +15,9 @@ class GenreSectionViewModel: ObservableObject {
     func fetchGenres() async {
         do {
             let request = FetchGenreRequest()
-            let genres = try await movieService.fetchGenres(req: request)
+            let genres = Environment.name == .tv ?
+                try await movieService.fetchTVGenres(req: request) :
+                try await movieService.fetchGenres(req: request)
             DispatchQueue.main.async {
                 self.genres = genres
             }
@@ -44,7 +46,7 @@ struct GenreSectionView: View {
                     .position(x: 375, y: -150)
                 List(viewModel.genres) { genre in
                     ZStack {
-                        NavigationLink(destination: Color.gray) {
+                        NavigationLink(destination: MovieListView(genre: genre)) {
                             EmptyView()
                         }
                         .opacity(0)
@@ -61,7 +63,7 @@ struct GenreSectionView: View {
                     .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
-                .navigationTitle(Environment.name == .dev ? "DEV" : "PROD")
+                .navigationTitle(Environment.name == .dev ? "DEV" : Environment.name == .prod ? "PROD" : "TV")
             }
         }
         .onAppear {
