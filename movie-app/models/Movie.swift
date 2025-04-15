@@ -5,6 +5,8 @@
 //  Created by Sandor Vlajk on 2025. 04. 15..
 //
 
+import Foundation
+
 struct Movie: Identifiable {
     let id: Int
     let title: String

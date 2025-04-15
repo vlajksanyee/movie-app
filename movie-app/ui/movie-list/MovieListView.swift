@@ -8,13 +8,16 @@
 import SwiftUI
 import InjectPropertyWrapper
 
-class MovieListViewModel: ObservableObject {
+protocol MovieListViewModelProtocol: ObservableObject {
+    
+}
+
+class MovieListViewModel: MovieListViewModelProtocol {
     @Published var movies: [Movie] = []
-    private let service = MoviesService()
     
-//    @Inject
-//    private var service: MoviesServiceProtocol
-    
+    @Inject
+    private var service: MoviesServiceProtocol
+        
     func loadMovies(by genreId: Int) async {
         do {
             let request = FetchMoviesRequest(genreId: genreId)
@@ -111,8 +114,7 @@ struct MovieCellView: View {
                 .lineLimit(2)
 
             Text("\(movie.year)")
-                .font
-(Fonts.paragraph)
+                .font(Fonts.paragraph)
 
             Text("\(movie.duration)")
                 .font(Fonts.caption)

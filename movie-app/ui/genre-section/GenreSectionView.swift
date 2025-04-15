@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import InjectPropertyWrapper
 
-class GenreSectionViewModel: ObservableObject {
+protocol GenreSectionViewModelProtocol: ObservableObject {
+    
+}
+
+class GenreSectionViewModel: GenreSectionViewModelProtocol {
     @Published var genres: [Genre] = []
     
-    private var movieService: MoviesServiceProtocol = MoviesService()
+    @Inject
+    private var movieService: MoviesServiceProtocol
     
     func fetchGenres() async {
         do {
@@ -24,12 +30,6 @@ class GenreSectionViewModel: ObservableObject {
         } catch {
             print("Error fetching genres: \(error)")
         }
-//        self.genres = [
-//            Genre(id: 1, name: "Adventure"),
-//            Genre(id: 2, name: "Sci-fi"),
-//            Genre(id: 3, name: "Fantasy"),
-//            Genre(id: 4, name: "Comedy")
-//        ]
     }
 }
 
