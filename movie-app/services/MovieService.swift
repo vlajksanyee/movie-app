@@ -28,10 +28,10 @@ class MoviesService: MoviesServiceProtocol {
                     do {
                         let decodedResponse = try JSONDecoder().decode(GenreListResponse.self, from: response.data)
                         
-//                        var genres = [Genre]()
-//                        for genreResponse in decodedResponse.genres {
-//                            genres.append(Genre(dto: genreResponse))
-//                        }
+                        //                        var genres = [Genre]()
+                        //                        for genreResponse in decodedResponse.genres {
+                        //                            genres.append(Genre(dto: genreResponse))
+                        //                        }
                         
                         let genres = decodedResponse.genres.map { genreResponse in
                             Genre(dto: genreResponse)
@@ -56,10 +56,10 @@ class MoviesService: MoviesServiceProtocol {
                     do {
                         let decodedResponse = try JSONDecoder().decode(GenreListResponse.self, from: response.data)
                         
-//                        var genres = [Genre]()
-//                        for genreResponse in decodedResponse.genres {
-//                            genres.append(Genre(dto: genreResponse))
-//                        }
+                        //                        var genres = [Genre]()
+                        //                        for genreResponse in decodedResponse.genres {
+                        //                            genres.append(Genre(dto: genreResponse))
+                        //                        }
                         
                         let genres = decodedResponse.genres.map { genreResponse in
                             Genre(dto: genreResponse)

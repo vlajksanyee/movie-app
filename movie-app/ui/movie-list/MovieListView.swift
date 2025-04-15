@@ -17,7 +17,7 @@ class MovieListViewModel: MovieListViewModelProtocol {
     
     @Inject
     private var service: MoviesServiceProtocol
-        
+    
     func loadMovies(by genreId: Int) async {
         do {
             let request = FetchMoviesRequest(genreId: genreId)
@@ -74,19 +74,19 @@ struct MovieCellView: View {
                                 Color.gray.opacity(0.3)
                                 ProgressView()
                             }
-
+                            
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFill()
-
+                            
                         case .failure:
                             ZStack {
                                 Color.red.opacity(0.3)
                                 Image(systemName: "photo")
                                     .foregroundColor(.white)
                             }
-
+                            
                         default:
                             EmptyView()
                         }
@@ -108,17 +108,17 @@ struct MovieCellView: View {
                 .cornerRadius(12)
                 .padding(6)
             }
-
+            
             Text(movie.title)
                 .font(Fonts.subheading)
                 .lineLimit(2)
-
+            
             Text("\(movie.year)")
                 .font(Fonts.paragraph)
-
+            
             Text("\(movie.duration)")
                 .font(Fonts.caption)
-
+            
             Spacer()
         }
     }
