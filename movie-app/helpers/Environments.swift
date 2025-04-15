@@ -13,9 +13,9 @@ struct Environment {
     }
 #if ENV_PROD
     static let name: Name = .prod
-#elseif ENV_TV
-    static let name: Name = .tv
-#else
+#elseif ENV_DEV
     static let name: Name = .dev
+#else
+    static let name: Name = .tv
 #endif
 }
