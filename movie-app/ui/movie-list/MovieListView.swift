@@ -34,13 +34,8 @@ struct MovieListView: View {
     let genre: Genre
     
     let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
+        GridItem(.adaptive(minimum: 150), spacing: 16)
     ]
-    
-//    let columns = [
-//        GridItem(.adaptive(minimum: 150), spacing: 16)
-//    ]
     
     var body: some View {
         ScrollView {
