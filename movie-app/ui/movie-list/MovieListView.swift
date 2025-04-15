@@ -8,12 +8,15 @@
 import SwiftUI
 import InjectPropertyWrapper
 
-class MovieListViewModel: ObservableObject {
-    @Published var movies: [Movie] = []
-    private let service = MoviesService()
+protocol MovieListViewModelProtocol: ObservableObject {
     
-//    @Inject
-//    private var service: MoviesServiceProtocol
+}
+
+class MovieListViewModel: MovieListViewModelProtocol {
+    @Published var movies: [Movie] = []
+    
+    @Inject
+    private var service: MoviesServiceProtocol
     
     func loadMovies(by genreId: Int) async {
         do {
@@ -34,13 +37,8 @@ struct MovieListView: View {
     let genre: Genre
     
     let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
+        GridItem(.adaptive(minimum: 150), spacing: 16)
     ]
-    
-//    let columns = [
-//        GridItem(.adaptive(minimum: 150), spacing: 16)
-//    ]
     
     var body: some View {
         ScrollView {
@@ -76,19 +74,19 @@ struct MovieCellView: View {
                                 Color.gray.opacity(0.3)
                                 ProgressView()
                             }
-
+                            
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFill()
-
+                            
                         case .failure:
                             ZStack {
                                 Color.red.opacity(0.3)
                                 Image(systemName: "photo")
                                     .foregroundColor(.white)
                             }
-
+                            
                         default:
                             EmptyView()
                         }
@@ -110,18 +108,17 @@ struct MovieCellView: View {
                 .cornerRadius(12)
                 .padding(6)
             }
-
+            
             Text(movie.title)
                 .font(Fonts.subheading)
                 .lineLimit(2)
-
+            
             Text("\(movie.year)")
-                .font
-(Fonts.paragraph)
-
+                .font(Fonts.paragraph)
+            
             Text("\(movie.duration)")
                 .font(Fonts.caption)
-
+            
             Spacer()
         }
     }
