@@ -64,4 +64,8 @@ class MockMoviesService: MoviesServiceProtocol {
         []
     }
     
+    func searchMovie(req: SearchMovieRequest) async throws -> [Movie] {
+        []
+    }
+    
 }

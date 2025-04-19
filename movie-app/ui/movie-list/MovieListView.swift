@@ -44,7 +44,7 @@ struct MovieListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 24) {
                 ForEach(viewModel.movies) { movie in
-                    MovieCellView(movie: movie)
+                    MovieCellView(movie: movie, cellHeight: 100)
                 }
             }
             .padding(.horizontal, 16)
@@ -62,6 +62,7 @@ struct MovieListView: View {
 
 struct MovieCellView: View {
     let movie: Movie
+    let cellHeight: CGFloat
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -91,7 +92,7 @@ struct MovieCellView: View {
                             EmptyView()
                         }
                     }
-                    .frame(height: 100)
+                    .frame(height: cellHeight)
                     .frame(maxWidth: .infinity)
                     .clipped()
                     .cornerRadius(12)
