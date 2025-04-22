@@ -67,7 +67,10 @@ extension MoviesApi: TargetType {
         case let .fetchMovies(req):
             return ["Authorization": req.accessToken]
         case let .searchMovie(req):
-            return ["Authorization": req.accessToken]
+            return [
+                "Authorization": req.accessToken,
+                "accept": "application.json"
+            ]
         }
     }
 }
