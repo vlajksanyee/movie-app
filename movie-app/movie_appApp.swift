@@ -11,10 +11,11 @@ import SwiftUI
 struct movie_appApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    @State var selectedTab: TabType = TabType.genre
+    
     var body: some Scene {
         WindowGroup {
-            GenreSectionView()
-//            SearchMovieView()
+            MainTabView(selectedTab: $selectedTab)
         }
     }
 }

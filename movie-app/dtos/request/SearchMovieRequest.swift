@@ -7,9 +7,9 @@
 
 struct SearchMovieRequest {
     let accessToken: String = Config.bearerToken
-    let searchText: String
+    let query: String
     
     func asRequestParams() -> [String: Any] {
-        return ["query": searchText]
+        return ["query": query]
     }
 }
