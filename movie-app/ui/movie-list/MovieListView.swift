@@ -2,35 +2,11 @@
 //  MovieListView.swift
 //  movie-app
 //
-//  Created by Sandor Vlajk on 2025. 04. 15..
+//  Created by Sandor Vlajk on 2025. 04. 24..
 //
 
 import SwiftUI
 import InjectPropertyWrapper
-
-protocol MovieListViewModelProtocol: ObservableObject {
-    
-}
-
-class MovieListViewModel: MovieListViewModelProtocol {
-    @Published var movies: [Movie] = []
-    
-    @Inject
-    private var service: MoviesServiceProtocol
-    
-    func loadMovies(by genreId: Int) async {
-        do {
-            let request = FetchMoviesRequest(genreId: genreId)
-            let movies = try await service.fetchMovies(req: request)
-            DispatchQueue.main.async {
-                self.movies = movies
-            }
-        } catch {
-            print("Error fetching genres: \(error)")
-        }
-    }
-}
-
 
 struct MovieListView: View {
     @StateObject private var viewModel = MovieListViewModel()
@@ -59,7 +35,6 @@ struct MovieListView: View {
     }
 }
 
-
 struct MovieCellView: View {
     let movie: Movie
     
@@ -74,26 +49,25 @@ struct MovieCellView: View {
                                 Color.gray.opacity(0.3)
                                 ProgressView()
                             }
-                            
-                        case .success(let image):
+
+                        case let .success(image):
                             image
                                 .resizable()
                                 .scaledToFill()
-                            
-                        case .failure:
+
+                        case .failure(let error):
                             ZStack {
                                 Color.red.opacity(0.3)
                                 Image(systemName: "photo")
                                     .foregroundColor(.white)
                             }
-                            
-                        default:
+                        @unknown default:
                             EmptyView()
                         }
                     }
                     .frame(height: 100)
+                    .frame(maxHeight: 180)
                     .frame(maxWidth: .infinity)
-                    .clipped()
                     .cornerRadius(12)
                 }
                 
@@ -108,18 +82,22 @@ struct MovieCellView: View {
                 .cornerRadius(12)
                 .padding(6)
             }
-            
+
             Text(movie.title)
                 .font(Fonts.subheading)
                 .lineLimit(2)
-            
+
             Text("\(movie.year)")
                 .font(Fonts.paragraph)
-            
+
             Text("\(movie.duration)")
                 .font(Fonts.caption)
-            
+
             Spacer()
         }
     }
+}
+
+#Preview {
+    MovieListView(genre: Genre(id: 28, name: "Action") )
 }
