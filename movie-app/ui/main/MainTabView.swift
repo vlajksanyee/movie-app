@@ -55,6 +55,7 @@ struct MainTabView: View {
                     .ignoresSafeArea()
             }
             .background(.clear)
+            .padding(.bottom, 36)
             
             HStack {
                 Spacer()
@@ -71,5 +72,6 @@ struct MainTabView: View {
                     .ignoresSafeArea(edges: .bottom)
             )
         }
+        .ignoresSafeArea(.keyboard)
     }
 }
