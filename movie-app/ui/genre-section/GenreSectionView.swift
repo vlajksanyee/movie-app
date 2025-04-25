@@ -14,34 +14,28 @@ struct GenreSectionView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Circle()
-                    .fill(.red)
-                    .frame(width: 400, height: 400)
-                    .position(x: 375, y: -150)
-                List(viewModel.genres) { genre in
-                    ZStack {
-                        NavigationLink(destination: MovieListView(genre: genre)) {
-                            EmptyView()
-                        }
-                        .opacity(0)
-                        
-                        HStack {
-                            Text(genre.name)
-                                .font(Fonts.title)
-                                .foregroundStyle(.primary)
-                                .accessibilityLabel(genre.name)
-                            Spacer()
-                            Image(.rightArrow)
-                        }
+            List(viewModel.genres) { genre in
+                ZStack {
+                    NavigationLink(destination: MovieListView(genre: genre)) {
+                        EmptyView()
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                    .opacity(0)
+                    
+                    HStack {
+                        Text(genre.name)
+                            .font(Fonts.title)
+                            .foregroundStyle(.primary)
+                            .accessibilityLabel(genre.name)
+                        Spacer()
+                        Image(.rightArrow)
+                    }
                 }
-                .listStyle(.plain)
-                .navigationTitle(Environment.name == .tv ? "TV" : "genreSection.title")
-                .accessibilityLabel("testCollectionView")
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
             }
+            .listStyle(.plain)
+            .navigationTitle(Environment.name == .tv ? "TV" : "genreSection.title")
+            .accessibilityLabel("testCollectionView")
         }
         .onAppear {
             Task {
