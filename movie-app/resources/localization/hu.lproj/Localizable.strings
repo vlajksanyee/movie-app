@@ -11,3 +11,8 @@
 "search.textfield.placeholder" = "Film, Rendező, Színész, Színésznő, stb.";
 "favorites.title" = "Kedvencek";
 "settings.title" = "Beállítások";
+"apierror.message" = "API Hiba";
+"unexpectederror.title" = "Nem várt hiba";
+"unexpectederror.message" = "Nem várt hiba lépett fel. Próbáljozz később.";
+"dismissbutton.title" = "Bezár";
+"clienterror.title" = "Kliens hiba";
