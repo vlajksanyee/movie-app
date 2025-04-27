@@ -10,6 +10,7 @@ import InjectPropertyWrapper
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
+    @State private var debounceTimer: Timer?
     
     var body: some View {
         NavigationView {
@@ -23,15 +24,18 @@ struct SearchView: View {
                     TextField("",
                               text: $viewModel.searchText,
                               prompt: Text("search.textfield.placeholder")
-                                            .foregroundStyle(.invertedMain))
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .font(Fonts.searchText)
-                        .foregroundColor(.invertedMain)
-                        .onChange(of: viewModel.searchText) {
+                        .foregroundStyle(.invertedMain))
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .font(Fonts.searchText)
+                    .foregroundColor(.invertedMain)
+                    .onChange(of: viewModel.searchText) {
+                        debounceTimer?.invalidate() // Cancel any previous timer to avoid double calls
+                        debounceTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
                             Task {
                                 await viewModel.searchMovies()
                             }
                         }
+                    }
                 }
                 .frame(height: 56)
                 .padding(.horizontal, LayoutConst.normalPadding)
