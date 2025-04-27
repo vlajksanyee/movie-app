@@ -13,8 +13,9 @@ protocol MovieListViewModelProtocol: ObservableObject {
     func loadMovies(by genreId: Int) async
 }
 
-class MovieListViewModel: MovieListViewModelProtocol {
+class MovieListViewModel: MovieListViewModelProtocol, ErrorViewModelProtocol {
     @Published var movies: [Movie] = []
+    @Published var alertModel: AlertModel? = nil
     
     @Inject
     private var service: MoviesServiceProtocol
