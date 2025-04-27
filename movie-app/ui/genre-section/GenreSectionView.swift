@@ -21,14 +21,7 @@ struct GenreSectionView: View {
                     }
                     .opacity(0)
                     
-                    HStack {
-                        Text(genre.name)
-                            .font(Fonts.title)
-                            .foregroundStyle(.primary)
-                            .accessibilityLabel(genre.name)
-                        Spacer()
-                        Image(.rightArrow)
-                    }
+                    GenreSectionCell(genre: genre)
                 }
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
@@ -41,6 +34,15 @@ struct GenreSectionView: View {
             Task {
                 await viewModel.fetchGenres()
             }
+        }
+        .alert(item: $viewModel.alertModel) { model in
+            return Alert(
+                title: Text(model.title),
+                message: Text(model.message),
+                dismissButton: .default(Text(model.dismissButtonTitle)) {
+                    viewModel.alertModel = nil
+                }
+            )
         }
     }
 }

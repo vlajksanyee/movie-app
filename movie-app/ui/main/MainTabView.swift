@@ -55,7 +55,7 @@ struct MainTabView: View {
                     .ignoresSafeArea()
             }
             .background(.clear)
-            .padding(.bottom, 36)
+            .padding(.bottom, LayoutConst.largePadding)
             
             HStack {
                 Spacer()
@@ -64,7 +64,7 @@ struct MainTabView: View {
                     Spacer()
                 }
             }
-            .padding(.top, 24)
+            .padding(.top, LayoutConst.largePadding)
             .padding(.bottom, 48.0 - safeArea().bottom)
             .background(
                 Color.tabBarBackground

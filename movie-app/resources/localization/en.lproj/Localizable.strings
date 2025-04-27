@@ -11,3 +11,8 @@
 "search.textfield.placeholder" = "Movies, Director, Actor, Actress, etc.";
 "favorites.title" = "Favorites";
 "settings.title" = "Settings";
+"apierror.message" = "API Error";
+"unexpectederror.title" = "Unexpected Error";
+"unexpectederror.message" = "Something went wrong. Please try again later.";
+"dismissbutton.title" = "Close";
+"clienterror.title" = "Client Error";

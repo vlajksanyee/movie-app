@@ -16,29 +16,32 @@ struct SearchView: View {
             VStack {
                 HStack(spacing: 12) {
                     Image(.icSearch)
-                        .foregroundColor(.white)
+                        .renderingMode(.template)
+                        .foregroundColor(.invertedMain)
                         .frame(width: 24, height: 24)
                     
-                    TextField(LocalizedStringKey("search.textfield.placeholder"),
-                            text: $viewModel.searchText)
+                    TextField("",
+                              text: $viewModel.searchText,
+                              prompt: Text("search.textfield.placeholder")
+                                            .foregroundStyle(.invertedMain))
                         .textFieldStyle(PlainTextFieldStyle())
                         .font(Fonts.searchText)
-                        .foregroundColor(.white)
-                        .onChange(of: viewModel.searchText) { _ in
+                        .foregroundColor(.invertedMain)
+                        .onChange(of: viewModel.searchText) {
                             Task {
                                 await viewModel.searchMovies()
                             }
                         }
                 }
                 .frame(height: 56)
-                .padding(.horizontal, 16)
-                .background(Color.searchBarBackground)
+                .padding(.horizontal, LayoutConst.normalPadding)
+                .background(.searchBarBackground)
                 .overlay(
                     RoundedRectangle(cornerRadius: 28)
-                        .stroke(Color.white, lineWidth: 1)
+                        .stroke(.invertedMain, lineWidth: 1)
                 )
                 .cornerRadius(28)
-                .padding(.horizontal, 30)
+                .padding(.horizontal, LayoutConst.maxPadding)
                 
                 if viewModel.movies.isEmpty {
                     // Üres állapot
@@ -47,19 +50,19 @@ struct SearchView: View {
                         Text("search.empty.title")
                             .multilineTextAlignment(.center)
                             .font(Fonts.emptyStateText)
-                            .foregroundColor(.white)
+                            .foregroundColor(.invertedMain)
                         Spacer()
                     }
                 } else {
                     ScrollView {
-                        VStack(spacing: 16) {
+                        LazyVStack(spacing: LayoutConst.normalPadding) {
                             ForEach(viewModel.movies) { movie in
-                                MovieCellView(movie: movie)
+                                MovieCell(movie: movie)
                                     .frame(height: 277)
                             }
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.top, 16)
+                        .padding(.horizontal, LayoutConst.normalPadding)
+                        .padding(.top, LayoutConst.normalPadding)
                     }
                 }
             }

@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "search_on-2.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "search_on.svg",
       "idiom" : "universal"
     }
