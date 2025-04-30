@@ -7,12 +7,22 @@
 */
 
 "genreSection.title" = "Movie app";
+
+// SEARCH
 "search.empty.title" = "Start typing to seach";
 "search.textfield.placeholder" = "Movies, Director, Actor, Actress, etc.";
+
+// FAVORITES
 "favorites.title" = "Favorites";
+
+// SETTINGS
 "settings.title" = "Settings";
+
+// ERROR ALERTS
 "apierror.message" = "API Error";
 "unexpectederror.title" = "Unexpected Error";
 "unexpectederror.message" = "Something went wrong. Please try again later.";
 "dismissbutton.title" = "Close";
 "clienterror.title" = "Client Error";
+"mappingerror.title" = "Mapping Error";
+"mappingerror.message" = "Mapping Error";

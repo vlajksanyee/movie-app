@@ -11,10 +11,14 @@ enum MovieError: Error {
     case invalidApiKeyError(message: String)
     case clientError
     case unexpectedError
+    case mappingError
     
     var domain: String {
         switch self {
-        case .invalidApiKeyError, .unexpectedError, .clientError:
+        case .invalidApiKeyError,
+                .unexpectedError,
+                .clientError,
+                .mappingError:
             return "MovieError"
         }
     }
@@ -30,6 +34,8 @@ extension MovieError: LocalizedError {
             return "Client error"
         case .unexpectedError:
             return "Unexpected error"
+        case .mappingError:
+            return "Mapping error"
         }
     }
 }
@@ -42,6 +48,8 @@ extension MovieError: Equatable {
         case (.unexpectedError, .unexpectedError):
             return true
         case (.clientError, .clientError):
+            return true
+        case (.mappingError, .mappingError):
             return true
         default:
             return false

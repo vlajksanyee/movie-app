@@ -30,11 +30,11 @@ struct GenreSectionView: View {
             .navigationTitle(Environment.name == .tv ? "TV" : "genreSection.title")
             .accessibilityLabel("testCollectionView")
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchGenres()
-            }
-        }
+//        .onAppear {
+//            Task {
+//                await viewModel.fetchGenres()
+//            }
+//        }
         .alert(item: $viewModel.alertModel) { model in
             return Alert(
                 title: Text(model.title),
