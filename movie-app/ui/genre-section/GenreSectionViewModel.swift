@@ -98,6 +98,10 @@ class GenreSectionViewModel: GenreSectionViewModelProtocol {
             Task {
                 do {
                     let genres = try await self.movieService.fetchTVGenres(req: requestTV)
+        let futureTV = Future<[Genre], Error> { future in
+            Task {
+                do {
+                    let genres = try await self.movieService.fetchTVGenres(req: request)
                     future(.success(genres))
                 } catch {
                     future(.failure(error))
