@@ -18,9 +18,34 @@ protocol SearchViewModelProtocol: ObservableObject {
 class SearchViewModel: SearchViewModelProtocol {
     @Published var movies: [Movie] = []
     @Published var searchText: String = ""
+    @Published var alertModel: AlertModel? = nil
     
     @Inject
     private var service: MoviesServiceProtocol
+    
+    private func toAlertModel(_ error: Error) -> AlertModel {
+        guard let error = error as? MovieError else {
+            return AlertModel(
+                title: NSLocalizedString("unexpectederror.title", comment: ""),
+                message: NSLocalizedString("unexpectederror.message", comment: ""),
+                dismissButtonTitle: NSLocalizedString("dismissbutton.title", comment: "")
+            )
+        }
+        switch error {
+        case .mappingError:
+            return AlertModel(
+                title: NSLocalizedString("mappingerror.title", comment: ""),
+                message: NSLocalizedString("mappingerror.message", comment: ""),
+                dismissButtonTitle: NSLocalizedString("dismissbutton.title", comment: "")
+            )
+        default:
+            return AlertModel(
+                title: NSLocalizedString("unexpectederror.title", comment: ""),
+                message: NSLocalizedString("unexpectederror.message", comment: ""),
+                dismissButtonTitle: NSLocalizedString("dismissbutton.title", comment: "")
+            )
+        }
+    }
     
     func searchMovies() async {
         guard !searchText.isEmpty else {
@@ -38,6 +63,9 @@ class SearchViewModel: SearchViewModelProtocol {
                 self.movies = movies
             }
         } catch {
+            DispatchQueue.main.async {
+                self.alertModel = self.toAlertModel(error)
+            }
             print("Error searching movies: \(error)")
         }
     }

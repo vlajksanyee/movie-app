@@ -7,12 +7,22 @@
 */
 
 "genreSection.title" = "Filmek alkalmazás";
+
+// SEARCH
 "search.empty.title" = "Kezdj el gépelni\na kereséshez";
 "search.textfield.placeholder" = "Film, Rendező, Színész, Színésznő, stb.";
+
+// FAVORITES
 "favorites.title" = "Kedvencek";
+
+// SETTINGS
 "settings.title" = "Beállítások";
+
+// ERROR ALERTS
 "apierror.message" = "API Hiba";
-"unexpectederror.title" = "Nem várt hiba";
-"unexpectederror.message" = "Nem várt hiba lépett fel. Próbáljozz később.";
+"unexpectederror.title" = "Váratlan Hiba";
+"unexpectederror.message" = "Nem várt hiba lépett fel. Próbálkozz később.";
 "dismissbutton.title" = "Bezár";
-"clienterror.title" = "Kliens hiba";
+"clienterror.title" = "Kliens Hiba";
+"mappingerror.title" = "Leképezési Hiba";
+"mappingerror.message" = "Leképezési Hiba";

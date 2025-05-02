@@ -85,7 +85,7 @@ class MoviesService: MoviesServiceProtocol {
                             let output = transform(decoded)
                             continuation.resume(returning: output)
                         } catch {
-                            continuation.resume(throwing: MovieError.unexpectedError)
+                            continuation.resume(throwing: MovieError.mappingError)
                         }
                     case 400..<500:
                         continuation.resume(throwing: MovieError.clientError)

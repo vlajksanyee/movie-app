@@ -71,6 +71,15 @@ struct SearchView: View {
                 }
             }
         }
+        .alert(item: $viewModel.alertModel) { model in
+            return Alert(
+                title: Text(model.title),
+                message: Text(model.message),
+                dismissButton: .default(Text(model.dismissButtonTitle)) {
+                    viewModel.alertModel = nil
+                }
+            )
+        }
     }
 }
 
