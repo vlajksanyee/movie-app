@@ -16,7 +16,7 @@ struct GenreSectionView: View {
         NavigationView {
             List(viewModel.genres) { genre in
                 ZStack {
-                    NavigationLink(destination: MovieListView(genre: genre)) {
+                    NavigationLink(destination: Environment.name == .tv ? AnyView(TVListView(genre: genre)) : AnyView(MovieListView(genre: genre))) {
                         EmptyView()
                     }
                     .opacity(0)

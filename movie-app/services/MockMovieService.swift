@@ -60,7 +60,11 @@ class MockMoviesService: MoviesServiceProtocol {
         ]
     }
     
-    func fetchTVGenres(req: FetchGenreRequest) async throws -> [Genre] {
+    func fetchTV(req: FetchMoviesRequest) async throws -> [TV] {
+        []
+    }
+    
+    func fetchTVGenres(req: FetchTVGenreRequest) async throws -> [Genre] {
         []
     }
     

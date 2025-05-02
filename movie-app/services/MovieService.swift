@@ -23,8 +23,9 @@ struct MovieAPIErrorResponse: Decodable {
 
 protocol MoviesServiceProtocol {
     func fetchGenres(req: FetchGenreRequest) async throws -> [Genre]
-    func fetchTVGenres(req: FetchGenreRequest) async throws -> [Genre]
+    func fetchTVGenres(req: FetchTVGenreRequest) async throws -> [Genre]
     func fetchMovies(req: FetchMoviesRequest) async throws -> [Movie]
+    func fetchTV(req: FetchMoviesRequest) async throws -> [TV]
     func searchMovies(req: SearchMovieRequest) async throws -> [Movie]
 }
 
@@ -41,7 +42,7 @@ class MoviesService: MoviesServiceProtocol {
         )
     }
     
-    func fetchTVGenres(req: FetchGenreRequest) async throws -> [Genre] {
+    func fetchTVGenres(req: FetchTVGenreRequest) async throws -> [Genre] {
         try await requestAndTransform(
             target: MultiTarget(MoviesApi.fetchTVGenres(req: req)),
             decodeTo: GenreListResponse.self,
@@ -54,6 +55,14 @@ class MoviesService: MoviesServiceProtocol {
             target: MultiTarget(MoviesApi.fetchMovies(req: req)),
             decodeTo: MoviePageResponse.self,
             transform: { $0.results.map(Movie.init(dto:)) }
+        )
+    }
+    
+    func fetchTV(req: FetchMoviesRequest) async throws -> [TV] {
+        try await requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchTV(req: req)),
+            decodeTo: TVPageResponse.self,
+            transform: { $0.results.map(TV.init(dto:)) }
         )
     }
     
