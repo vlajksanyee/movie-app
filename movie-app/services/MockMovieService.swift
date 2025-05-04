@@ -72,4 +72,8 @@ class MockMoviesService: MoviesServiceProtocol {
         []
     }
     
+    func favoriteMovies(req: FavoriteMoviesRequest) async throws -> [Movie] {
+        []
+    }
+    
 }
