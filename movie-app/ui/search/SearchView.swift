@@ -51,7 +51,7 @@ struct SearchView: View {
                     // Üres állapot
                     VStack {
                         Spacer()
-                        Text("search.empty.title")
+                        Text("search.empty")
                             .multilineTextAlignment(.center)
                             .font(Fonts.emptyStateText)
                             .foregroundColor(.invertedMain)

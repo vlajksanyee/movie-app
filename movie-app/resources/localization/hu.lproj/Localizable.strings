@@ -9,11 +9,12 @@
 "genreSection.title" = "Filmek alkalmazás";
 
 // SEARCH
-"search.empty.title" = "Kezdj el gépelni\na kereséshez";
+"search.empty" = "Kezdj el gépelni\na kereséshez";
 "search.textfield.placeholder" = "Film, Rendező, Színész, Színésznő, stb.";
 
 // FAVORITES
 "favorites.title" = "Kedvencek";
+"favorites.empty" = "Még Nincsenek Hozzáadva Kedvencek";
 
 // SETTINGS
 "settings.title" = "Beállítások";
