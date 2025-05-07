@@ -13,7 +13,7 @@ import Foundation
 import Swinject
 import InjectPropertyWrapper
 
-private var fetchMovieParameters: FetchMoviesRequest?
+private var fetchMovieParameters: FetchMediaListRequest?
 private var expectedFetchMoviesResponse: EndpointSampleResponse =
     .networkResponse(502, Data())
 
@@ -23,7 +23,7 @@ class MoviesService_FetchMovies: AsyncSpec {
         xdescribe("MoviesService") {
             var sut: MoviesService!
             var assembler: MainAssembler!
-            var emittedResult: [[Movie]]?
+            var emittedResult: [[MediaItem]]?
             
             beforeEach {
                 assembler = MainAssembler.create(withAssemblies: [TestAssembly()])
@@ -40,12 +40,12 @@ class MoviesService_FetchMovies: AsyncSpec {
             
             context("fetchMovies") {
                 context("on success") {
-                    var resultFromServer = [Movie]()
+                    var resultFromServer = [MediaItem]()
                     beforeEach {
-                        emittedResult = [[Movie]]()
+                        emittedResult = [[MediaItem]]()
                         
                         resultFromServer = [
-                            Movie(id: 550,
+                            MediaItem(id: 550,
                                   title: "Fight Club",
                                   year: "1999",
                                   duration: "1h 25min",
@@ -62,7 +62,7 @@ class MoviesService_FetchMovies: AsyncSpec {
                         expectedFetchMoviesResponse =
                             .networkResponse(200, fetchMovieSuccessResponseData)
                         
-                        let result = try await sut.fetchMovies(req: FetchMoviesRequest(genreId: 20))
+                        let result = try await sut.fetchMovies(req: FetchMediaListRequest(genreId: 20))
                         
                         emittedResult?.append(result)
                     }

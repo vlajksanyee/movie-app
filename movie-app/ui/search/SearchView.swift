@@ -10,7 +10,6 @@ import InjectPropertyWrapper
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
-    @State private var debounceTimer: Timer?
     
     var body: some View {
         NavigationView {
@@ -29,45 +28,40 @@ struct SearchView: View {
                     .font(Fonts.searchText)
                     .foregroundColor(.invertedMain)
                     .onChange(of: viewModel.searchText) {
-                        debounceTimer?.invalidate() // Cancel any previous timer to avoid double calls
-                        debounceTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                            Task {
-                                await viewModel.searchMovies()
-                            }
-                        }
+                        viewModel.startSearch.send(())
                     }
                 }
-                .frame(height: 56)
-                .padding(.horizontal, LayoutConst.normalPadding)
-                .background(.searchBarBackground)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 28)
-                        .stroke(.invertedMain, lineWidth: 1)
-                )
-                .cornerRadius(28)
-                .padding(.horizontal, LayoutConst.maxPadding)
-                
-                if viewModel.movies.isEmpty {
-                    // Üres állapot
-                    VStack {
-                        Spacer()
-                        Text("search.empty")
-                            .multilineTextAlignment(.center)
-                            .font(Fonts.emptyStateText)
-                            .foregroundColor(.invertedMain)
-                        Spacer()
-                    }
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: LayoutConst.normalPadding) {
-                            ForEach(viewModel.movies) { movie in
-                                MovieCell(movie: movie)
-                                    .frame(height: 277)
-                            }
+            }
+            .frame(height: 56)
+            .padding(.horizontal, LayoutConst.normalPadding)
+            .background(.searchBarBackground)
+            .overlay(
+                RoundedRectangle(cornerRadius: 28)
+                    .stroke(.invertedMain, lineWidth: 1)
+            )
+            .cornerRadius(28)
+            .padding(.horizontal, LayoutConst.maxPadding)
+            
+            if viewModel.movies.isEmpty {
+                // Üres állapot
+                VStack {
+                    Spacer()
+                    Text("search.empty")
+                        .multilineTextAlignment(.center)
+                        .font(Fonts.emptyStateText)
+                        .foregroundColor(.invertedMain)
+                    Spacer()
+                }
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: LayoutConst.normalPadding) {
+                        ForEach(viewModel.movies) { movie in
+                            MovieCell(movie: movie)
+                                .frame(height: 277)
                         }
-                        .padding(.horizontal, LayoutConst.normalPadding)
-                        .padding(.top, LayoutConst.normalPadding)
                     }
+                    .padding(.horizontal, LayoutConst.normalPadding)
+                    .padding(.top, LayoutConst.normalPadding)
                 }
             }
         }
