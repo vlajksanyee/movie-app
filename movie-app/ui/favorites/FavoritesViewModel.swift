@@ -10,25 +10,33 @@ import Combine
 import InjectPropertyWrapper
 
 protocol FavoritesViewModelProtocol: ObservableObject {
-    var movies: [Movie] { get set }
-    func favoriteMovies() async
+    var movies: [MediaItem] { get set }
 }
 
-class FavoritesViewModel: FavoritesViewModelProtocol {
-    @Published var movies: [Movie] = []
+class FavoritesViewModel: FavoritesViewModelProtocol, ErrorPresentable {
+    @Published var movies: [MediaItem] = []
+    @Published var alertModel: AlertModel? = nil
+    
+    var cancellables = Set<AnyCancellable>()
     
     @Inject
-    private var service: MoviesServiceProtocol
-        
-    func favoriteMovies() async {
-        do {
-            let request = FavoriteMoviesRequest(account_id: "21958080")
-            let movies = try await service.favoriteMovies(req: request)
-            DispatchQueue.main.async {
-                self.movies = movies
+    private var service: ReactiveMoviesServiceProtocol
+    
+    init () {
+        let request = FetchFavoriteMoviesRequest()
+        service.fetchFavoriteMovies(req: request)
+            .receive(on: RunLoop.main)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    break
+                    self.alertModel = self.toAlertModel(error)
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self]movies in
+                self?.movies = movies
             }
-        } catch {
-            print("Error loading favorites: \(error)")
-        }
+            .store(in: &cancellables)
     }
 }
