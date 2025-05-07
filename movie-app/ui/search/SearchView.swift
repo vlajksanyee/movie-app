@@ -31,48 +31,39 @@ struct SearchView: View {
                         viewModel.startSearch.send(())
                     }
                 }
-            }
-            .frame(height: 56)
-            .padding(.horizontal, LayoutConst.normalPadding)
-            .background(.searchBarBackground)
-            .overlay(
-                RoundedRectangle(cornerRadius: 28)
-                    .stroke(.invertedMain, lineWidth: 1)
-            )
-            .cornerRadius(28)
-            .padding(.horizontal, LayoutConst.maxPadding)
-            
-            if viewModel.movies.isEmpty {
-                // Üres állapot
-                VStack {
-                    Spacer()
-                    Text("search.empty")
-                        .multilineTextAlignment(.center)
-                        .font(Fonts.emptyStateText)
-                        .foregroundColor(.invertedMain)
-                    Spacer()
-                }
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: LayoutConst.normalPadding) {
-                        ForEach(viewModel.movies) { movie in
-                            MovieCell(movie: movie)
-                                .frame(height: 277)
-                        }
+                .frame(height: 56)
+                .padding(.horizontal, LayoutConst.normalPadding)
+                .background(.searchBarBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28)
+                        .stroke(.invertedMain, lineWidth: 1)
+                )
+                .cornerRadius(28)
+                .padding(.horizontal, LayoutConst.maxPadding)
+                
+                if viewModel.movies.isEmpty {
+                    // Üres állapot
+                    VStack {
+                        Spacer()
+                        Text("search.empty")
+                            .multilineTextAlignment(.center)
+                            .font(Fonts.emptyStateText)
+                            .foregroundColor(.invertedMain)
+                        Spacer()
                     }
-                    .padding(.horizontal, LayoutConst.normalPadding)
-                    .padding(.top, LayoutConst.normalPadding)
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: LayoutConst.normalPadding) {
+                            ForEach(viewModel.movies) { movie in
+                                MovieCell(movie: movie)
+                                    .frame(height: 277)
+                            }
+                        }
+                        .padding(.horizontal, LayoutConst.normalPadding)
+                        .padding(.top, LayoutConst.normalPadding)
+                    }
                 }
             }
-        }
-        .alert(item: $viewModel.alertModel) { model in
-            return Alert(
-                title: Text(model.title),
-                message: Text(model.message),
-                dismissButton: .default(Text(model.dismissButtonTitle)) {
-                    viewModel.alertModel = nil
-                }
-            )
         }
     }
 }
