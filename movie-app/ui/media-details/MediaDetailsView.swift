@@ -9,38 +9,38 @@ import SwiftUI
 
 struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
-    let media: MediaDetailsResponse
+    let media: MediaItem
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-//                AsyncImage(url: media.imageUrl) { phase in
-//                    switch phase {
-//                    case .empty:
-//                        ZStack {
-//                            Color.gray.opacity(0.3)
-//                            ProgressView()
-//                        }
-//
-//                    case let .success(image):
-//                        image
-//                            .resizable()
-//                            .scaledToFill()
-//
-//                    case .failure(let error):
-//                        ZStack {
-//                            Color.red.opacity(0.3)
-//                            Image(systemName: "photo")
-//                                .foregroundColor(.white)
-//                        }
-//                    @unknown default:
-//                        EmptyView()
-//                    }
-//                }
-//                .frame(height: 185)
-//                .frame(maxHeight: 185)
-//                .frame(maxWidth: .infinity)
-//                .cornerRadius(30)
+                AsyncImage(url: media.imageUrl) { phase in
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Color.gray.opacity(0.3)
+                            ProgressView()
+                        }
+
+                    case let .success(image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+
+                    case .failure(let error):
+                        ZStack {
+                            Color.red.opacity(0.3)
+                            Image(systemName: "photo")
+                                .foregroundColor(.white)
+                        }
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .frame(height: 185)
+                .frame(maxHeight: 185)
+                .frame(maxWidth: .infinity)
+                .cornerRadius(30)
                 
                 VStack(alignment: .leading) {
                     HStack {
@@ -87,6 +87,10 @@ struct MediaDetailsView: View {
                         .cornerRadius(28)
                     }
                     .padding(.vertical, 20)
+                    
+                    Text("Synopsis")
+                        .font(Fonts.subheading)
+                    Text(media.overview)
                 }
                 .padding(.top, LayoutConst.normalPadding)
             }
