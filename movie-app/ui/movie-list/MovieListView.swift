@@ -20,17 +20,27 @@ struct MovieListView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: LayoutConst.largePadding) {
                 ForEach(viewModel.movies) { movie in
-                    MovieCell(movie: movie)
+                    NavigationLink(destination: MediaDetailsView(media: movie)) {
+                        MovieCell(movie: movie)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .padding(.horizontal, LayoutConst.normalPadding)
             .padding(.top, LayoutConst.normalPadding)
         }
         .navigationTitle(genre.name)
+        .alert(item: $viewModel.alertModel) { model in
+            Alert(
+                title: Text(model.title),
+                message: Text(model.message),
+                dismissButton: .destructive(Text(model.dismissButtonTitle)) {
+                    viewModel.alertModel = nil
+                }
+            )
+        }
         .onAppear {
-            Task {
-                await viewModel.loadMovies(by: genre.id)
-            }
+            viewModel.genreIdSubject.send(genre.id)
         }
     }
 }
