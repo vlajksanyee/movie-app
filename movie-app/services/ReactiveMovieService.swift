@@ -18,7 +18,7 @@ protocol ReactiveMoviesServiceProtocol {
     func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest) -> AnyPublisher<[MediaItem], MovieError>
     func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError>
     func addFavoriteMovie(req: AddFavoriteRequest) -> AnyPublisher<AddFavoriteResponse, MovieError>
-    func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaDetailsResponse, MovieError>
+    func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<DetailsResponse, MovieError>
 }
 
 class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
@@ -85,10 +85,10 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
         )
     }
     
-    func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaDetailsResponse, MovieError> {
+    func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<DetailsResponse, MovieError> {
         requestAndTransform(
             target: MultiTarget(MoviesApi.fetchDetails(req: req)),
-            decodeTo: MediaDetailsResponse.self,
+            decodeTo: DetailsResponse.self,
             transform: { response in
                 response
             }

@@ -15,9 +15,8 @@ struct MediaItem: Identifiable, Equatable {
     let imageUrl: URL?
     let rating: Double
     let voteCount: Int
-    let overview: String
     
-    init(id: Int, title: String, year: String, duration: String, imageUrl: URL?, rating: Double, voteCount: Int, overview: String) {
+    init(id: Int, title: String, year: String, duration: String, imageUrl: URL?, rating: Double, voteCount: Int) {
         self.id = id
         self.title = title
         self.year = year
@@ -25,7 +24,6 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = rating
         self.voteCount = voteCount
-        self.overview = overview
     }
     
     init(dto: MovieResponse) {
@@ -47,7 +45,6 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
-        self.overview = dto.overview ?? "No synopsis"
     }
     
     init(dto: TVResponse) {
@@ -69,7 +66,6 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
-        self.overview = dto.overview ?? "No synopsis"
     }
     
 }
