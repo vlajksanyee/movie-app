@@ -16,7 +16,7 @@ struct GenreSectionView: View {
         NavigationView {
             List(viewModel.genres) { genre in
                 ZStack {
-                    NavigationLink(destination: Environment.name == .tv ? AnyView(TVListView(genre: genre)) : AnyView(MovieListView(genre: genre))) {
+                    NavigationLink(destination: MovieListView(genre: genre)) {
                         EmptyView()
                     }
                     .opacity(0)
@@ -36,10 +36,10 @@ struct GenreSectionView: View {
 //            }
 //        }
         .alert(item: $viewModel.alertModel) { model in
-            return Alert(
+            Alert(
                 title: Text(model.title),
                 message: Text(model.message),
-                dismissButton: .default(Text(model.dismissButtonTitle)) {
+                dismissButton: .destructive(Text(model.dismissButtonTitle)) {
                     viewModel.alertModel = nil
                 }
             )

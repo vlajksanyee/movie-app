@@ -23,10 +23,11 @@ struct MovieAPIErrorResponse: Decodable {
 
 protocol MoviesServiceProtocol {
     func fetchGenres(req: FetchGenreRequest) async throws -> [Genre]
-    func fetchTVGenres(req: FetchTVGenreRequest) async throws -> [Genre]
-    func fetchMovies(req: FetchMoviesRequest) async throws -> [Movie]
-    func fetchTV(req: FetchMoviesRequest) async throws -> [TV]
-    func searchMovies(req: SearchMovieRequest) async throws -> [Movie]
+    func fetchTVGenres(req: FetchGenreRequest) async throws -> [Genre]
+    func fetchMovies(req: FetchMediaListRequest) async throws -> [MediaItem]
+    func fetchTV(req: FetchMediaListRequest) async throws -> [MediaItem]
+    func searchMovies(req: SearchMovieRequest) async throws -> [MediaItem]
+    func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest) async throws -> [MediaItem]
 }
 
 class MoviesService: MoviesServiceProtocol {
@@ -42,7 +43,7 @@ class MoviesService: MoviesServiceProtocol {
         )
     }
     
-    func fetchTVGenres(req: FetchTVGenreRequest) async throws -> [Genre] {
+    func fetchTVGenres(req: FetchGenreRequest) async throws -> [Genre] {
         try await requestAndTransform(
             target: MultiTarget(MoviesApi.fetchTVGenres(req: req)),
             decodeTo: GenreListResponse.self,
@@ -50,28 +51,38 @@ class MoviesService: MoviesServiceProtocol {
         )
     }
     
-    func fetchMovies(req: FetchMoviesRequest) async throws -> [Movie] {
+    func fetchMovies(req: FetchMediaListRequest) async throws -> [MediaItem] {
         try await requestAndTransform(
             target: MultiTarget(MoviesApi.fetchMovies(req: req)),
             decodeTo: MoviePageResponse.self,
-            transform: { $0.results.map(Movie.init(dto:)) }
+            transform: { $0.results.map(MediaItem.init(dto:)) }
         )
     }
     
-    func fetchTV(req: FetchMoviesRequest) async throws -> [TV] {
+    func fetchTV(req: FetchMediaListRequest) async throws -> [MediaItem] {
         try await requestAndTransform(
             target: MultiTarget(MoviesApi.fetchTV(req: req)),
             decodeTo: TVPageResponse.self,
-            transform: { $0.results.map(TV.init(dto:)) }
+            transform: { $0.results.map(MediaItem.init(dto:)) }
         )
     }
     
-    func searchMovies(req: SearchMovieRequest) async throws -> [Movie] {
+    func searchMovies(req: SearchMovieRequest) async throws -> [MediaItem] {
         try await requestAndTransform(
             target: MultiTarget(MoviesApi.searchMovies(req: req)),
             decodeTo: MoviePageResponse.self,
             transform: { (moviePageResponse: MoviePageResponse) in
-                moviePageResponse.results.map(Movie.init(dto:))
+                moviePageResponse.results.map(MediaItem.init(dto:))
+            }
+        )
+    }
+    
+    func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest) async throws -> [MediaItem] {
+        try await requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchFavoriteMovies(req: req)),
+            decodeTo: MoviePageResponse.self,
+            transform: { (moviePageResponse: MoviePageResponse) in
+                moviePageResponse.results.map(MediaItem.init(dto:))
             }
         )
     }

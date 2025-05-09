@@ -13,8 +13,44 @@ struct FavoritesView: View {
     
     var body: some View {
         NavigationView {
-            Text("Favorites Screen")
+            if viewModel.movies.isEmpty {
+                VStack {
+                    Spacer()
+                    Text("favorites.empty")
+                        .multilineTextAlignment(.center)
+                        .font(Fonts.emptyStateText)
+                        .foregroundColor(.invertedMain)
+                        .navigationTitle("favorites.title")
+                    Spacer()
+                }
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: LayoutConst.normalPadding) {
+                        ForEach(viewModel.movies) { movie in
+                            NavigationLink(destination: MediaDetailsView(media: movie)) {
+                                MovieCell(movie: movie)
+                                    .frame(height: 277)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
+                    .padding(.horizontal, LayoutConst.normalPadding)
+                    .padding(.top, LayoutConst.normalPadding)
+                }
                 .navigationTitle("favorites.title")
+            }
+        }
+        .alert(item: $viewModel.alertModel) { model in
+            Alert(
+                title: Text(model.title),
+                message: Text(model.message),
+                primaryButton: .default(Text(model.dismissButtonTitle)) {
+                    
+                },
+                secondaryButton: .destructive(Text(model.dismissButtonTitle)) {
+                            
+                }
+            )
         }
     }
 }

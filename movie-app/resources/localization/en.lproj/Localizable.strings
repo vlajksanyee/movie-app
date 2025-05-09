@@ -9,11 +9,12 @@
 "genreSection.title" = "Movie app";
 
 // SEARCH
-"search.empty.title" = "Start typing to seach";
+"search.empty" = "Start typing to seach";
 "search.textfield.placeholder" = "Movies, Director, Actor, Actress, etc.";
 
 // FAVORITES
 "favorites.title" = "Favorites";
+"favorites.empty" = "No Favorites Yet";
 
 // SETTINGS
 "settings.title" = "Settings";

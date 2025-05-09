@@ -10,7 +10,6 @@ import InjectPropertyWrapper
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
-    @State private var debounceTimer: Timer?
     
     var body: some View {
         NavigationView {
@@ -29,12 +28,7 @@ struct SearchView: View {
                     .font(Fonts.searchText)
                     .foregroundColor(.invertedMain)
                     .onChange(of: viewModel.searchText) {
-                        debounceTimer?.invalidate() // Cancel any previous timer to avoid double calls
-                        debounceTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { _ in
-                            Task {
-                                await viewModel.searchMovies()
-                            }
-                        }
+                        viewModel.startSearch.send(())
                     }
                 }
                 .frame(height: 56)
@@ -51,7 +45,7 @@ struct SearchView: View {
                     // Üres állapot
                     VStack {
                         Spacer()
-                        Text("search.empty.title")
+                        Text("search.empty")
                             .multilineTextAlignment(.center)
                             .font(Fonts.emptyStateText)
                             .foregroundColor(.invertedMain)
@@ -61,8 +55,11 @@ struct SearchView: View {
                     ScrollView {
                         LazyVStack(spacing: LayoutConst.normalPadding) {
                             ForEach(viewModel.movies) { movie in
-                                MovieCell(movie: movie)
-                                    .frame(height: 277)
+                                NavigationLink(destination: MediaDetailsView(media: movie)) {
+                                    MovieCell(movie: movie)
+                                        .frame(height: 277)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding(.horizontal, LayoutConst.normalPadding)
@@ -70,15 +67,6 @@ struct SearchView: View {
                     }
                 }
             }
-        }
-        .alert(item: $viewModel.alertModel) { model in
-            return Alert(
-                title: Text(model.title),
-                message: Text(model.message),
-                dismissButton: .default(Text(model.dismissButtonTitle)) {
-                    viewModel.alertModel = nil
-                }
-            )
         }
     }
 }
