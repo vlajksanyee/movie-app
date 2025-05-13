@@ -10,8 +10,6 @@ struct FetchDetailsRequest {
     let mediaId: Int
     
     func asRequestParams() -> [String: Any] {
-        return Environment.name == .tv ?
-        ["series_id": mediaId] :
-        ["movie_id": mediaId]
+        return [:]
     }
 }

@@ -40,18 +40,7 @@ struct FavoritesView: View {
                 .navigationTitle("favorites.title")
             }
         }
-        .alert(item: $viewModel.alertModel) { model in
-            Alert(
-                title: Text(model.title),
-                message: Text(model.message),
-                primaryButton: .default(Text(model.dismissButtonTitle)) {
-                    
-                },
-                secondaryButton: .destructive(Text(model.dismissButtonTitle)) {
-                            
-                }
-            )
-        }
+        .showAlert(model: $viewModel.alertModel)
     }
 }
 

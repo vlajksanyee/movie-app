@@ -30,18 +30,10 @@ struct MovieListView: View {
             .padding(.top, LayoutConst.normalPadding)
         }
         .navigationTitle(genre.name)
-        .alert(item: $viewModel.alertModel) { model in
-            Alert(
-                title: Text(model.title),
-                message: Text(model.message),
-                dismissButton: .destructive(Text(model.dismissButtonTitle)) {
-                    viewModel.alertModel = nil
-                }
-            )
-        }
         .onAppear {
             viewModel.genreIdSubject.send(genre.id)
         }
+        .showAlert(model: $viewModel.alertModel)
     }
 }
 

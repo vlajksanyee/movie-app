@@ -27,3 +27,13 @@
 "clienterror.title" = "Kliens Hiba";
 "mappingerror.title" = "Leképezési Hiba";
 "mappingerror.message" = "Leképezési Hiba";
+
+// DETAILS
+"details.available" = "Elérhető";
+"details.unavailable" = "Nem elérhető";
+"details.label.release" = "Megjelenési Év";
+"details.label.runtime" = "Időtartam";
+"details.label.languages" = "Nyelvek";
+"details.button.rate" = "Értékeld ezt a filmet";
+"details.button.imdb" = "Nézd meg IMDB-n";
+"details.overview" = "Összefoglaló";

@@ -27,3 +27,13 @@
 "clienterror.title" = "Client Error";
 "mappingerror.title" = "Mapping Error";
 "mappingerror.message" = "Mapping Error";
+
+// DETAILS
+"details.available" = "Available";
+"details.unavailable" = "Unavailable";
+"details.label.release" = "Release Date";
+"details.label.runtime" = "Runtime";
+"details.label.languages" = "Languages";
+"details.button.rate" = "Rate this movie";
+"details.button.imdb" = "Visit at IMDB";
+"details.overview" = "Synopsis";

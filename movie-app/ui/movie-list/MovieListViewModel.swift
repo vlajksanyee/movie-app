@@ -31,7 +31,7 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchMediaListRequest(genreId: genreId)
+                let request = FetchMediaListRequest(genreId: genreId, includeAdult: true)
                 return Environment.name == .tv ?
                 self.service.fetchTV(req: request) :
                 self.service.fetchMovies(req: request)

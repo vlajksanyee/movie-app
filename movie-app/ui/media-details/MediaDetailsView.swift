@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-func formatRuntime(minutes: Int) -> String {
-    let hours = minutes / 60
-    let remainingMinutes = minutes % 60
-    return "\(hours)h \(remainingMinutes)m"
-}
-
 struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     var media: MediaItem
@@ -20,7 +14,7 @@ struct MediaDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                AsyncImage(url: viewModel.media?.imageUrl) { phase in
+                AsyncImage(url: viewModel.media.imageUrl) { phase in
                     switch phase {
                     case .empty:
                         ZStack {
@@ -43,98 +37,71 @@ struct MediaDetailsView: View {
                         EmptyView()
                     }
                 }
-                .frame(height: 185)
-                .frame(maxHeight: 185)
+                .frame(height: 180)
                 .frame(maxWidth: .infinity)
                 .cornerRadius(30)
                 
                 VStack(alignment: .leading) {
-                    HStack {
-                        MediaDetailsLabel(type: .rating(viewModel.media?.voteAverage ?? 0))
-                        MediaDetailsLabel(type: .voteCount(viewModel.media?.voteCount ?? 0))
+                    HStack(spacing: 12) {
+                        MovieLabel(type: .rating(viewModel.media.rating))
+                        MovieLabel(type: .voteCount(viewModel.media.voteCount))
+                        MovieLabel(type: .popularity(viewModel.media.popularity))
+                        Spacer()
+                        MovieLabel(type: .adult(viewModel.media.adult))
                     }
                     .padding(.bottom, LayoutConst.normalPadding)
                     
-                    if let genres = viewModel.media?.genres {
-                        let genreNames = genres.map(\.self).map(\.name).joined(separator: ", ")
-                        Text(genreNames)
-                            .font(Fonts.paragraph)
-                    }
+                    //MARK: GENRES
+                    Text(viewModel.media.genreList)
+                        .font(Fonts.paragraph)
                     
-                    Text(viewModel.media?.title ?? "No title")
+                    //MARK: TITLE
+                    Text(viewModel.media.title)
                         .font(Fonts.detailsTitle)
+                        .padding(.vertical, LayoutConst.normalPadding)
                     
                     //MARK: RELEASE DATE, RUNTIME, LANGUAGE
                     HStack(spacing: LayoutConst.normalPadding) {
-                        VStack(alignment: .leading) {
-                            if let year = viewModel.media?.year {
-                                Text("Release Date")
-                                    .font(Fonts.caption)
-                                Text(year)                                    .font(Fonts.paragraph)
-                            }
-                        }
-                        VStack(alignment: .leading) {
-                            if let runtime = viewModel.media?.runtime {
-                                Text("Runtime")
-                                    .font(Fonts.caption)
-                                Text(formatRuntime(minutes: runtime))                                    .font(Fonts.paragraph)
-                            }
-                        }
-                        VStack(alignment: .leading) {
-                            if let languages = viewModel.media?.spokenLanguages, !languages.isEmpty {
-                                let languageNames = languages.map(\.self).map(\.englishName).joined(separator: ", ")
-                                Text("Language")
-                                    .font(Fonts.caption)
-                                Text(languageNames)
-                                    .font(Fonts.paragraph)
-                            }
-                        }
+                        DetailsLabel(title: "details.label.release", desc: viewModel.media.year)
+                        DetailsLabel(title: "details.label.runtime", desc: "\(viewModel.media.runtime)")
+                        DetailsLabel(title: "details.label.languages", desc: viewModel.media.spokenLanguages)
                     }
                     
                     //MARK: BUTTONS
-                    HStack {
-                        Button(action: {}) {
-                            Text("Rate this movie")
-                                .foregroundColor(.invertedMain)
-                                .font(Fonts.detailsButton)
-                                .padding(.vertical, LayoutConst.normalPadding)
-                                .padding(.horizontal, LayoutConst.maxPadding)
-                        }
-                        .frame(height: 56)
-                        .background(.main)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 28)
-                                .stroke(.invertedMain, lineWidth: 1)
-                        )
-                        .cornerRadius(28)
+                    HStack(spacing: LayoutConst.largePadding) {
+                        StyledButton(style: .outlined, title: "details.button.rate") {}
                         Spacer()
-                        Button(action: {}) {
-                            Text("Visit at IMDB")                                .foregroundColor(.main)
-                                .font(Fonts.detailsButton)
-                                .padding(.vertical, LayoutConst.normalPadding)
-                                .padding(.horizontal, LayoutConst.maxPadding)
-                        }
-                        .frame(height: 56)
-                        .background(.invertedMain)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 28)
-                                .stroke(.main, lineWidth: 1)
-                        )
-                        .cornerRadius(28)
+                        StyledButton(style: .filled, title: "details.button.imdb") {}
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical, LayoutConst.normalPadding)
                     
                     //MARK: SYNOPSIS
-                    Text("Synopsis")
-                        .font(Fonts.subheading)
-                        .padding(.bottom, LayoutConst.normalPadding)
-                    Text(viewModel.media?.overview ?? "")
-                        .font(Fonts.paragraph)
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(LocalizedStringKey("details.overview"))
+                            .font(Fonts.overviewText)
+                        Text(viewModel.media.overview)
+                            .font(Fonts.paragraph)
+                            .lineLimit(nil)
+                    }
+                    
                 }
                 .padding(.top, LayoutConst.normalPadding)
             }
             .padding(LayoutConst.maxPadding)
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    
+                }) {
+                    Image(.favorite)
+                        .resizable()
+                        .frame(height: 30.0)
+                        .frame(width: 30.0)
+                }
+            }
+        }
+        .showAlert(model: $viewModel.alertModel)
         .onAppear {
             viewModel.mediaIdSubject.send(media.id)
         }

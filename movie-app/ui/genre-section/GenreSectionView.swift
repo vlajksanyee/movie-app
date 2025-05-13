@@ -30,20 +30,7 @@ struct GenreSectionView: View {
             .navigationTitle(Environment.name == .tv ? "TV" : "genreSection.title")
             .accessibilityLabel("testCollectionView")
         }
-//        .onAppear {
-//            Task {
-//                await viewModel.fetchGenres()
-//            }
-//        }
-        .alert(item: $viewModel.alertModel) { model in
-            Alert(
-                title: Text(model.title),
-                message: Text(model.message),
-                dismissButton: .destructive(Text(model.dismissButtonTitle)) {
-                    viewModel.alertModel = nil
-                }
-            )
-        }
+        .showAlert(model: $viewModel.alertModel)
     }
 }
 
