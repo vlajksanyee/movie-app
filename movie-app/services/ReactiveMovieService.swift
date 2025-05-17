@@ -20,6 +20,7 @@ protocol ReactiveMoviesServiceProtocol {
     func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
     func fetchCredits(req: FetchCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError>
+    func fetchExternalIds(req: FetchExternalIdsRequest) -> AnyPublisher<ExternalIds, MovieError>
 }
 
 class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
@@ -89,6 +90,16 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
             decodeTo: CreditsResponse.self,
             transform: { dto in
                 dto.cast.map(CastMember.init(dto:))
+            }
+        )
+    }
+    
+    func fetchExternalIds(req: FetchExternalIdsRequest) -> AnyPublisher<ExternalIds, MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchExternalIds(req: req)),
+            decodeTo: ExternalIdsResponse.self,
+            transform: { response in
+                ExternalIds(dto: response)
             }
         )
     }

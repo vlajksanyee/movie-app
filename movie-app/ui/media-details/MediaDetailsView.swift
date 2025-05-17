@@ -11,9 +11,11 @@ struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     var media: MediaItem
     
+    @State private var showSafari = false
+    
     var body: some View {
-        
-        ScrollView {
+        print("https://www.imdb.com/title/\(viewModel.externalIds.imdbId)/")
+        return ScrollView {
             VStack(alignment: .leading) {
                 AsyncImage(url: viewModel.media.imageUrl) { phase in
                     switch phase {
@@ -70,9 +72,27 @@ struct MediaDetailsView: View {
                     
                     //MARK: BUTTONS
                     HStack(spacing: LayoutConst.largePadding) {
-                        StyledButton(style: .outlined, title: "details.button.rate") {}
+                        StyledButton(style: .outlined, title: "details.button.rate") {
+                            showSafari = true
+                        }
+                        .sheet(isPresented: $showSafari) {
+                            if let url = URL(string: "https://www.imdb.com/title/\(viewModel.externalIds.imdbId ?? "")/") {
+                                SafariView(url: url)
+                            } else {
+                                Text("Invalid URL")
+                            }
+                        }
                         Spacer()
-                        StyledButton(style: .filled, title: "details.button.imdb") {}
+                        StyledButton(style: .filled, title: "details.button.imdb") {
+                            showSafari = true
+                        }
+                        .sheet(isPresented: $showSafari) {
+                            if let url = URL(string: "https://www.imdb.com/title/\(viewModel.externalIds.imdbId ?? "")/") {
+                                SafariView(url: url)
+                            } else {
+                                Text("Invalid URL")
+                            }
+                        }
                     }
                     .padding(.vertical, LayoutConst.normalPadding)
                     

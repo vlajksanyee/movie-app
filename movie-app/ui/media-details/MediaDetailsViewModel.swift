@@ -16,6 +16,7 @@ protocol MediaDetailsViewModelProtocol: ObservableObject {
 class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var media: MediaItemDetail = MediaItemDetail()
     @Published var credits: [CastMember] = []
+    @Published var externalIds: ExternalIds = ExternalIds()
     @Published var alertModel: AlertModel? = nil
     @Published var isFavorite: Bool = false
     
@@ -49,18 +50,28 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 return self.service.fetchCredits(req: request)
             }
         
-        Publishers.CombineLatest(details, credits)
+        let externalIds = mediaIdSubject
+            .flatMap { [weak self] mediaId in
+                guard let self = self else {
+                    preconditionFailure("There is no self")
+                }
+                let request = FetchExternalIdsRequest(mediaId: mediaId)
+                return self.service.fetchExternalIds(req: request)
+            }
+        
+        Publishers.CombineLatest3(details, credits, externalIds)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self] details, credits in
+            } receiveValue: { [weak self] details, credits, externalIds in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
                 self.media = details
                 self.credits = credits
+                self.externalIds = externalIds
                 self.isFavorite = self.favoriteMediaStore.isFavoriteMediaItem(withId: details.id)
             }
             .store(in: &cancellables)
@@ -88,7 +99,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 if result.success {
                     self.isFavorite = isFavorite
                     if isFavorite {
-//                        self.favoriteMediaStore.addFavoriteMediaItem(self.media)
+                        self.favoriteMediaStore.addFavoriteMediaItem(self.media.asMedaiItem())
                     } else {
                         self.favoriteMediaStore.removeFavoriteMediaItem(withId: self.media.id)
                     }
