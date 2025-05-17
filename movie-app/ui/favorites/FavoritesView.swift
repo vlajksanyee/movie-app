@@ -13,7 +13,7 @@ struct FavoritesView: View {
     
     var body: some View {
         NavigationView {
-            if viewModel.movies.isEmpty {
+            if viewModel.mediaItems.isEmpty {
                 VStack {
                     Spacer()
                     Text("favorites.empty")
@@ -26,7 +26,7 @@ struct FavoritesView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: LayoutConst.normalPadding) {
-                        ForEach(viewModel.movies) { movie in
+                        ForEach(viewModel.mediaItems) { movie in
                             NavigationLink(destination: MediaDetailsView(media: movie)) {
                                 MovieCell(movie: movie)
                                     .frame(height: 277)
@@ -41,6 +41,9 @@ struct FavoritesView: View {
             }
         }
         .showAlert(model: $viewModel.alertModel)
+        .onAppear {
+            viewModel.viewLoaded.send(())
+        }
     }
 }
 

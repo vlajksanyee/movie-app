@@ -10,32 +10,36 @@ import Combine
 import InjectPropertyWrapper
 
 protocol FavoritesViewModelProtocol: ObservableObject {
-    var movies: [MediaItem] { get set }
+    var mediaItems: [MediaItem] { get set }
 }
 
 class FavoritesViewModel: FavoritesViewModelProtocol, ErrorPresentable {
-    @Published var movies: [MediaItem] = []
+    @Published var mediaItems: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
+    
+    let viewLoaded = PassthroughSubject<Void, Never>()
     
     @Inject
     private var service: ReactiveMoviesServiceProtocol
     
-    init () {
-        let request = FetchFavoriteMoviesRequest()
-        service.fetchFavoriteMovies(req: request)
+    @Inject
+    private var favoriteMediaStore: FavoriteMediaStoreProtocol
+    
+    init() {
+        
+        favoriteMediaStore.mediaItems
             .receive(on: RunLoop.main)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    break
                     self.alertModel = self.toAlertModel(error)
                 case .finished:
                     break
                 }
-            } receiveValue: { [weak self]movies in
-                self?.movies = movies
+            } receiveValue: { [weak self]mediaItems in
+                self?.mediaItems = mediaItems
             }
             .store(in: &cancellables)
     }

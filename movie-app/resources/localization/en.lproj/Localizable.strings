@@ -37,3 +37,5 @@
 "details.button.rate" = "Rate this movie";
 "details.button.imdb" = "Visit at IMDB";
 "details.overview" = "Synopsis";
+"details.publishers" = "Publishers";
+"details.cast" = "Cast";
