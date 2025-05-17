@@ -12,6 +12,7 @@ struct MediaDetailsView: View {
     var media: MediaItem
     
     var body: some View {
+        
         ScrollView {
             VStack(alignment: .leading) {
                 AsyncImage(url: viewModel.media.imageUrl) { phase in
@@ -84,17 +85,22 @@ struct MediaDetailsView: View {
                             .lineLimit(nil)
                     }
                     
+                    //MARK: PUBLISHERS
+                    ParticipantScrollView(title: "details.publishers", participants: viewModel.media.productionCompanies)
+                    
+                    //MARK: CAST
+                    ParticipantScrollView(title: "details.cast", participants: viewModel.credits)
                 }
-                .padding(.top, LayoutConst.normalPadding)
+                .padding(.vertical, LayoutConst.normalPadding)
             }
             .padding(LayoutConst.maxPadding)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    
+                    viewModel.favoriteButtonTapped.send(())
                 }) {
-                    Image(.favorite)
+                    Image(viewModel.isFavorite ? .favorite : .nonfavorite)
                         .resizable()
                         .frame(height: 30.0)
                         .frame(width: 30.0)

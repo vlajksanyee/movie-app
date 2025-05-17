@@ -18,7 +18,8 @@ protocol ReactiveMoviesServiceProtocol {
     func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest) -> AnyPublisher<[MediaItem], MovieError>
     func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError>
     func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
-    func addFavoriteMovie(req: AddFavoriteRequest) -> AnyPublisher<AddFavoriteResponse, MovieError>
+    func fetchCredits(req: FetchCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
+    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError>
 }
 
 class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
@@ -82,13 +83,22 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
         )
     }
     
-    // TODO: Refactor and create a domain model to AddFavoriteResponse
-    func addFavoriteMovie(req: AddFavoriteRequest) -> AnyPublisher<AddFavoriteResponse, MovieError> {
+    func fetchCredits(req: FetchCreditsRequest) -> AnyPublisher<[CastMember], MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.addFavoriteMovie(req: req)),
-            decodeTo: AddFavoriteResponse.self,
+            target: MultiTarget(MoviesApi.fetchCredits(req: req)),
+            decodeTo: CreditsResponse.self,
+            transform: { dto in
+                dto.cast.map(CastMember.init(dto:))
+            }
+        )
+    }
+    
+    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.editFavoriteMovie(req: req)),
+            decodeTo: EditFavoriteResponse.self,
             transform: { response in
-                response
+                EditFavoriteResult(dto: response)
             }
         )
     }
