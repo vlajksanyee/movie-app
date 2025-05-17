@@ -35,7 +35,7 @@ class FavoriteMediaStore: FavoriteMediaStoreProtocol {
     }
     
     func addFavoriteMediaItem(_ mediaItem: MediaItem) {
-        favoriteItems = [mediaItem]
+        favoriteItems.append(mediaItem)
         mediaItemsSubject.send(favoriteItems)
     }
     
