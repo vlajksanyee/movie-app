@@ -14,35 +14,12 @@ struct MediaDetailsView: View {
     @State private var showSafari = false
     
     var body: some View {
-        print("https://www.imdb.com/title/\(viewModel.externalIds.imdbId)/")
-        return ScrollView {
+        ScrollView {
             VStack(alignment: .leading) {
-                AsyncImage(url: viewModel.media.imageUrl) { phase in
-                    switch phase {
-                    case .empty:
-                        ZStack {
-                            Color.gray.opacity(0.3)
-                            ProgressView()
-                        }
-                        
-                    case let .success(image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                        
-                    case .failure(let error):
-                        ZStack {
-                            Color.red.opacity(0.3)
-                            Image(systemName: "photo")
-                                .foregroundColor(.white)
-                        }
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
-                .frame(height: 180)
-                .frame(maxWidth: .infinity)
-                .cornerRadius(30)
+                LoadImageView(url: viewModel.media.imageUrl)
+                    .frame(height: 180)
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(30)
                 
                 VStack(alignment: .leading) {
                     HStack(spacing: 12) {

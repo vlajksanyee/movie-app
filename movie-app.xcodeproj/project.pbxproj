@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1827D2232DD87F3D003FF3AF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1827D2222DD87F3D003FF3AF /* RealmSwift */; };
+		1827D22D2DD8983B003FF3AF /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1827D22C2DD8983B003FF3AF /* SDWebImageSwiftUI */; };
+		1827D2322DD89C47003FF3AF /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 1827D2312DD89C47003FF3AF /* Reachability */; };
 		1842F7782DAA664100DAEC74 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 1842F7772DAA664100DAEC74 /* CombineMoya */; };
 		1842F77A2DAA664100DAEC74 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 1842F7792DAA664100DAEC74 /* Moya */; };
 		1842F9662DAE97CD00DAEC74 /* InjectPropertyWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 1842F9652DAE97CD00DAEC74 /* InjectPropertyWrapper */; };
@@ -75,9 +78,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1827D22D2DD8983B003FF3AF /* SDWebImageSwiftUI in Frameworks */,
+				1827D2322DD89C47003FF3AF /* Reachability in Frameworks */,
 				1842F77A2DAA664100DAEC74 /* Moya in Frameworks */,
 				1842F7782DAA664100DAEC74 /* CombineMoya in Frameworks */,
 				1842F9662DAE97CD00DAEC74 /* InjectPropertyWrapper in Frameworks */,
+				1827D2232DD87F3D003FF3AF /* RealmSwift in Frameworks */,
 				1842F9692DAE97D600DAEC74 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +152,9 @@
 				1842F7792DAA664100DAEC74 /* Moya */,
 				1842F9652DAE97CD00DAEC74 /* InjectPropertyWrapper */,
 				1842F9682DAE97D600DAEC74 /* Swinject */,
+				1827D2222DD87F3D003FF3AF /* RealmSwift */,
+				1827D22C2DD8983B003FF3AF /* SDWebImageSwiftUI */,
+				1827D2312DD89C47003FF3AF /* Reachability */,
 			);
 			productName = "movie-app";
 			productReference = 181F30322DA537D3002975C3 /* movie-app.app */;
@@ -238,6 +247,9 @@
 				1842F9672DAE97D600DAEC74 /* XCRemoteSwiftPackageReference "Swinject" */,
 				1880A6D82DB7B49B000DF1AB /* XCRemoteSwiftPackageReference "Nimble" */,
 				1880A6DB2DB7B4B9000DF1AB /* XCRemoteSwiftPackageReference "Quick" */,
+				1827D2212DD87F3D003FF3AF /* XCRemoteSwiftPackageReference "realm-swift" */,
+				1827D22B2DD8983B003FF3AF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				1827D2302DD89C47003FF3AF /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 181F30332DA537D3002975C3 /* Products */;
@@ -1772,6 +1784,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1827D2212DD87F3D003FF3AF /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		1827D22B2DD8983B003FF3AF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+		1827D2302DD89C47003FF3AF /* XCRemoteSwiftPackageReference "Reachability" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		1842F7762DAA664100DAEC74 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -1815,6 +1851,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1827D2222DD87F3D003FF3AF /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1827D2212DD87F3D003FF3AF /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		1827D22C2DD8983B003FF3AF /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1827D22B2DD8983B003FF3AF /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		1827D2312DD89C47003FF3AF /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1827D2302DD89C47003FF3AF /* XCRemoteSwiftPackageReference "Reachability" */;
+			productName = Reachability;
+		};
 		1842F7772DAA664100DAEC74 /* CombineMoya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1842F7762DAA664100DAEC74 /* XCRemoteSwiftPackageReference "Moya" */;

@@ -11,6 +11,7 @@ enum MovieError: Error {
     case invalidApiKeyError(message: String)
     case clientError
     case unexpectedError
+    case noInternetError
     case mappingError
     
     var domain: String {
@@ -18,6 +19,7 @@ enum MovieError: Error {
         case .invalidApiKeyError,
                 .unexpectedError,
                 .clientError,
+                .noInternetError,
                 .mappingError:
             return "MovieError"
         }
@@ -36,6 +38,8 @@ extension MovieError: LocalizedError {
             return "Unexpected error"
         case .mappingError:
             return "Mapping error"
+        case .noInternetError:
+            return "No internet connection"
         }
     }
 }
@@ -50,6 +54,8 @@ extension MovieError: Equatable {
         case (.clientError, .clientError):
             return true
         case (.mappingError, .mappingError):
+            return true
+        case (.noInternetError, .noInternetError):
             return true
         default:
             return false

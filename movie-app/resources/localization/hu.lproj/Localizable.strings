@@ -39,3 +39,6 @@
 "details.overview" = "Összefoglaló";
 "details.publishers" = "Kiadók";
 "details.cast" = "Színészek";
+
+// NO INTERNET
+"noInternet" = "Nincs Internetkapcsolat";

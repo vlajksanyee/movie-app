@@ -27,7 +27,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     private var service: ReactiveMoviesServiceProtocol
     
     @Inject
-    private var favoriteMediaStore: FavoriteMediaStoreProtocol
+    private var mediaItemStore: MediaItemStoreProtocol
     
     var cancellables = Set<AnyCancellable>()
     
@@ -72,7 +72,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 self.media = details
                 self.credits = credits
                 self.externalIds = externalIds
-                self.isFavorite = self.favoriteMediaStore.isFavoriteMediaItem(withId: details.id)
+                self.isFavorite = self.mediaItemStore.isMediaItemStored(withId: details.id)
             }
             .store(in: &cancellables)
         
@@ -82,7 +82,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let isFavorite = !self.isFavorite
-                let request = EditFavoriteRequest(movieId: self.media.id, isFavorite: true)
+                let request = EditFavoriteRequest(movieId: self.media.id, isFavorite: isFavorite)
                 return service.editFavoriteMovie(req: request).map { result in
                     (result, isFavorite)
                 }
@@ -99,9 +99,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 if result.success {
                     self.isFavorite = isFavorite
                     if isFavorite {
-                        self.favoriteMediaStore.addFavoriteMediaItem(self.media.asMedaiItem())
+                        self.mediaItemStore.saveMediaItems([self.media.asMediaItem()])
                     } else {
-                        self.favoriteMediaStore.removeFavoriteMediaItem(withId: self.media.id)
+                        self.mediaItemStore.deleteMediaItem(withId: self.media.id)
                     }
                 }
             }

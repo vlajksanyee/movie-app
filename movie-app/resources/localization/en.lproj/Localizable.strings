@@ -39,3 +39,6 @@
 "details.overview" = "Synopsis";
 "details.publishers" = "Publishers";
 "details.cast" = "Cast";
+
+// NO INTERNET
+"noInternet" = "No Internet connection";

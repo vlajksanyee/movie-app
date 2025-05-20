@@ -8,11 +8,11 @@
 import Foundation
 
 protocol ErrorPresentable {
-    func toAlertModel(_ error: Error) -> AlertModel
+    func toAlertModel(_ error: Error) -> AlertModel?
 }
 
 extension ErrorPresentable {
-    func toAlertModel(_ error: Error) -> AlertModel {
+    func toAlertModel(_ error: Error) -> AlertModel? {
         guard let error = error as? MovieError else {
             return AlertModel(
                 title: NSLocalizedString("unexpectederror.title", comment: ""),
@@ -39,6 +39,8 @@ extension ErrorPresentable {
                 message: NSLocalizedString("mappingerror.message", comment: ""),
                 dismissButtonTitle: NSLocalizedString("dismissbutton.title", comment: "")
             )
+        case .noInternetError:
+            return nil
         default:
             return AlertModel(
                 title: NSLocalizedString("unexpectederror.title", comment: ""),
