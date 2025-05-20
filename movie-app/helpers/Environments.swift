@@ -5,7 +5,7 @@
 //  Created by Sandor Vlajk on 2025. 04. 12..
 //
 
-struct Environment {
+struct Environments {
     enum Name {
         case prod
         case dev

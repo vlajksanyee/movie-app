@@ -42,3 +42,7 @@
 
 // NO INTERNET
 "noInternet" = "Nincs Internetkapcsolat";
+
+// REVIEW
+"addReview.subTitle" = "Értékeld ezt a filmet!";
+"addReview.buttonTitle" = "Értékelés beküldése";

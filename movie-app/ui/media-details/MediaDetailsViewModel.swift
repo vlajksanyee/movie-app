@@ -16,7 +16,6 @@ protocol MediaDetailsViewModelProtocol: ObservableObject {
 class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var media: MediaItemDetail = MediaItemDetail()
     @Published var credits: [CastMember] = []
-    @Published var externalIds: ExternalIds = ExternalIds()
     @Published var alertModel: AlertModel? = nil
     @Published var isFavorite: Bool = false
     
@@ -50,28 +49,18 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 return self.service.fetchCredits(req: request)
             }
         
-        let externalIds = mediaIdSubject
-            .flatMap { [weak self] mediaId in
-                guard let self = self else {
-                    preconditionFailure("There is no self")
-                }
-                let request = FetchExternalIdsRequest(mediaId: mediaId)
-                return self.service.fetchExternalIds(req: request)
-            }
-        
-        Publishers.CombineLatest3(details, credits, externalIds)
+        Publishers.CombineLatest(details, credits)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self] details, credits, externalIds in
+            } receiveValue: { [weak self] details, credits in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
                 self.media = details
                 self.credits = credits
-                self.externalIds = externalIds
                 self.isFavorite = self.mediaItemStore.isMediaItemStored(withId: details.id)
             }
             .store(in: &cancellables)

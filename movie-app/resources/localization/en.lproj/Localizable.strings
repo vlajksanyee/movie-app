@@ -42,3 +42,8 @@
 
 // NO INTERNET
 "noInternet" = "No Internet connection";
+
+// REVIEW
+"addReview.subTitle" = "Give it an honest review";
+"addReview.buttonTitle" = "Send my review";
+

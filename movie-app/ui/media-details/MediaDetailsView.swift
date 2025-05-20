@@ -11,6 +11,8 @@ struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     var media: MediaItem
     
+    @Environment(\.dismiss) private var dismiss: DismissAction
+    
     @State private var showSafari = false
     
     var body: some View {
@@ -36,40 +38,20 @@ struct MediaDetailsView: View {
                         .font(Fonts.paragraph)
                     
                     //MARK: TITLE
-                    Text(viewModel.media.title)
-                        .font(Fonts.detailsTitle)
-                        .padding(.vertical, LayoutConst.normalPadding)
-                    
-                    //MARK: RELEASE DATE, RUNTIME, LANGUAGE
-                    HStack(spacing: LayoutConst.normalPadding) {
-                        DetailsLabel(title: "details.label.release", desc: viewModel.media.year)
-                        DetailsLabel(title: "details.label.runtime", desc: "\(viewModel.media.runtime)")
-                        DetailsLabel(title: "details.label.languages", desc: viewModel.media.spokenLanguages)
-                    }
+                    MediaItemHeaderView(
+                        title: viewModel.media.title,
+                        year: viewModel.media.year,
+                        runtime: "\(viewModel.media.runtime)",
+                        spokenLanguages: viewModel.media.spokenLanguages
+                    )
                     
                     //MARK: BUTTONS
                     HStack(spacing: LayoutConst.largePadding) {
-                        StyledButton(style: .outlined, title: "details.button.rate") {
-                            showSafari = true
-                        }
-                        .sheet(isPresented: $showSafari) {
-                            if let url = viewModel.media.imdbUrl {
-                                SafariView(url: url)
-                            } else {
-                                Text("Invalid URL")
-                            }
+                        NavigationLink(destination: AddReviewView(mediaItemDetail: viewModel.media)) {
+                            StyledButton(style: .outlined, action: .simple, title: "details.button.rate")
                         }
                         Spacer()
-                        StyledButton(style: .filled, title: "details.button.imdb") {
-                            showSafari = true
-                        }
-                        .sheet(isPresented: $showSafari) {
-                            if let url = viewModel.media.imdbUrl {
-                                SafariView(url: url)
-                            } else {
-                                Text("Invalid URL")
-                            }
-                        }
+                        StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb")
                     }
                     .padding(.vertical, LayoutConst.normalPadding)
                     

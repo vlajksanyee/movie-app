@@ -27,7 +27,7 @@ struct GenreSectionView: View {
                 .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
-            .navigationTitle(Environment.name == .tv ? "TV" : "genreSection.title")
+            .navigationTitle(Environments.name == .tv ? "TV" : "genreSection.title")
             .accessibilityLabel("testCollectionView")
         }
         .showAlert(model: $viewModel.alertModel)

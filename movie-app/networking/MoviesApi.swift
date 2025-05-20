@@ -47,7 +47,7 @@ extension MoviesApi: TargetType {
         case .editFavoriteMovie(req: let req):
             return "/account/\(req.account_id)/favorite"
         case .fetchDetails(req: let req):
-            return Environment.name == .tv ?
+            return Environments.name == .tv ?
             "/tv/\(req.mediaId)" :
             "/movie/\(req.mediaId)"
         case .fetchCredits(let req):
