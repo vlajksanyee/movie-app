@@ -53,7 +53,7 @@ struct MediaDetailsView: View {
                             showSafari = true
                         }
                         .sheet(isPresented: $showSafari) {
-                            if let url = URL(string: "https://www.imdb.com/title/\(viewModel.externalIds.imdbId ?? "")/") {
+                            if let url = viewModel.media.imdbUrl {
                                 SafariView(url: url)
                             } else {
                                 Text("Invalid URL")
@@ -64,7 +64,7 @@ struct MediaDetailsView: View {
                             showSafari = true
                         }
                         .sheet(isPresented: $showSafari) {
-                            if let url = URL(string: "https://www.imdb.com/title/\(viewModel.externalIds.imdbId ?? "")/") {
+                            if let url = viewModel.media.imdbUrl {
                                 SafariView(url: url)
                             } else {
                                 Text("Invalid URL")
