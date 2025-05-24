@@ -11,36 +11,17 @@ struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     var media: MediaItem
     
+    @Environment(\.dismiss) private var dismiss: DismissAction
+    
+    @State private var showSafari = false
+    
     var body: some View {
-        
         ScrollView {
             VStack(alignment: .leading) {
-                AsyncImage(url: viewModel.media.imageUrl) { phase in
-                    switch phase {
-                    case .empty:
-                        ZStack {
-                            Color.gray.opacity(0.3)
-                            ProgressView()
-                        }
-                        
-                    case let .success(image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                        
-                    case .failure(let error):
-                        ZStack {
-                            Color.red.opacity(0.3)
-                            Image(systemName: "photo")
-                                .foregroundColor(.white)
-                        }
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
-                .frame(height: 180)
-                .frame(maxWidth: .infinity)
-                .cornerRadius(30)
+                LoadImageView(url: viewModel.media.imageUrl)
+                    .frame(height: 180)
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(30)
                 
                 VStack(alignment: .leading) {
                     HStack(spacing: 12) {
@@ -57,22 +38,20 @@ struct MediaDetailsView: View {
                         .font(Fonts.paragraph)
                     
                     //MARK: TITLE
-                    Text(viewModel.media.title)
-                        .font(Fonts.detailsTitle)
-                        .padding(.vertical, LayoutConst.normalPadding)
-                    
-                    //MARK: RELEASE DATE, RUNTIME, LANGUAGE
-                    HStack(spacing: LayoutConst.normalPadding) {
-                        DetailsLabel(title: "details.label.release", desc: viewModel.media.year)
-                        DetailsLabel(title: "details.label.runtime", desc: "\(viewModel.media.runtime)")
-                        DetailsLabel(title: "details.label.languages", desc: viewModel.media.spokenLanguages)
-                    }
+                    MediaItemHeaderView(
+                        title: viewModel.media.title,
+                        year: viewModel.media.year,
+                        runtime: "\(viewModel.media.runtime)",
+                        spokenLanguages: viewModel.media.spokenLanguages
+                    )
                     
                     //MARK: BUTTONS
                     HStack(spacing: LayoutConst.largePadding) {
-                        StyledButton(style: .outlined, title: "details.button.rate") {}
+                        NavigationLink(destination: AddReviewView(mediaItemDetail: viewModel.media)) {
+                            StyledButton(style: .outlined, action: .simple, title: "details.button.rate")
+                        }
                         Spacer()
-                        StyledButton(style: .filled, title: "details.button.imdb") {}
+                        StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb")
                     }
                     .padding(.vertical, LayoutConst.normalPadding)
                     

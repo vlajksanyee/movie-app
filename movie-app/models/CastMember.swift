@@ -34,10 +34,10 @@ struct CastMember: Identifiable {
         castImageURL = nil
     }
     
-    init(id: Int, name: String) {
+    init(id: Int, name: String, castImageURL: URL? = nil) {
         self.id = id
         self.name = name
-        castImageURL = nil
+        self.castImageURL = castImageURL
     }
 }
 

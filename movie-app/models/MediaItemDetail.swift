@@ -15,15 +15,15 @@ struct MediaItemDetail: Identifiable {
     let imageUrl: URL?
     let rating: Double
     let voteCount: Int
-    let voteAverage: Double
     let overview: String
     let popularity: Double
     let adult: Bool
     let genres: [String]
     let spokenLanguages: String
+    let imdbUrl: URL?
     let productionCompanies: [ProductionCompany]
     
-    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, voteAverage: Double, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, productionCompanies: [ProductionCompany]) {
+    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, imdbUrl: URL?, productionCompanies: [ProductionCompany]) {
         self.id = id
         self.title = title
         self.year = year
@@ -31,12 +31,12 @@ struct MediaItemDetail: Identifiable {
         self.imageUrl = imageUrl
         self.rating = rating
         self.voteCount = voteCount
-        self.voteAverage = voteAverage
         self.overview = overview
         self.popularity = popularity
         self.adult = adult
         self.genres = genres
         self.spokenLanguages = spokenLanguages
+        self.imdbUrl = imdbUrl
         self.productionCompanies = productionCompanies
     }
     
@@ -48,12 +48,12 @@ struct MediaItemDetail: Identifiable {
         self.imageUrl = nil
         self.rating = 0.0
         self.voteCount = 0
-        self.voteAverage = 0.0
         self.overview = ""
         self.popularity = 0.0
         self.adult = false
         self.genres = []
         self.spokenLanguages = ""
+        self.imdbUrl = nil
         self.productionCompanies = []
     }
     
@@ -67,7 +67,7 @@ struct MediaItemDetail: Identifiable {
                 URL(string: "https://image.tmdb.org/t/p/w500\($0)")
             }
         }
-        
+                
         self.id = dto.id
         self.title = dto.title
         self.year = year
@@ -75,7 +75,6 @@ struct MediaItemDetail: Identifiable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
-        self.voteAverage = dto.voteAverage ?? 0.0
         self.overview = dto.overview
         self.popularity = dto.popularity
         self.adult = dto.adult
@@ -83,6 +82,7 @@ struct MediaItemDetail: Identifiable {
         self.spokenLanguages = dto.spokenLanguages
             .map({ $0.englishName })
             .joined(separator: ", ")
+        self.imdbUrl = URL(string: "https://www.imdb.com/title/\(dto.imdbId)/")
         self.productionCompanies = dto.productionCompanies
             .map({ ProductionCompany(dto: $0) })
     }

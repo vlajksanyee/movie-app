@@ -18,6 +18,7 @@ enum MoviesApi {
     case editFavoriteMovie(req: EditFavoriteRequest)
     case fetchDetails(req: FetchDetailsRequest)
     case fetchCredits(req: FetchCreditsRequest)
+    case fetchExternalIds(req: FetchExternalIdsRequest)
 }
 
 extension MoviesApi: TargetType {
@@ -41,22 +42,24 @@ extension MoviesApi: TargetType {
             return "/discover/tv"
         case .searchMovies:
             return "/search/movie"
-        case let .fetchFavoriteMovies(req):
+        case .fetchFavoriteMovies(let req):
             return "/account/\(req.account_id)/favorite/movies"
         case .editFavoriteMovie(req: let req):
             return "/account/\(req.account_id)/favorite"
         case .fetchDetails(req: let req):
-            return Environment.name == .tv ?
+            return Environments.name == .tv ?
             "/tv/\(req.mediaId)" :
             "/movie/\(req.mediaId)"
         case .fetchCredits(let req):
             return "movie/\(req.mediaId)/credits"
+        case .fetchExternalIds(let req):
+            return "/movie/\(req.mediaId)/external_ids"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchGenres, .fetchTVGenres, .fetchMovies, .fetchTV, .searchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits:
+        case .fetchGenres, .fetchTVGenres, .fetchMovies, .fetchTV, .searchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits, .fetchExternalIds:
             return .get
         case .editFavoriteMovie:
             return .post
@@ -86,6 +89,8 @@ extension MoviesApi: TargetType {
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchCredits(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchExternalIds(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         }
     }
     
@@ -114,6 +119,8 @@ extension MoviesApi: TargetType {
         case .fetchDetails(req: let req):
             return ["Authorization": req.accessToken]
         case .fetchCredits(let req):
+            return ["Authorization": req.accessToken]
+        case .fetchExternalIds(let req):
             return ["Authorization": req.accessToken]
         }
     }

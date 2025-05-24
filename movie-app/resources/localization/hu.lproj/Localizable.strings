@@ -39,3 +39,10 @@
 "details.overview" = "Összefoglaló";
 "details.publishers" = "Kiadók";
 "details.cast" = "Színészek";
+
+// NO INTERNET
+"noInternet" = "Nincs Internetkapcsolat";
+
+// REVIEW
+"addReview.subTitle" = "Értékeld ezt a filmet!";
+"addReview.buttonTitle" = "Értékelés beküldése";

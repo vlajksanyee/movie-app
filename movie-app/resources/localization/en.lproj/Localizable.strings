@@ -39,3 +39,11 @@
 "details.overview" = "Synopsis";
 "details.publishers" = "Publishers";
 "details.cast" = "Cast";
+
+// NO INTERNET
+"noInternet" = "No Internet connection";
+
+// REVIEW
+"addReview.subTitle" = "Give it an honest review";
+"addReview.buttonTitle" = "Send my review";
+
