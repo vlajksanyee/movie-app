@@ -22,6 +22,7 @@ protocol ReactiveMoviesServiceProtocol {
     func fetchCredits(req: FetchCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError>
     func fetchExternalIds(req: FetchExternalIdsRequest) -> AnyPublisher<ExternalIds, MovieError>
+    func addReview(req: AddReviewRequest) -> AnyPublisher<AddReviewResult, MovieError>
 }
 
 class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
@@ -172,6 +173,16 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
             decodeTo: EditFavoriteResponse.self,
             transform: { response in
                 EditFavoriteResult(dto: response)
+            }
+        )
+    }
+    
+    func addReview(req: AddReviewRequest) -> AnyPublisher<AddReviewResult, MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.addReview(req: req)),
+            decodeTo: AddReviewResponse.self,
+            transform: { response in
+                AddReviewResult(dto: response)
             }
         )
     }
