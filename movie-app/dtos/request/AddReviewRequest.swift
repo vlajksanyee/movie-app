@@ -22,15 +22,10 @@ struct AddReviewRequest {
     let mediaId: Int
     let value: Double
     
-    func toJSONData() -> Data? {
-        let dict = ["value": value]
-        return try? JSONSerialization.data(withJSONObject: dict)
-    }
-    
     func asRequestParams() -> [String: Any] {
         return [
             "movie_id": mediaId,
-            "RAW_BODY": toJSONData()
+            "value": value
         ]
     }
 }

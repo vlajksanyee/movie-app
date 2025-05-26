@@ -24,7 +24,7 @@ struct CastMember: Identifiable {
         self.name = dto.name
         self.castImageURL = dto.profilePath.flatMap {
             URL(string:
-            "https://image.tmdb.org/t/p/w185\($0)")
+            "https://image.tmdb.org/t/p/w500\($0)")
         }
     }
     
