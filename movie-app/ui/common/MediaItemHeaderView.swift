@@ -15,7 +15,7 @@ struct MediaItemHeaderView: View {
     let spokenLanguages: String
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text(title)
                 .font(Fonts.detailsTitle)
                 .padding(.vertical, LayoutConst.normalPadding)

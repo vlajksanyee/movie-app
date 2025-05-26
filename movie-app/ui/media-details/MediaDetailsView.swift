@@ -49,9 +49,13 @@ struct MediaDetailsView: View {
                     HStack(spacing: LayoutConst.largePadding) {
                         NavigationLink(destination: AddReviewView(mediaItemDetail: viewModel.media)) {
                             StyledButton(style: .outlined, action: .simple, title: "details.button.rate")
+                                .lineLimit(1)
+                                .fixedSize()
                         }
                         Spacer()
                         StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb")
+                            .lineLimit(1)
+                            .fixedSize()
                     }
                     .padding(.vertical, LayoutConst.normalPadding)
                     
