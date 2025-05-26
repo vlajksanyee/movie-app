@@ -20,8 +20,9 @@ protocol ReactiveMoviesServiceProtocol {
     func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError>
     func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
     func fetchCredits(req: FetchCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
-    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError>
+    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
     func fetchExternalIds(req: FetchExternalIdsRequest) -> AnyPublisher<ExternalIds, MovieError>
+    func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
 }
 
 class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
@@ -61,7 +62,11 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
         requestAndTransform(
             target: MultiTarget(MoviesApi.searchMovies(req: req)),
             decodeTo: MoviePageResponse.self,
-            transform: { $0.results.map(MediaItem.init(dto:)) }
+            transform: { (response: MoviePageResponse) -> [MediaItem] in
+                response.results.map{ (result: MovieResponse) in
+                    MediaItem(dto: result)
+                }
+            }
         )
     }
     
@@ -166,12 +171,22 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
         )
     }
     
-    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<EditFavoriteResult, MovieError> {
+    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError> {
         requestAndTransform(
             target: MultiTarget(MoviesApi.editFavoriteMovie(req: req)),
-            decodeTo: EditFavoriteResponse.self,
+            decodeTo: ModifyMediaResponse.self,
             transform: { response in
-                EditFavoriteResult(dto: response)
+                ModifyMediaResult(dto: response)
+            }
+        )
+    }
+    
+    func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.addReview(req: req)),
+            decodeTo: ModifyMediaResponse.self,
+            transform: { response in
+                ModifyMediaResult(dto: response)
             }
         )
     }
@@ -196,6 +211,8 @@ class ReactiveMoviesService: ReactiveMoviesServiceProtocol {
                         }
                     case 400..<500:
                         future(.failure(.clientError))
+                    case 500..<600:
+                        future(.failure(.serverError))
                     default:
                         if let apiError = try? JSONDecoder().decode(MovieAPIErrorResponse.self, from: response.data) {
                             if apiError.statusCode == 7 {

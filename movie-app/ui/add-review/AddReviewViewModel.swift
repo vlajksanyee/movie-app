@@ -11,10 +11,13 @@ import InjectPropertyWrapper
 
 class AddReviewViewModel: ObservableObject, ErrorPresentable {
     @Published var mediaItemDetail: MediaItemDetail = MediaItemDetail()
-    
     @Published var selectedRating: Int = 1
     
     let mediaDetailSubject = PassthroughSubject<MediaItemDetail, Never>()
+    let ratingButtonSubject = PassthroughSubject<Void, Never>()
+    
+    @Inject
+    private var service: ReactiveMoviesServiceProtocol
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -23,6 +26,24 @@ class AddReviewViewModel: ObservableObject, ErrorPresentable {
             .sink { [weak self] detail in
                 self?.mediaItemDetail = detail
             }
+            .store(in: &cancellables)
+        
+        ratingButtonSubject
+            .flatMap { [weak self] _ -> AnyPublisher<ModifyMediaResult, MovieError> in
+                guard let self = self else {
+                    preconditionFailure("There is no self")
+                }
+                
+                let rating: Double = Double(self.selectedRating)
+                let request = AddReviewRequest(mediaId: mediaItemDetail.id, value: rating)
+                
+                return self.service.addReview(req: request)
+            }
+            .sink(receiveCompletion: { _ in
+                
+            }, receiveValue: { result in
+                
+            })
             .store(in: &cancellables)
     }
 }

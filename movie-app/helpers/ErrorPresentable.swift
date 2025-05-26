@@ -41,6 +41,12 @@ extension ErrorPresentable {
             )
         case .noInternetError:
             return nil
+        case .serverError:
+            return AlertModel(
+                title: NSLocalizedString("servererror.title", comment: ""),
+                message: error.localizedDescription,
+                dismissButtonTitle: NSLocalizedString("dismissbutton.title", comment: "")
+            )
         default:
             return AlertModel(
                 title: NSLocalizedString("unexpectederror.title", comment: ""),

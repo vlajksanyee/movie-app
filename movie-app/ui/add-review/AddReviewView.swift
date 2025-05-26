@@ -32,6 +32,9 @@ struct AddReviewView: View {
                     VStack(spacing: 72.0) {
                         StarRatingView(rating: $viewModel.selectedRating)
                         StyledButton(style: .filled, action: .simple, title: "addReview.buttonTitle")
+                            .onTapGesture {
+                                viewModel.ratingButtonSubject.send(())
+                            }
                     }
                     Spacer()
                 }

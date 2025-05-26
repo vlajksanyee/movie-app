@@ -13,6 +13,7 @@ enum MovieError: Error {
     case unexpectedError
     case noInternetError
     case mappingError
+    case serverError
     
     var domain: String {
         switch self {
@@ -20,7 +21,8 @@ enum MovieError: Error {
                 .unexpectedError,
                 .clientError,
                 .noInternetError,
-                .mappingError:
+                .mappingError,
+                .serverError:
             return "MovieError"
         }
     }
@@ -40,6 +42,8 @@ extension MovieError: LocalizedError {
             return "Mapping error"
         case .noInternetError:
             return "No internet connection"
+        case .serverError:
+            return "Server error"
         }
     }
 }
@@ -56,6 +60,8 @@ extension MovieError: Equatable {
         case (.mappingError, .mappingError):
             return true
         case (.noInternetError, .noInternetError):
+            return true
+        case (.serverError, .serverError):
             return true
         default:
             return false
