@@ -18,6 +18,13 @@
 
 // SETTINGS
 "settings.title" = "Beállítások";
+"settings.chooseLanguage" = "Válassz Nyelvet";
+"settings.chooseTheme" = "Válassz Témát";
+"settings.lang.english" = "Angol";
+"settings.lang.german" = "Német";
+"settings.lang.hungarian" = "Magyar";
+"settings.theme.light" = "Világos Mód";
+"settings.theme.dark" = "Sötét Mód";
 
 // ERROR ALERTS
 "apierror.message" = "API Hiba";
