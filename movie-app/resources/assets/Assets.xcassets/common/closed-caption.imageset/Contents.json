@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "closed_caption-2.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "closed_caption.svg",
       "idiom" : "universal"
     }

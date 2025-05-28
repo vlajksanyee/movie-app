@@ -25,13 +25,13 @@ struct AddReviewView: View {
                 LoadImageView(url: viewModel.mediaItemDetail.imageUrl)
                     .frame(height: 180)
                     .cornerRadius(30)
-                Text(LocalizedStringKey("addReview.subTitle"))
+                Text(LocalizedStringKey("addReview.subTitle".localized()))
                     .font(Fonts.detailsTitle)
                 HStack {
                     Spacer()
                     VStack(spacing: 72.0) {
                         StarRatingView(rating: $viewModel.selectedRating)
-                        StyledButton(style: .filled, action: .simple, title: "addReview.buttonTitle")
+                        StyledButton(style: .filled, action: .simple, title: "addReview.buttonTitle".localized())
                             .onTapGesture {
                                 viewModel.ratingButtonSubject.send(())
                             }

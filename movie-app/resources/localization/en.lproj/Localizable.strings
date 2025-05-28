@@ -18,6 +18,13 @@
 
 // SETTINGS
 "settings.title" = "Settings";
+"settings.chooseLanguage" = "Choose Language";
+"settings.chooseTheme" = "Choose Theme";
+"settings.lang.english" = "English";
+"settings.lang.russian" = "Russian";
+"settings.lang.hungarian" = "Hungarian";
+"settings.theme.light" = "Light Mode";
+"settings.theme.dark" = "Dark Mode";
 
 // ERROR ALERTS
 "apierror.message" = "API Error";
@@ -46,4 +53,3 @@
 // REVIEW
 "addReview.subTitle" = "Give it an honest review";
 "addReview.buttonTitle" = "Send my review";
-

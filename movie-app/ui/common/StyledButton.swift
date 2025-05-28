@@ -28,6 +28,7 @@ struct StyledButton: View {
             .foregroundColor(style == .outlined ? .primary : .main)
             .padding(.horizontal, 20.0)
             .padding(.vertical, LayoutConst.normalPadding)
+            .frame(maxWidth: .infinity)
             .background(backgroundView)
             .clipShape(Capsule())
             .overlay(

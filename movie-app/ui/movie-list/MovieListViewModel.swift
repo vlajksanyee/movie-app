@@ -22,7 +22,7 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
     var cancellables = Set<AnyCancellable>()
     
     @Inject
-    private var service: ReactiveMoviesServiceProtocol
+    private var service: MovieRepository
     
     init() {
         

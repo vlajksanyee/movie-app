@@ -1,0 +1,54 @@
+/*
+  Localizable.strings (ru)
+  movie-app
+
+  Translated by ChatGPT
+*/
+
+"genreSection.title" = "Кино приложение";
+
+// SEARCH
+"search.empty" = "Начните вводить для поиска";
+"search.textfield.placeholder" = "Фильмы, Режиссер, Актер, Актриса и т.д.";
+
+// FAVORITES
+"favorites.title" = "Избранное";
+"favorites.empty" = "Пока нет избранного";
+
+// SETTINGS
+"settings.title" = "Настройки";
+"settings.chooseLanguage" = "Выберите язык";
+"settings.chooseTheme" = "Выберите тему";
+"settings.lang.english" = "Английский";
+"settings.lang.russian" = "Русский";
+"settings.lang.hungarian" = "Венгерский";
+"settings.theme.light" = "Светлая тема";
+"settings.theme.dark" = "Темная тема";
+
+// ERROR ALERTS
+"apierror.message" = "Ошибка API";
+"unexpectederror.title" = "Неожиданная ошибка";
+"unexpectederror.message" = "Что-то пошло не так. Пожалуйста, попробуйте позже.";
+"dismissbutton.title" = "Закрыть";
+"clienterror.title" = "Ошибка клиента";
+"mappingerror.title" = "Ошибка сопоставления";
+"mappingerror.message" = "Ошибка сопоставления";
+
+// DETAILS
+"details.available" = "Доступно";
+"details.unavailable" = "Недоступно";
+"details.label.release" = "Дата выхода";
+"details.label.runtime" = "Продолжительность";
+"details.label.languages" = "Языки";
+"details.button.rate" = "Оценить фильм";
+"details.button.imdb" = "Посетить на IMDB";
+"details.overview" = "Синопсис";
+"details.publishers" = "Издатели";
+"details.cast" = "Актерский состав";
+
+// NO INTERNET
+"noInternet" = "Нет подключения к интернету";
+
+// REVIEW
+"addReview.subTitle" = "Дайте честную оценку";
+"addReview.buttonTitle" = "Отправить отзыв";

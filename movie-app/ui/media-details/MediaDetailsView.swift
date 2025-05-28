@@ -48,27 +48,28 @@ struct MediaDetailsView: View {
                     //MARK: BUTTONS
                     HStack(spacing: LayoutConst.largePadding) {
                         NavigationLink(destination: AddReviewView(mediaItemDetail: viewModel.media)) {
-                            StyledButton(style: .outlined, action: .simple, title: "details.button.rate")
+                            StyledButton(style: .outlined, action: .simple, title: "details.button.rate".localized())
                         }
-                        Spacer()
-                        StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb")
+                        StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb".localized())
                     }
                     .padding(.vertical, LayoutConst.normalPadding)
                     
                     //MARK: SYNOPSIS
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(LocalizedStringKey("details.overview"))
+                        Text(LocalizedStringKey("details.overview".localized()))
                             .font(Fonts.overviewText)
                         Text(viewModel.media.overview)
                             .font(Fonts.paragraph)
                             .lineLimit(nil)
                     }
+                    .padding(.bottom, LayoutConst.normalPadding)
                     
                     //MARK: PUBLISHERS
-                    ParticipantScrollView(title: "details.publishers", participants: viewModel.media.productionCompanies)
+                    ParticipantScrollView(title: "details.publishers".localized(), participants: viewModel.media.productionCompanies)
+                        .padding(.bottom, LayoutConst.normalPadding)
                     
                     //MARK: CAST
-                    ParticipantScrollView(title: "details.cast", participants: viewModel.credits)
+                    ParticipantScrollView(title: "details.cast".localized(), participants: viewModel.credits)
                 }
                 .padding(.vertical, LayoutConst.normalPadding)
             }

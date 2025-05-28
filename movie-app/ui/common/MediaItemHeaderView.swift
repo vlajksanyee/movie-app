@@ -15,16 +15,16 @@ struct MediaItemHeaderView: View {
     let spokenLanguages: String
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text(title)
                 .font(Fonts.detailsTitle)
                 .padding(.vertical, LayoutConst.normalPadding)
             
             //MARK: RELEASE DATE, RUNTIME, LANGUAGE
             HStack(spacing: LayoutConst.normalPadding) {
-                DetailsLabel(title: "details.label.release", desc: year)
-                DetailsLabel(title: "details.label.runtime", desc: "\(runtime)")
-                DetailsLabel(title: "details.label.languages", desc: spokenLanguages)
+                DetailsLabel(title: "details.label.release".localized(), desc: year)
+                DetailsLabel(title: "details.label.runtime".localized(), desc: "\(runtime)")
+                DetailsLabel(title: "details.label.languages".localized(), desc: spokenLanguages)
             }
         }
     }
