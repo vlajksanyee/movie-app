@@ -22,7 +22,7 @@ class FavoritesViewModel: FavoritesViewModelProtocol, ErrorPresentable {
     let viewLoaded = PassthroughSubject<Void, Never>()
     
     @Inject
-    private var service: ReactiveMoviesServiceProtocol
+    private var repository: MovieRepository
     
     @Inject
     private var mediaItemStore: MediaItemStoreProtocol
@@ -34,7 +34,7 @@ class FavoritesViewModel: FavoritesViewModelProtocol, ErrorPresentable {
                 guard let self else {
                     preconditionFailure("There is no self")
                 }
-                return self.service.fetchFavoriteMovies(req: FetchFavoriteMoviesRequest(), fromLocal: false)
+                return self.repository.fetchFavoriteMovies(req: FetchFavoriteMoviesRequest(), fromLocal: false)
             }
             .receive(on: RunLoop.main)
             .sink { completion in
