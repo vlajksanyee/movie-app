@@ -22,9 +22,9 @@ struct MediaItemHeaderView: View {
             
             //MARK: RELEASE DATE, RUNTIME, LANGUAGE
             HStack(spacing: LayoutConst.normalPadding) {
-                DetailsLabel(title: "details.label.release", desc: year)
-                DetailsLabel(title: "details.label.runtime", desc: "\(runtime)")
-                DetailsLabel(title: "details.label.languages", desc: spokenLanguages)
+                DetailsLabel(title: "details.label.release".localized(), desc: year)
+                DetailsLabel(title: "details.label.runtime".localized(), desc: "\(runtime)")
+                DetailsLabel(title: "details.label.languages".localized(), desc: spokenLanguages)
             }
         }
     }

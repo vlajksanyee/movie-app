@@ -9,58 +9,48 @@ import SwiftUI
 import InjectPropertyWrapper
 
 struct SettingsView: View {
-    @StateObject private var viewModel = SettingsViewModel()
-    @State private var selectedLanguage: String = "en"
-    @State private var selectedTheme: String = "dark"
-    
+    @StateObject private var viewModel = SettingsViewModelImpl()
+        
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack(alignment: .leading) {
-                Text("settings.chooseLanguage")
+                Text("settings.chooseLanguage".localized())
                     .font(Fonts.subheading)
                     .padding(.bottom, LayoutConst.maxPadding)
                 HStack(spacing: 12) {
-                    StyledButton(style: selectedLanguage == "en" ? .filled : .outlined, action: .simple, title: "settings.lang.english")
+                    StyledButton(style: viewModel.selectedLanguage == "en" ? .filled : .outlined, action: .simple, title: "settings.lang.english".localized())
                         .font(Fonts.detailsButton)
-                        .lineLimit(1)
-                        .fixedSize()
                         .onTapGesture {
-                            selectedLanguage = "en"
+                            viewModel.changeSelectedLanguage("en")
                         }
-                    StyledButton(style: selectedLanguage == "de" ? .filled : .outlined, action: .simple, title: "settings.lang.german")
+                    StyledButton(style: viewModel.selectedLanguage == "ru" ? .filled : .outlined, action: .simple, title: "settings.lang.russian".localized())
                         .font(Fonts.detailsButton)
-                        .lineLimit(1)
-                        .fixedSize()
                         .onTapGesture {
-                            selectedLanguage = "de"
+                            viewModel.changeSelectedLanguage("ru")
                         }
-                    StyledButton(style: selectedLanguage == "hu" ? .filled : .outlined, action: .simple, title: "settings.lang.hungarian")
+                    StyledButton(style: viewModel.selectedLanguage == "hu" ? .filled : .outlined, action: .simple, title: "settings.lang.hungarian".localized())
                         .font(Fonts.detailsButton)
-                        .lineLimit(1)
-                        .fixedSize()
                         .onTapGesture {
-                            selectedLanguage = "hu"
+                            viewModel.changeSelectedLanguage("hu")
                         }
                 }
                 .padding(.bottom, 43)
                 
-                Text("settings.chooseTheme")
+                Text("settings.chooseTheme".localized())
                     .font(Fonts.subheading)
                     .padding(.bottom, LayoutConst.maxPadding)
                 HStack(spacing: 12) {
-                    StyledButton(style: selectedTheme == "light" ? .filled : .outlined, action: .simple, title: "settings.theme.light")
+                    StyledButton(style: viewModel.selectedTheme == .light ? .filled : .outlined, action: .simple, title: "settings.theme.light".localized())
                         .font(Fonts.detailsButton)
                         .lineLimit(1)
-                        .frame(maxWidth: .infinity)
                         .onTapGesture {
-                            selectedTheme = "light"
+                            viewModel.changeTheme(AppColorScheme.light)
                         }
-                    StyledButton(style: selectedTheme == "dark" ? .filled : .outlined, action: .simple, title: "settings.theme.dark")
+                    StyledButton(style: viewModel.selectedTheme == .dark ? .filled : .outlined, action: .simple, title: "settings.theme.dark".localized())
                         .font(Fonts.detailsButton)
                         .lineLimit(1)
-                        .frame(maxWidth: .infinity)
                         .onTapGesture {
-                            selectedTheme = "dark"
+                            viewModel.changeTheme(AppColorScheme.dark)
                         }
                 }
                 .padding(.bottom, 43)
@@ -75,7 +65,7 @@ struct SettingsView: View {
                 .padding(.bottom, 66)
             }
             .padding(LayoutConst.maxPadding)
-            .navigationTitle("settings.title")
+            .navigationTitle("settings.title".localized())
             .frame(maxHeight: .infinity, alignment: .top)
         }
     }

@@ -33,7 +33,7 @@ struct MovieLabel: View {
             text = "\(popularity)"
             imageRes = .person
         case .adult(let adult):
-            text = adult ? "details.available" : "details.unavailable"
+            text = adult ? "details.available".localized() : "details.unavailable".localized()
             imageRes = .closedCaption
         }
         
@@ -43,7 +43,7 @@ struct MovieLabel: View {
                 .font(Fonts.labelBold)
         }
         .padding(6.0)
-        .background(Color.main.opacity(0.5))
+        .background(.label)
         .cornerRadius(12)
     }
 }

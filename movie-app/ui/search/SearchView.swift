@@ -22,7 +22,7 @@ struct SearchView: View {
                     
                     TextField("",
                               text: $viewModel.searchText,
-                              prompt: Text("search.textfield.placeholder")
+                              prompt: Text("search.textfield.placeholder".localized())
                         .foregroundStyle(.invertedMain))
                     .textFieldStyle(PlainTextFieldStyle())
                     .font(Fonts.caption)
@@ -45,7 +45,7 @@ struct SearchView: View {
                     // Üres állapot
                     VStack {
                         Spacer()
-                        Text("search.empty")
+                        Text("search.empty".localized())
                             .multilineTextAlignment(.center)
                             .font(Fonts.emptyStateText)
                             .foregroundColor(.invertedMain)

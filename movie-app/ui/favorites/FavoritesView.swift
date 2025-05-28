@@ -16,11 +16,11 @@ struct FavoritesView: View {
             if viewModel.mediaItems.isEmpty {
                 VStack {
                     Spacer()
-                    Text("favorites.empty")
+                    Text("favorites.empty".localized())
                         .multilineTextAlignment(.center)
                         .font(Fonts.emptyStateText)
                         .foregroundColor(.invertedMain)
-                        .navigationTitle("favorites.title")
+                        .navigationTitle("favorites.title".localized())
                     Spacer()
                 }
             } else {
@@ -37,7 +37,7 @@ struct FavoritesView: View {
                     .padding(.horizontal, LayoutConst.normalPadding)
                     .padding(.top, LayoutConst.normalPadding)
                 }
-                .navigationTitle("favorites.title")
+                .navigationTitle("favorites.title".localized())
             }
         }
         .showAlert(model: $viewModel.alertModel)
