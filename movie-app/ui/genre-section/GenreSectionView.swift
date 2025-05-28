@@ -10,7 +10,7 @@ import InjectPropertyWrapper
 
 struct GenreSectionView: View {
     
-    @StateObject private var viewModel = GenreSectionViewModel()
+    @StateObject private var viewModel = GenreSectionViewModelImpl()
     
     var body: some View {
         NavigationView {
@@ -27,10 +27,14 @@ struct GenreSectionView: View {
                 .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
-            .navigationTitle(Environments.name == .tv ? "TV" : "genreSection.title")
+            .navigationTitle(Environments.name == .tv ? "TV" : "genreSection.title".localized())
             .accessibilityLabel("testCollectionView")
         }
         .showAlert(model: $viewModel.alertModel)
+        .onAppear {
+            viewModel.loadGenres()
+            viewModel.genresAppeared()
+        }
     }
 }
 
