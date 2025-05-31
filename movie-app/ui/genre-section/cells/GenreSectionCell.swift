@@ -14,6 +14,7 @@ struct GenreSectionCell: View {
     
     @State var isExpanded: Bool = false
     
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -22,9 +23,11 @@ struct GenreSectionCell: View {
                     .foregroundStyle(.primary)
                     .accessibilityLabel(genre.name)
                 Spacer()
-                Image(.rightArrow)
+                RotatingArrow(isExpanded: isExpanded)
                     .onTapGesture {
-                        isExpanded = !isExpanded
+                        withAnimation {
+                            isExpanded.toggle()
+                        }
                     }
             }
             .onAppear {
