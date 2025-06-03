@@ -22,7 +22,14 @@ struct GenreSectionView: View {
                         }
                         .opacity(0)
                         
-                        GenreSectionCell(genre: genre)
+                        let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
+                        MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
+                            .onAppear {
+                                if viewModel.mediaItemsByGenre[genre.id] == nil {
+                                    viewModel.loadMediaItems(genreId: genre.id)
+                                }
+                            }
+//                        GenreSectionCell(genre: genre)
                     }
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)

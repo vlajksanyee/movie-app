@@ -13,6 +13,6 @@ struct RotatingArrow: View {
     var body: some View {
         Image(.rightArrow)
             .rotationEffect(.degrees(isExpanded ? 90 : 0))
-            .animation(.spring(response: 0.8), value: isExpanded)
+            .animation(.linear(duration: 0.5), value: isExpanded)
     }
 }

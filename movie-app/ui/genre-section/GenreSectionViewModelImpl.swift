@@ -22,6 +22,7 @@ protocol GenreSectionViewModel: ObservableObject {
 class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
     @Published var genres: [Genre] = []
     @Published var alertModel: AlertModel? = nil
+    @Published var mediaItemsByGenre: [Int: [MediaItem]] = [:]
     
     var cancellables = Set<AnyCancellable>()
     
@@ -30,6 +31,8 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
     
     @Inject
     private var mediaItemStore: MediaItemStoreProtocol
+    
+    
     
     init() {
         useCase.showAppearPopup
@@ -57,8 +60,28 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
             .store(in: &cancellables)
     }
     
+    func loadMediaItems(genreId: Int) {
+        useCase.loadMediaItems(genreId: genreId)
+            .delay(for: .seconds(3), scheduler: RunLoop.main)
+            .map({ mediaItems in
+                Array(mediaItems.prefix(5))
+            })
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    self.alertModel = self.toAlertModel(error)
+                }
+            } receiveValue: { mediaItems in
+                self.mediaItemsByGenre[genreId] = mediaItems
+            }
+            .store(in: &cancellables)
+    }
+    
     func genresAppeared() {
         useCase.genresAppeared()
+    }
+    
+    func getMediaItemsByGenre(_ genreId: Int) -> [MediaItem] {
+        return self.mediaItemsByGenre[genreId] ?? [MediaItem(id: -1), MediaItem(id: -6), MediaItem(id: -9999)]
     }
     
 }

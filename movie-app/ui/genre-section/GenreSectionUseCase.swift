@@ -12,6 +12,7 @@ protocol GenreSectionUseCase {
     var showAppearPopup: AnyPublisher<Bool, Never> { get }
     func loadGenres() -> AnyPublisher<[Genre], MovieError>
     func genresAppeared()
+    func loadMediaItems(genreId: Int) -> AnyPublisher<[MediaItem], MovieError>
 }
 
 class GenreSectionUseCaseImpl: GenreSectionUseCase {
@@ -47,5 +48,12 @@ class GenreSectionUseCaseImpl: GenreSectionUseCase {
     func genresAppeared() {
         appearCounter += 1
         appearSubject.send(appearCounter)
+    }
+    
+    func loadMediaItems(genreId: Int) -> AnyPublisher<[MediaItem], MovieError> {
+        let request = FetchMediaListRequest(genreId: genreId, includeAdult: true)
+        return Environments.name == .tv ?
+        self.repository.fetchTV(req: request) :
+        self.repository.fetchMovies(req: request)
     }
 }
