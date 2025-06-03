@@ -14,7 +14,7 @@ import Alamofire
 protocol MovieRepository {
     func fetchGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError>
     func fetchTVGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError>
-    func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<[MediaItem], MovieError>
+    func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError>
     func fetchTV(req: FetchMediaListRequest) -> AnyPublisher<[MediaItem], MovieError>
     func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
     func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError>
@@ -70,11 +70,11 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<[MediaItem], MovieError> {
+    func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError> {
         requestAndTransform(
             target: MultiTarget(MoviesApi.fetchMovies(req: req)),
             decodeTo: MoviePageResponse.self,
-            transform: { $0.results.map(MediaItem.init(dto:)) }
+            transform: { MediaItemPage(dto: $0) }
         )
     }
     
