@@ -13,15 +13,15 @@ protocol SettingsViewModel: ObservableObject {
 
 class SettingsViewModelImpl: SettingsViewModel {
     @Published var selectedLanguage: String = Bundle.getLangCode()
+    @Published var selectedTheme: AppColorScheme {
+        didSet {
+            UserDefaults.standard.set(selectedTheme.rawValue, forKey: "color-scheme")
+        }
+    }
     
-    var selectedTheme: AppColorScheme {
-        get {
-            let raw = UserDefaults.standard.string(forKey: "color-scheme") ?? "light"
-            return AppColorScheme(rawValue: raw) ?? .light
-        }
-        set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: "color-scheme")
-        }
+    init() {
+        let storedTheme = UserDefaults.standard.string(forKey: "color-scheme")
+        self.selectedTheme = AppColorScheme(rawValue: storedTheme ?? "") ?? .light
     }
     
     func changeSelectedLanguage(_ language: String) {

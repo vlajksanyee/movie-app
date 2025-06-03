@@ -8,7 +8,7 @@
 import Foundation
 
 struct MediaItem: Identifiable, Equatable {
-    let id: Int
+    var id: Int
     let title: String
     let year: String
     let duration: String
@@ -16,8 +16,8 @@ struct MediaItem: Identifiable, Equatable {
     let rating: Double
     let voteCount: Int
     
-    init() {
-        self.id = 0
+    init(id: Int = -1) {
+        self.id = id
         self.title = ""
         self.year = ""
         self.duration = ""

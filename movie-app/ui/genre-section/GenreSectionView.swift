@@ -15,16 +15,25 @@ struct GenreSectionView: View {
     var body: some View {
         NavigationView {
             List(viewModel.genres) { genre in
-                ZStack {
-                    NavigationLink(destination: MovieListView(genre: genre)) {
-                        EmptyView()
+                VStack(alignment: .leading) {
+                    ZStack {
+                        NavigationLink(destination: MovieListView(genre: genre)) {
+                            EmptyView()
+                        }
+                        .opacity(0)
+                        
+                        let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
+                        MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
+                            .onAppear {
+                                if viewModel.mediaItemsByGenre[genre.id] == nil {
+                                    viewModel.loadMediaItems(genreId: genre.id)
+                                }
+                            }
+//                        GenreSectionCell(genre: genre)
                     }
-                    .opacity(0)
-                    
-                    GenreSectionCell(genre: genre)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
             .navigationTitle(Environments.name == .tv ? "TV" : "genreSection.title".localized())
