@@ -14,25 +14,31 @@ struct GenreSectionView: View {
     
     var body: some View {
         NavigationView {
-            List(viewModel.genres) { genre in
-                VStack(alignment: .leading) {
-                    ZStack {
-                        NavigationLink(destination: MovieListView(genre: genre)) {
-                            EmptyView()
-                        }
-                        .opacity(0)
-                        
-                        let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
-                        MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
-                            .onAppear {
-                                if viewModel.mediaItemsByGenre[genre.id] == nil {
-                                    viewModel.loadMediaItems(genreId: genre.id)
-                                }
+            List {
+                if let motd = viewModel.motdMovie {
+                    GenreMotdCell(mediaItem: motd)
+                        .background(Color.clear)
+                        .listStyle(.plain)
+                }
+                ForEach(viewModel.genres) { genre in
+                    VStack(alignment: .leading) {
+                        ZStack {
+                            NavigationLink(destination: MovieListView(genre: genre)) {
+                                EmptyView()
                             }
-//                        GenreSectionCell(genre: genre)
+                            .opacity(0)
+                            
+                            let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
+                            MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
+                                .onAppear {
+                                    if viewModel.mediaItemsByGenre[genre.id] == nil {
+                                        viewModel.loadMediaItems(genreId: genre.id)
+                                    }
+                                }
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.plain)

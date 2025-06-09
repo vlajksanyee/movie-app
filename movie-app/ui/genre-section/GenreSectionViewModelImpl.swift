@@ -23,6 +23,7 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
     @Published var genres: [Genre] = []
     @Published var alertModel: AlertModel? = nil
     @Published var mediaItemsByGenre: [Int: [MediaItem]] = [:]
+    @Published var motdMovie: MediaItemDetail?
     
     var cancellables = Set<AnyCancellable>()
     
@@ -62,7 +63,7 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
     
     func loadMediaItems(genreId: Int) {
         useCase.loadMediaItems(genreId: genreId)
-            .delay(for: .seconds(3), scheduler: RunLoop.main)
+//            .delay(for: .seconds(3), scheduler: RunLoop.main)
             .map({ mediaItemPage in
                 Array(mediaItemPage.mediaItems.prefix(5))
             })
@@ -72,6 +73,22 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
                 }
             } receiveValue: { mediaItems in
                 self.mediaItemsByGenre[genreId] = mediaItems
+                
+                if self.motdMovie == nil, let randomMovie = mediaItems.randomElement() {
+                    self.loadMotdMovie(movie: randomMovie)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    func loadMotdMovie(movie: MediaItem) {
+        useCase.loadMotdMovie(movie: movie)
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    self.alertModel = self.toAlertModel(error)
+                }
+            } receiveValue: { motdMovie in
+                self.motdMovie = motdMovie
             }
             .store(in: &cancellables)
     }
