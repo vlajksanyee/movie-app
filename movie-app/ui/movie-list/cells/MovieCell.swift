@@ -27,17 +27,23 @@ struct MovieCell: View {
                 .padding(LayoutConst.smallPadding)
             }
 
-            Text(movie.title)
-                .font(Fonts.subheading)
-                .lineLimit(2)
-
-            Text("\(movie.year)")
-                .font(Fonts.paragraph)
-
-            Text("\(movie.duration)")
-                .font(Fonts.caption)
-
-            Spacer()
+            HStack {
+                VStack(alignment: .leading, spacing: LayoutConst.smallPadding) {
+                    Text(movie.title)
+                        .font(Fonts.subheading)
+                        .lineLimit(2)
+                    
+                    Text("\(movie.year)")
+                        .font(Fonts.paragraph)
+                    
+                    Text("\(movie.duration)")
+                        .font(Fonts.caption)
+                }
+                
+                Spacer()
+                
+                Image(.playButton)
+            }
         }
     }
 }
