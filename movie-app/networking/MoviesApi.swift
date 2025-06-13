@@ -20,6 +20,7 @@ enum MoviesApi {
     case fetchCredits(req: FetchCreditsRequest)
     case fetchExternalIds(req: FetchExternalIdsRequest)
     case addReview(req: AddReviewRequest)
+    case fetchPersonDetails(personId: Int)
 }
 
 extension MoviesApi: TargetType {
@@ -57,6 +58,8 @@ extension MoviesApi: TargetType {
             return "/movie/\(req.mediaId)/external_ids"
         case .addReview(let req):
             return "/movie/\(req.mediaId)/rating"
+        case .fetchPersonDetails(let personId):
+            return "/person/\(personId)"
         }
     }
     
@@ -66,6 +69,8 @@ extension MoviesApi: TargetType {
             return .get
         case .editFavoriteMovie, .addReview:
             return .post
+        case .fetchPersonDetails:
+            return .get
         }
     }
     
@@ -97,6 +102,8 @@ extension MoviesApi: TargetType {
         case let .addReview(req):
             let request = AddReviewBodyRequest(mediaId: req.mediaId, value: req.value)
             return .requestJSONEncodable(request)
+        case .fetchPersonDetails:
+            return .requestPlain
         }
     }
     
@@ -133,6 +140,8 @@ extension MoviesApi: TargetType {
                 "Authorization": req.accessToken,
                 "accept": "application.json"
             ]
+        case .fetchPersonDetails:
+            return ["Authorization": Config.bearerToken]
         }
     }
 }

@@ -23,6 +23,7 @@ protocol MovieRepository {
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
     func fetchExternalIds(req: FetchExternalIdsRequest) -> AnyPublisher<ExternalIds, MovieError>
     func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
+    func fetchPersonDetails(personId: Int) -> AnyPublisher<CastMember, MovieError>
 }
 
 class MovieRepositoryImpl: MovieRepository {
@@ -188,6 +189,14 @@ class MovieRepositoryImpl: MovieRepository {
             transform: { response in
                 ModifyMediaResult(dto: response)
             }
+        )
+    }
+    
+    func fetchPersonDetails(personId: Int) -> AnyPublisher<CastMember, MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchPersonDetails(personId: personId)),
+            decodeTo: PersonDetailsResponse.self,
+            transform: { CastMember(person: $0) }
         )
     }
     

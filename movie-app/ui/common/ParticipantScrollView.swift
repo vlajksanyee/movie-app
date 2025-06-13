@@ -17,6 +17,7 @@ struct ParticipantScrollView: View {
     
     let title: String
     let participants: [ParticipantItemProtocol]
+    var onTapParticipant: ((ParticipantItemProtocol) -> Void)? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12.0) {
@@ -27,6 +28,9 @@ struct ParticipantScrollView: View {
                     ForEach(participants, id: \.id) { participant in
                         ParticipantCell(imageUrl: participant.imageUrl, title: participant.name)
                             .offset(CGSize(width: LayoutConst.maxPadding, height: 0))
+                            .onTapGesture {
+                                onTapParticipant?(participant)
+                            }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
