@@ -5,21 +5,21 @@
 //  Created by Sandor Vlajk on 2025. 05. 08..
 //
 
-import Combine
 import Foundation
 import InjectPropertyWrapper
+import Combine
 
 protocol MediaDetailsViewModelProtocol: ObservableObject {
-    var media: MediaItemDetail { get }
 }
 
 class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
-    @Published var media: MediaItemDetail = MediaItemDetail()
+    @Published var mediaItemDetail: MediaItemDetail = MediaItemDetail()
     @Published var credits: [CastMember] = []
-    @Published var alertModel: AlertModel? = nil
     @Published var isFavorite: Bool = false
+    @Published var reviews: [MediaReview] = []
+    @Published var alertModel: AlertModel? = nil
     
-    let mediaIdSubject = PassthroughSubject<Int, Never>()
+    let mediaItemIdSubject = PassthroughSubject<Int, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
     
     @Inject
@@ -28,39 +28,52 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Inject
     private var mediaItemStore: MediaItemStoreProtocol
     
-    var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
-        let details = mediaIdSubject
-            .flatMap { [weak self] mediaId -> AnyPublisher<MediaItemDetail, MovieError> in
+        
+        let mediaItemIdSubject = mediaItemIdSubject.share()
+        
+        let details = mediaItemIdSubject
+            .flatMap { [weak self]mediaItemId in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchDetailsRequest(mediaId: mediaId)
+                let request = FetchDetailsRequest(mediaId: mediaItemId)
                 return self.repository.fetchDetails(req: request)
             }
         
-        let credits = mediaIdSubject
-            .flatMap { [weak self] mediaId in
+        let credits = mediaItemIdSubject
+            .flatMap { [weak self]mediaItemId in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchCreditsRequest(mediaId: mediaId)
+                let request = FetchMediaCreditsRequest(mediaId: mediaItemId)
                 return self.repository.fetchCredits(req: request)
             }
         
-        Publishers.CombineLatest(details, credits)
+        let reviews = mediaItemIdSubject
+            .flatMap { [weak self]mediaItemId in
+                guard let self = self else {
+                    preconditionFailure("There is no self")
+                }
+                let request = FetchMediaReviewsRequest(mediaId: mediaItemId)
+                return self.repository.fetchMovieReviews(req: request)
+            }
+        
+        Publishers.CombineLatest3(details, credits, reviews)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self] details, credits in
+            } receiveValue: { [weak self] details, credits, reviews in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                self.media = details
+                self.mediaItemDetail = details
                 self.credits = credits
+                self.reviews = reviews.prefix(4).map { $0 }
                 self.isFavorite = self.mediaItemStore.isMediaItemStored(withId: details.id)
             }
             .store(in: &cancellables)
@@ -71,8 +84,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let isFavorite = !self.isFavorite
-                let request = EditFavoriteRequest(movieId: self.media.id, isFavorite: isFavorite)
-                return repository.editFavoriteMovie(req: request).map { result in
+                let request = EditFavoriteRequest(movieId: self.mediaItemDetail.id, isFavorite: isFavorite)
+                return repository.editFavoriteMovie(req: request)
+                    .map { result in
                     (result, isFavorite)
                 }
                 .eraseToAnyPublisher()
@@ -88,12 +102,13 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 if result.success {
                     self.isFavorite = isFavorite
                     if isFavorite {
-                        self.mediaItemStore.saveMediaItems([self.media.asMediaItem()])
+                        self.mediaItemStore.saveMediaItems([MediaItem(detail: self.mediaItemDetail)])
                     } else {
-                        self.mediaItemStore.deleteMediaItem(withId: self.media.id)
+                        self.mediaItemStore.deleteMediaItem(withId: self.mediaItemDetail.id)
                     }
                 }
             }
             .store(in: &cancellables)
     }
+    
 }

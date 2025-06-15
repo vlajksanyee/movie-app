@@ -22,10 +22,7 @@ struct CastMember: Identifiable {
     init(dto: CastMemberResponse) {
         self.id = dto.id
         self.name = dto.name
-        self.castImageURL = dto.profilePath.flatMap {
-            URL(string:
-            "https://image.tmdb.org/t/p/w500\($0)")
-        }
+        self.castImageURL = dto.profilePath.flatMap { URL(string: "https://image.tmdb.org/t/p/w185\($0)") }
     }
     
     init() {
@@ -34,7 +31,7 @@ struct CastMember: Identifiable {
         castImageURL = nil
     }
     
-    init(id: Int, name: String, castImageURL: URL? = nil) {
+    init (id: Int, name: String, castImageURL: URL? = nil) {
         self.id = id
         self.name = name
         self.castImageURL = castImageURL
@@ -42,5 +39,7 @@ struct CastMember: Identifiable {
 }
 
 extension CastMember: ParticipantItemProtocol {
-    var imageUrl: URL? { castImageURL }
+    var imageUrl: URL? {
+        castImageURL
+    }
 }

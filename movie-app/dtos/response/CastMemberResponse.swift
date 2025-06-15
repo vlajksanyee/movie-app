@@ -2,10 +2,8 @@
 //  CastMemberResponse.swift
 //  movie-app
 //
-//  Created by Sandor Vlajk on 2025. 05. 13..
+//  Created by Sandor Vlajk on 2025. 06. 14..
 //
-
-import Foundation
 
 struct CastMemberResponse: Codable, Identifiable {
     let id: Int

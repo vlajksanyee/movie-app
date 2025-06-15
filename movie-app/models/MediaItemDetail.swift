@@ -23,23 +23,6 @@ struct MediaItemDetail: Identifiable {
     let imdbUrl: URL?
     let productionCompanies: [ProductionCompany]
     
-    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, imdbUrl: URL?, productionCompanies: [ProductionCompany]) {
-        self.id = id
-        self.title = title
-        self.year = year
-        self.runtime = runtime
-        self.imageUrl = imageUrl
-        self.rating = rating
-        self.voteCount = voteCount
-        self.overview = overview
-        self.popularity = popularity
-        self.adult = adult
-        self.genres = genres
-        self.spokenLanguages = spokenLanguages
-        self.imdbUrl = imdbUrl
-        self.productionCompanies = productionCompanies
-    }
-    
     init() {
         self.id = 0
         self.title = ""
@@ -57,7 +40,24 @@ struct MediaItemDetail: Identifiable {
         self.productionCompanies = []
     }
     
-    init(dto: DetailsResponse) {
+    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, imdbUrl: URL?, productionCompanies: [ProductionCompany]) {
+        self.id = id
+        self.title = title
+        self.year = year
+        self.runtime = runtime
+        self.imageUrl = imageUrl
+        self.rating = rating
+        self.voteCount = voteCount
+        self.overview = overview
+        self.popularity = popularity
+        self.adult = adult
+        self.genres = genres
+        self.spokenLanguages = spokenLanguages
+        self.imdbUrl = imdbUrl
+        self.productionCompanies = productionCompanies
+    }
+    
+    init(dto: MovieDetailResponse) {
         let releaseDate: String? = dto.releaseDate
         let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)

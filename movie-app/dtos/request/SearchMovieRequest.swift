@@ -10,6 +10,8 @@ struct SearchMovieRequest {
     let query: String
     
     func asRequestParams() -> [String: Any] {
-        return ["query": query]
+        return [
+            "query": query
+        ]
     }
 }

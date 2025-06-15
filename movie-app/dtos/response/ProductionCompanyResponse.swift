@@ -7,14 +7,14 @@
 
 struct ProductionCompanyResponse: Decodable {
     let id: Int
-    let name: String
     let logoPath: String?
+    let name: String
     let originCountry: String
 
     enum CodingKeys: String, CodingKey {
-        case name
-        case id
         case logoPath = "logo_path"
         case originCountry = "origin_country"
+        case name
+        case id
     }
 }

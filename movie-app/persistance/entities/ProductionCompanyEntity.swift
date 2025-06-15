@@ -11,7 +11,7 @@ class ProductionCompanyEntity: Object {
     @Persisted var id: Int
     @Persisted var logoPath: String?
     @Persisted var name: String
-    @Persisted var originCountry: String
+    @Persisted var originCountry: String?
 
     convenience init(from model: ProductionCompany) {
         self.init()
@@ -22,6 +22,6 @@ class ProductionCompanyEntity: Object {
     }
 
     var toDomain: ProductionCompany {
-        ProductionCompany(id: id, name: name, logoPath: logoPath ?? "", originCountry: originCountry)
+        ProductionCompany(id: id, name: name, logoPath: logoPath ?? "", originCountry: originCountry ?? "")
     }
 }

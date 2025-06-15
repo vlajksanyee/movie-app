@@ -1,13 +1,13 @@
 //
-//  FetchCreditsRequest.swift
+//  FetchCastMemberDetailRequest.swift
 //  movie-app
 //
-//  Created by Sandor Vlajk on 2025. 05. 13..
+//  Created by Sandor Vlajk on 2025. 06. 15..
 //
 
-struct FetchCreditsRequest{
+struct FetchCastMemberDetailRequest {
     let accessToken: String = Config.bearerToken
-    let mediaId: Int
+    let castMemberId: Int
     
     func asRequestParams() -> [String: Any]{
         return [:]

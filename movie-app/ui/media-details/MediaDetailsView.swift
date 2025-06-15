@@ -9,71 +9,66 @@ import SwiftUI
 
 struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
-    var media: MediaItem
-    
+    let mediaItem: MediaItem
     @Environment(\.dismiss) private var dismiss: DismissAction
     
-    @State private var showSafari = false
-    
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                LoadImageView(url: viewModel.media.imageUrl)
+        var mediaItemDetail: MediaItemDetail {
+            viewModel.mediaItemDetail
+        }
+        
+        var credits: [CastMember] {
+            viewModel.credits
+        }
+        
+        return ScrollView {
+            VStack(alignment: .leading, spacing: LayoutConst.largePadding) {
+                LoadImageView(url: mediaItemDetail.imageUrl)
                     .frame(height: 180)
                     .frame(maxWidth: .infinity)
                     .cornerRadius(30)
                 
-                VStack(alignment: .leading) {
-                    HStack(spacing: 12) {
-                        MovieLabel(type: .rating(viewModel.media.rating))
-                        MovieLabel(type: .voteCount(viewModel.media.voteCount))
-                        MovieLabel(type: .popularity(viewModel.media.popularity))
-                        Spacer()
-                        MovieLabel(type: .adult(viewModel.media.adult))
-                    }
-                    .padding(.bottom, LayoutConst.normalPadding)
-                    
-                    //MARK: GENRES
-                    Text(viewModel.media.genreList)
-                        .font(Fonts.paragraph)
-                    
-                    //MARK: TITLE
-                    MediaItemHeaderView(
-                        title: viewModel.media.title,
-                        year: viewModel.media.year,
-                        runtime: "\(viewModel.media.runtime)",
-                        spokenLanguages: viewModel.media.spokenLanguages
-                    )
-                    
-                    //MARK: BUTTONS
-                    HStack(spacing: LayoutConst.largePadding) {
-                        NavigationLink(destination: AddReviewView(mediaItemDetail: viewModel.media)) {
-                            StyledButton(style: .outlined, action: .simple, title: "details.button.rate".localized())
-                        }
-                        StyledButton(style: .filled, action: .link(viewModel.media.imdbUrl), title: "details.button.imdb".localized())
-                    }
-                    .padding(.vertical, LayoutConst.normalPadding)
-                    
-                    //MARK: SYNOPSIS
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text(LocalizedStringKey("details.overview".localized()))
-                            .font(Fonts.overviewText)
-                        Text(viewModel.media.overview)
-                            .font(Fonts.paragraph)
-                            .lineLimit(nil)
-                    }
-                    .padding(.bottom, LayoutConst.normalPadding)
-                    
-                    //MARK: PUBLISHERS
-                    ParticipantScrollView(title: "details.publishers".localized(), participants: viewModel.media.productionCompanies)
-                        .padding(.bottom, LayoutConst.normalPadding)
-                    
-                    //MARK: CAST
-                    ParticipantScrollView(title: "details.cast".localized(), participants: viewModel.credits)
+                HStack(spacing: 12.0) {
+                    MovieLabel(type: .rating(mediaItemDetail.rating))
+                    MovieLabel(type: .voteCount(mediaItemDetail.voteCount))
+                    MovieLabel(type: .popularity(mediaItemDetail.popularity))
+                    Spacer()
+                    MovieLabel(type: .adult(mediaItemDetail.adult))
                 }
-                .padding(.vertical, LayoutConst.normalPadding)
+                
+                Text(viewModel.mediaItemDetail.genreList)
+                    .font(Fonts.paragraph)
+                MediaItemHeaderView(title: viewModel.mediaItemDetail.title,
+                                    year: mediaItemDetail.year,
+                                    runtime: "\(mediaItemDetail.runtime)",
+                                    spokenLanguages: mediaItemDetail.spokenLanguages)
+                
+                HStack {
+                    NavigationLink(destination: AddReviewView(mediaItemDetail: mediaItemDetail)) {
+                        StyledButton(style: .outlined, action: .simple, title: "details.button.rate".localized())
+                    }
+                    
+                    Spacer()
+                    StyledButton(style: .filled, action: .link(mediaItemDetail.imdbUrl), title: "details.button.imdb".localized())
+                }
+                
+                VStack(alignment: .leading, spacing: 12.0) {
+                    Text("details.overview".localized())
+                        .font(Fonts.overviewText)
+                    
+                    Text(mediaItemDetail.overview)
+                        .font(Fonts.paragraph)
+                        .lineLimit(nil)
+                }
+                ParticipantScrollView(title: "details.publishers".localized(), participants: mediaItemDetail.productionCompanies, navigationType: .company)
+                
+                ParticipantScrollView(title: "details.cast".localized(), participants: credits, navigationType: .castMember)
+                
+                ReviewScrollView(reviews: viewModel.reviews)
             }
-            .padding(LayoutConst.maxPadding)
+            .padding(.horizontal, LayoutConst.maxPadding)
+            .padding(.bottom, LayoutConst.largePadding)
+
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -89,7 +84,7 @@ struct MediaDetailsView: View {
         }
         .showAlert(model: $viewModel.alertModel)
         .onAppear {
-            viewModel.mediaIdSubject.send(media.id)
+            viewModel.mediaItemIdSubject.send(mediaItem.id)
         }
     }
 }

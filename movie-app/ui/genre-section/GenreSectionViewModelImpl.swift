@@ -39,7 +39,7 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
         useCase.showAppearPopup
             .map { showAppearPopup -> AlertModel? in
                 if showAppearPopup {
-                    return AlertModel(title: "[[Rate the app]]", message: "[[Rate the app]]", dismissButtonTitle: "[[Ok]]")
+                    return AlertModel(title: "rate.title", message: "rate.text", dismissButtonTitle: "rate.ok")
                 }
                 return nil
             }
@@ -63,7 +63,6 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
     
     func loadMediaItems(genreId: Int) {
         useCase.loadMediaItems(genreId: genreId)
-//            .delay(for: .seconds(3), scheduler: RunLoop.main)
             .map({ mediaItemPage in
                 Array(mediaItemPage.mediaItems.prefix(5))
             })
