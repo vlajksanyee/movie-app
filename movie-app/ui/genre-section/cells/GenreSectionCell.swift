@@ -21,10 +21,7 @@ struct GenreSectionCell: View {
                     .foregroundStyle(.primary)
                     .accessibilityLabel(genre.name)
                 Spacer()
-                RotatingArrow(isExpanded: isExpanded)
-                    .onTapGesture {
-                        isExpanded.toggle()
-                    }
+                Image(.rightArrow)
             }
         }
     }

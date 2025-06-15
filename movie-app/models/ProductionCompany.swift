@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct ProductionCompany: Decodable, Identifiable {
+struct ProductionCompany: Decodable, Identifiable, Hashable {
     let id: Int
     let name: String
     let logoPath: String?
-    let originCountry: String
+    let originCountry: String?
     
     var imageUrl: URL? {
         guard let logoPath = logoPath else {

@@ -46,6 +46,8 @@
 "details.overview" = "Összefoglaló";
 "details.publishers" = "Kiadók";
 "details.cast" = "Színészek";
+"details.topreviews" = "Értékelések";
+"details.noreviews" = "Nincs Értékelés";
 
 // NO INTERNET
 "noInternet" = "Nincs Internetkapcsolat";
@@ -53,3 +55,8 @@
 // REVIEW
 "addReview.subTitle" = "Értékeld ezt a filmet!";
 "addReview.buttonTitle" = "Értékelés beküldése";
+
+// RATE ALERT
+"rate.title" = "ÉRTÉKELD AZ APPOT!";
+"rate.text" = "KÉRLEK ÉRTÉKELD AZ APPOT! KÖSZÖNJÜK!";
+"rate.ok" = "OK";

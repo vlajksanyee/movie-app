@@ -55,7 +55,7 @@ struct SearchView: View {
                     ScrollView {
                         LazyVStack(spacing: LayoutConst.normalPadding) {
                             ForEach(viewModel.movies) { movie in
-                                NavigationLink(destination: MediaDetailsView(media: movie)) {
+                                NavigationLink(destination: MediaDetailsView(mediaItem: movie)) {
                                     MovieCell(movie: movie)
                                         .frame(height: 277)
                                 }

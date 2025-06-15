@@ -19,7 +19,7 @@ struct MediaItemListByGenre: View {
             ScrollView(.horizontal){
                 LazyHStack(spacing: 20) {
                     ForEach(mediaItems) { mediaItem in
-                        NavigationLink(destination: MediaDetailsView(media: mediaItem)) {
+                        NavigationLink(destination: MediaDetailsView(mediaItem: mediaItem)) {
                             if (mediaItem.id < 0) {
                                 Rectangle()
                                     .frame(width: 200, height: 100)

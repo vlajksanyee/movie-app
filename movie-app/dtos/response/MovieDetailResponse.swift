@@ -1,5 +1,5 @@
 //
-//  DetailsResponse.swift
+//  MovieDetailResponse.swift
 //  movie-app
 //
 //  Created by Sandor Vlajk on 2025. 05. 09..
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DetailsResponse: Decodable {
+struct MovieDetailResponse: Decodable {
     let id: Int
     let title: String
     let releaseDate: String?

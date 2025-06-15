@@ -45,6 +45,8 @@
 "details.overview" = "Синопсис";
 "details.publishers" = "Издатели";
 "details.cast" = "Актерский состав";
+"details.topreviews" = "Лучшие отзывы";
+"details.noreviews" = "Нет отзывов";
 
 // NO INTERNET
 "noInternet" = "Нет подключения к интернету";
@@ -52,3 +54,8 @@
 // REVIEW
 "addReview.subTitle" = "Дайте честную оценку";
 "addReview.buttonTitle" = "Отправить отзыв";
+
+// RATE ALERT
+"rate.title" = "ОЦЕНИ ПРИЛОЖЕНИЕ!";
+"rate.text" = "ПОЖАЛУЙСТА, ОЦЕНИ ПРИЛОЖЕНИЕ! СПАСИБО!";
+"rate.ok" = "ОК";

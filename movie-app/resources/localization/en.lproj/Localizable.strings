@@ -7,7 +7,7 @@
 */
 
 "genreSection.title" = "Movie app";
-
+ 
 // SEARCH
 "search.empty" = "Start typing to seach";
 "search.textfield.placeholder" = "Movies, Director, Actor, Actress, etc.";
@@ -46,6 +46,8 @@
 "details.overview" = "Synopsis";
 "details.publishers" = "Publishers";
 "details.cast" = "Cast";
+"details.topreviews" = "Top Reviews";
+"details.noreviews" = "No Reviews";
 
 // NO INTERNET
 "noInternet" = "No Internet connection";
@@ -53,3 +55,8 @@
 // REVIEW
 "addReview.subTitle" = "Give it an honest review";
 "addReview.buttonTitle" = "Send my review";
+
+// RATE ALERT
+"rate.title" = "RATE THE APP!";
+"rate.text" = "PLEASE RATE THE APP! THANK YOU!";
+"rate.ok" = "OK";

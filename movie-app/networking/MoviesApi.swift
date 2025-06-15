@@ -17,10 +17,11 @@ enum MoviesApi {
     case fetchFavoriteMovies(req: FetchFavoriteMoviesRequest)
     case editFavoriteMovie(req: EditFavoriteRequest)
     case fetchDetails(req: FetchDetailsRequest)
-    case fetchCredits(req: FetchCreditsRequest)
-    case fetchExternalIds(req: FetchExternalIdsRequest)
+    case fetchCredits(req: FetchMediaCreditsRequest)
     case addReview(req: AddReviewRequest)
-    case fetchPersonDetails(personId: Int)
+    case fetchMediaReviews(req: FetchMediaReviewsRequest)
+    case fetchCastMemberDetail(req: FetchCastMemberDetailRequest)
+    case fetchCompanyDetail(req: FetchCastMemberDetailRequest)
 }
 
 extension MoviesApi: TargetType {
@@ -54,23 +55,23 @@ extension MoviesApi: TargetType {
             "/movie/\(req.mediaId)"
         case .fetchCredits(let req):
             return "movie/\(req.mediaId)/credits"
-        case .fetchExternalIds(let req):
-            return "/movie/\(req.mediaId)/external_ids"
         case .addReview(let req):
             return "/movie/\(req.mediaId)/rating"
-        case .fetchPersonDetails(let personId):
-            return "/person/\(personId)"
+        case .fetchMediaReviews(req: let req):
+            return "movie/\(req.mediaId)/reviews"
+        case .fetchCastMemberDetail(req: let req):
+            return "person/\(req.castMemberId)"
+        case .fetchCompanyDetail(req: let req):
+            return "company/\(req.castMemberId)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchGenres, .fetchTVGenres, .fetchMovies, .fetchTV, .searchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits, .fetchExternalIds:
+        case .fetchGenres, .fetchTVGenres, .fetchMovies, .fetchTV, .searchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits, .fetchMediaReviews, .fetchCastMemberDetail, .fetchCompanyDetail:
             return .get
         case .editFavoriteMovie, .addReview:
             return .post
-        case .fetchPersonDetails:
-            return .get
         }
     }
     
@@ -90,20 +91,22 @@ extension MoviesApi: TargetType {
         case let .fetchFavoriteMovies(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .editFavoriteMovie(req):
-//            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.httpBody)
+            //            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.httpBody)
             let request = EditFavoriteBodyRequest(movieId: req.movieId, isFavorite: req.isFavorite)
             return .requestJSONEncodable(request)
         case let .fetchDetails(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchCredits(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case let .fetchExternalIds(req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .addReview(req):
             let request = AddReviewBodyRequest(mediaId: req.mediaId, value: req.value)
             return .requestJSONEncodable(request)
-        case .fetchPersonDetails:
-            return .requestPlain
+        case .fetchMediaReviews(req: let req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case .fetchCastMemberDetail(req: let req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case .fetchCompanyDetail(req: let req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         }
     }
     
@@ -133,15 +136,17 @@ extension MoviesApi: TargetType {
             return ["Authorization": req.accessToken]
         case .fetchCredits(let req):
             return ["Authorization": req.accessToken]
-        case .fetchExternalIds(let req):
-            return ["Authorization": req.accessToken]
         case .addReview(req: let req):
             return [
                 "Authorization": req.accessToken,
                 "accept": "application.json"
             ]
-        case .fetchPersonDetails:
-            return ["Authorization": Config.bearerToken]
+        case .fetchMediaReviews(req: let req):
+            return ["Authorization": req.accessToken]
+        case .fetchCastMemberDetail(req: let req):
+            return ["Authorization": req.accessToken]
+        case .fetchCompanyDetail(req: let req):
+            return ["Authorization": req.accessToken]
         }
     }
 }

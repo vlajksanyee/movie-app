@@ -57,7 +57,6 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
 //                self.service.fetchTV(req: request) :
                 return self.service.fetchMovies(req: request)
             }
-            .delay(for: .seconds(2), scheduler: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
