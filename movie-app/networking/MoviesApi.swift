@@ -9,19 +9,19 @@ import Foundation
 import Moya
 
 enum MoviesApi {
-    case fetchGenres(req: FetchGenreRequest)
-    case fetchTVGenres(req: FetchGenreRequest)
+    case fetchMovieGenres(req: FetchGenreRequest)
     case fetchMovies(req: FetchMediaListRequest)
-    case fetchTV(req: FetchMediaListRequest)
-    case searchMovies(req: SearchMovieRequest)
     case fetchFavoriteMovies(req: FetchFavoriteMoviesRequest)
-    case editFavoriteMovie(req: EditFavoriteRequest)
     case fetchDetails(req: FetchDetailsRequest)
     case fetchCredits(req: FetchMediaCreditsRequest)
+    case fetchReviews(req: FetchReviewsRequest)
+    case fetchCastMemberDetails(req: FetchCastMemberDetailsRequest)
+    case fetchCompanyDetails(req: FetchCastMemberDetailsRequest)
+    case fetchTVGenres(req: FetchGenreRequest)
+    case fetchTV(req: FetchMediaListRequest)
+    case searchMedia(req: SearchMediaRequest)
     case addReview(req: AddReviewRequest)
-    case fetchMediaReviews(req: FetchMediaReviewsRequest)
-    case fetchCastMemberDetail(req: FetchCastMemberDetailRequest)
-    case fetchCompanyDetail(req: FetchCastMemberDetailRequest)
+    case editFavoriteMovie(req: EditFavoriteRequest)
 }
 
 extension MoviesApi: TargetType {
@@ -35,118 +35,116 @@ extension MoviesApi: TargetType {
     
     var path: String {
         switch self {
-        case .fetchGenres:
+        case .fetchMovieGenres:
             return "/genre/movie/list"
-        case .fetchTVGenres:
-            return "/genre/tv/list"
         case .fetchMovies:
             return "/discover/movie"
-        case .fetchTV:
-            return "/discover/tv"
-        case .searchMovies:
-            return "/search/movie"
         case .fetchFavoriteMovies(let req):
             return "/account/\(req.account_id)/favorite/movies"
-        case .editFavoriteMovie(req: let req):
-            return "/account/\(req.account_id)/favorite"
         case .fetchDetails(req: let req):
             return Environments.name == .tv ?
             "/tv/\(req.mediaId)" :
             "/movie/\(req.mediaId)"
         case .fetchCredits(let req):
             return "movie/\(req.mediaId)/credits"
+        case .fetchReviews(let req):
+            return "movie/\(req.mediaId)/reviews"
+        case .fetchCastMemberDetails(let req):
+            return "person/\(req.castMemberId)"
+        case .fetchCompanyDetails(let req):
+            return "company/\(req.castMemberId)"
+        case .fetchTVGenres:
+            return "/genre/tv/list"
+        case .fetchTV:
+            return "/discover/tv"
+        case .searchMedia:
+            return "/search/movie"
         case .addReview(let req):
             return "/movie/\(req.mediaId)/rating"
-        case .fetchMediaReviews(req: let req):
-            return "movie/\(req.mediaId)/reviews"
-        case .fetchCastMemberDetail(req: let req):
-            return "person/\(req.castMemberId)"
-        case .fetchCompanyDetail(req: let req):
-            return "company/\(req.castMemberId)"
+        case .editFavoriteMovie(req: let req):
+            return "/account/\(req.account_id)/favorite"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchGenres, .fetchTVGenres, .fetchMovies, .fetchTV, .searchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits, .fetchMediaReviews, .fetchCastMemberDetail, .fetchCompanyDetail:
+        case .fetchMovieGenres, .fetchMovies, .fetchFavoriteMovies, .fetchDetails, .fetchCredits, .fetchReviews, .fetchCastMemberDetails, .fetchCompanyDetails, .fetchTVGenres, .fetchTV, .searchMedia:
             return .get
-        case .editFavoriteMovie, .addReview:
+        case .addReview, .editFavoriteMovie:
             return .post
         }
     }
     
-    // TODO: Different encoding
     var task: Moya.Task {
         switch self {
-        case let .fetchGenres(req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case let .fetchTVGenres(req):
+        case let .fetchMovieGenres(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchMovies(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case let .fetchTV(req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case let .searchMovies(req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchFavoriteMovies(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case let .editFavoriteMovie(req):
-            //            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.httpBody)
-            let request = EditFavoriteBodyRequest(movieId: req.movieId, isFavorite: req.isFavorite)
-            return .requestJSONEncodable(request)
         case let .fetchDetails(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchCredits(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchReviews(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchCastMemberDetails(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchCompanyDetails(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchTVGenres(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchTV(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .searchMedia(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .addReview(req):
             let request = AddReviewBodyRequest(mediaId: req.mediaId, value: req.value)
             return .requestJSONEncodable(request)
-        case .fetchMediaReviews(req: let req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case .fetchCastMemberDetail(req: let req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
-        case .fetchCompanyDetail(req: let req):
-            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .editFavoriteMovie(req):
+            let request = EditFavoriteBodyRequest(movieId: req.movieId, isFavorite: req.isFavorite)
+            return .requestJSONEncodable(request)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case let .fetchGenres(req):
-            return ["Authorization": req.accessToken]
-        case let .fetchTVGenres(req):
+        case let .fetchMovieGenres(req):
             return ["Authorization": req.accessToken]
         case let .fetchMovies(req):
             return ["Authorization": req.accessToken]
-        case let .fetchTV(req):
-            return ["Authorization": req.accessToken]
-        case let .searchMovies(req):
-            return [
-                "Authorization": req.accessToken,
-                "accept": "application.json"
-            ]
         case let .fetchFavoriteMovies(req):
             return ["Authorization": req.accessToken]
-        case .editFavoriteMovie(req: let req):
+        case let .fetchDetails(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchCredits(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchReviews(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchCastMemberDetails(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchCompanyDetails(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchTVGenres(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchTV(req):
+            return ["Authorization": req.accessToken]
+        case let .searchMedia(req):
             return [
                 "Authorization": req.accessToken,
                 "accept": "application.json"
             ]
-        case .fetchDetails(req: let req):
-            return ["Authorization": req.accessToken]
-        case .fetchCredits(let req):
-            return ["Authorization": req.accessToken]
-        case .addReview(req: let req):
+        case let .addReview(req):
             return [
                 "Authorization": req.accessToken,
                 "accept": "application.json"
             ]
-        case .fetchMediaReviews(req: let req):
-            return ["Authorization": req.accessToken]
-        case .fetchCastMemberDetail(req: let req):
-            return ["Authorization": req.accessToken]
-        case .fetchCompanyDetail(req: let req):
-            return ["Authorization": req.accessToken]
+        case let .editFavoriteMovie(req):
+            return [
+                "Authorization": req.accessToken,
+                "accept": "application.json"
+            ]
         }
     }
 }

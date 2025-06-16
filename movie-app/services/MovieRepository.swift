@@ -17,14 +17,14 @@ protocol MovieRepository {
     func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError>
     func fetchTV(req: FetchMediaListRequest) -> AnyPublisher<[MediaItem], MovieError>
     func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
-    func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError>
+    func searchMovies(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
     func fetchDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
     func fetchCredits(req: FetchMediaCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
     func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
-    func fetchMovieReviews(req: FetchMediaReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
-    func fetchCastMemberDetail(req: FetchCastMemberDetailRequest) -> AnyPublisher<CastDetail, MovieError>
-    func fetchCompanyDetail(req: FetchCastMemberDetailRequest) -> AnyPublisher<CastDetail, MovieError>
+    func fetchMovieReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
+    func fetchCastMemberDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError>
+    func fetchCompanyDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError>
 }
 
 class MovieRepositoryImpl: MovieRepository {
@@ -46,7 +46,7 @@ class MovieRepositoryImpl: MovieRepository {
     
     func fetchGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.fetchGenres(req: req)),
+            target: MultiTarget(MoviesApi.fetchMovieGenres(req: req)),
             decodeTo: GenreListResponse.self,
             transform: { $0.genres.map(Genre.init(dto:)) }
         )
@@ -60,9 +60,9 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func searchMovies(req: SearchMovieRequest) -> AnyPublisher<[MediaItem], MovieError> {
+    func searchMovies(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.searchMovies(req: req)),
+            target: MultiTarget(MoviesApi.searchMedia(req: req)),
             decodeTo: MoviePageResponse.self,
             transform: { (response: MoviePageResponse) -> [MediaItem] in
                 response.results.map{ (result: MovieResponse) in
@@ -183,12 +183,12 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func fetchMovieReviews(req: FetchMediaReviewsRequest) -> AnyPublisher<[MediaReview], MovieError> {
+    func fetchMovieReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError> {
         return networkMonitor.isConnected
             .flatMap { isConnected -> AnyPublisher<[MediaReview], MovieError> in
                 if isConnected {
                     return self.requestAndTransform(
-                        target: MultiTarget(MoviesApi.fetchMediaReviews(req: req)),
+                        target: MultiTarget(MoviesApi.fetchReviews(req: req)),
                         decodeTo: MediaReviewsResponse.self,
                         transform: { dto in
                             dto.results.map(MediaReview.init(dto:))
@@ -206,17 +206,17 @@ class MovieRepositoryImpl: MovieRepository {
             .eraseToAnyPublisher()
     }
     
-    func fetchCastMemberDetail(req: FetchCastMemberDetailRequest) -> AnyPublisher<CastDetail, MovieError> {
+    func fetchCastMemberDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.fetchCastMemberDetail(req: req)),
+            target: MultiTarget(MoviesApi.fetchCastMemberDetails(req: req)),
             decodeTo: CastMemberDetailResponse.self,
             transform: { CastDetail(dto: $0) }
         )
     }
     
-    func fetchCompanyDetail(req: FetchCastMemberDetailRequest) -> AnyPublisher<CastDetail, MovieError> {
+    func fetchCompanyDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.fetchCompanyDetail(req: req)),
+            target: MultiTarget(MoviesApi.fetchCompanyDetails(req: req)),
             decodeTo: CompanyDetailResponse.self,
             transform: {  CastDetail(dto: $0) }
         )

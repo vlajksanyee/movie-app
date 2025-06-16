@@ -89,7 +89,7 @@ extension MoviesService_FetchGenres {
             
             var sampleResponseClosure: Endpoint.SampleResponseClosure
             switch target {
-            case let .fetchGenres(req):
+            case let .fetchMovieGenres(req):
                 fetchGenresParameters = req
                 sampleResponseClosure = { expectedFetchGenresResponse }
             default:

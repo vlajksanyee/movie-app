@@ -57,7 +57,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchMediaReviewsRequest(mediaId: mediaItemId)
+                let request = FetchReviewsRequest(mediaId: mediaItemId)
                 return self.repository.fetchMovieReviews(req: request)
             }
         
