@@ -36,13 +36,15 @@ class SearchViewModel: SearchViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = SearchMediaRequest(query: self.searchText)
-                return self.repository.searchMovies(req: request)
+                return self.repository.searchMedia(req: request)
             }
             .sink { [weak self] completion in
+                print("<<< Completion: \(completion)")
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
             } receiveValue: { [weak self]movies in
+                print("<<< Received movies: \(movies.count)")
                 self?.movies = movies
             }
             .store(in: &cancellables)

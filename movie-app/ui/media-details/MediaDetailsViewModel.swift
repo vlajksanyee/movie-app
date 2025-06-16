@@ -58,7 +58,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = FetchReviewsRequest(mediaId: mediaItemId)
-                return self.repository.fetchMovieReviews(req: request)
+                return self.repository.fetchReviews(req: request)
             }
         
         Publishers.CombineLatest3(details, credits, reviews)
