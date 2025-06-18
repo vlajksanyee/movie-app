@@ -17,6 +17,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var credits: [CastMember] = []
     @Published var isFavorite: Bool = false
     @Published var reviews: [MediaReview] = []
+    @Published var similars: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     
     let mediaItemIdSubject = PassthroughSubject<Int, Never>()
@@ -61,19 +62,29 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 return self.repository.fetchReviews(req: request)
             }
         
-        Publishers.CombineLatest3(details, credits, reviews)
+        let similars = mediaItemIdSubject
+            .flatMap { [weak self]mediaItemId in
+                guard let self = self else {
+                    preconditionFailure("There is no self")
+                }
+                let request = FetchSimilarsRequest(mediaId: mediaItemId)
+                return self.repository.fetchSimilars(req: request)
+            }
+        
+        Publishers.CombineLatest4(details, credits, reviews, similars)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self] details, credits, reviews in
+            } receiveValue: { [weak self] details, credits, reviews, similars in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
                 self.mediaItemDetail = details
                 self.credits = credits
                 self.reviews = reviews.prefix(4).map { $0 }
+                self.similars.append(contentsOf: similars.mediaItems)
                 self.isFavorite = self.mediaItemStore.isMediaItemStored(withId: details.id)
             }
             .store(in: &cancellables)

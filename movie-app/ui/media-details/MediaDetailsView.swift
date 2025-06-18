@@ -21,6 +21,10 @@ struct MediaDetailsView: View {
             viewModel.credits
         }
         
+        var similars: [MediaItem] {
+            viewModel.similars
+        }
+        
         return ScrollView {
             VStack(alignment: .leading, spacing: LayoutConst.largePadding) {
                 LoadImageView(url: mediaItemDetail.imageUrl)
@@ -65,6 +69,8 @@ struct MediaDetailsView: View {
                 ParticipantScrollView(title: "details.cast".localized(), participants: credits, navigationType: .castMember)
                 
                 ReviewScrollView(reviews: viewModel.reviews)
+                
+                SimilarsScrollView(title: "Similars", similars: similars)
             }
             .padding(.horizontal, LayoutConst.maxPadding)
             .padding(.bottom, LayoutConst.largePadding)

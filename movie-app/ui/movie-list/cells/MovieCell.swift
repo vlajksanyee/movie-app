@@ -17,7 +17,7 @@ struct MovieCell: View {
                     LoadImageView(url: movie.imageUrl)
                         .frame(height: 100)
                         .frame(maxHeight: 180)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: 200)
                         .cornerRadius(12)
                 }
                 HStack(spacing: 12.0) {
