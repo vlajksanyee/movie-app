@@ -26,11 +26,13 @@ struct FavoritesView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: LayoutConst.normalPadding) {
-                        ForEach(viewModel.mediaItems) { movie in
+                        ForEach(viewModel.mediaItems.indices, id: \.self) { index in
+                            let movie = viewModel.mediaItems[index]
                             NavigationLink(destination: MediaDetailsView(mediaItem: movie)) {
                                 MovieCell(movie: movie)
                                     .frame(height: 277)
                             }
+                            .accessibilityLabel("MediaItem\(index)")
                             .buttonStyle(PlainButtonStyle())
                         }
                     }
@@ -38,6 +40,7 @@ struct FavoritesView: View {
                     .padding(.top, LayoutConst.normalPadding)
                 }
                 .navigationTitle("favorites.title".localized())
+                .accessibilityLabel(AccessibilityLabels.favoritesScrollView)
             }
         }
         .showAlert(model: $viewModel.alertModel)
