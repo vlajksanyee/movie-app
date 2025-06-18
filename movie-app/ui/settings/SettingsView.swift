@@ -58,7 +58,7 @@ struct SettingsView: View {
                 Spacer()
                 VStack(spacing: LayoutConst.smallPadding) {
                     Text("Version 0.9.1")
-                    Text("Created by Hell yeah")
+                    Text("Created by iOS Academy")
                 }
                 .font(Fonts.subheading)
                 .frame(maxWidth: .infinity, alignment: .center)

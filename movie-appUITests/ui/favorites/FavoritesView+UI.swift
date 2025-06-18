@@ -1,13 +1,13 @@
 //
-//  GenreSectionView+UI.swift
+//  FavoritesView+UI.swift
 //  movie-app
 //
-//  Created by Sandor Vlajk on 2025. 04. 22..
+//  Created by Sandor Vlajk on 2025. 06. 17..
 //
 
 import XCTest
 
-final class GenreSectionViewUITests: XCTestCase {
+final class FavoritesViewUITests: XCTestCase {
     
     let app = XCUIApplication()
 
@@ -27,12 +27,14 @@ final class GenreSectionViewUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testGenreSelection() throws {
-        let collectionView = app.firstCellInCollectionView(withIdentifier: AccessibilityLabels.genreSectionCollectionView)
-        collectionView.swipeUp()
-        
-        let adventureGenreCell = app.findElement(withId: "Adventure")
-        adventureGenreCell?.tap()
+    func testFavoriteSelection() throws {
+        app.images["favorites"].tap()
 
+        let scrollView = app.firstScrollView(withIdentifier: AccessibilityLabels.favoritesScrollView)
+        scrollView.swipeUp()
+        print("<<<\(scrollView.images)")
+        
+        let secondCell = app.findElement(withId: "MediaItem1")
+        secondCell?.tap()
     }
 }

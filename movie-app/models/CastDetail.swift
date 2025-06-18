@@ -11,7 +11,7 @@ struct CastDetail: Codable, Identifiable {
     let id: Int
     let name: String
     let biography: String?
-    let popularity: Double
+    let popularity: Double?
     let imagePath: String?
     let originPlace: String?
     let birthYear: String?

@@ -21,11 +21,11 @@ struct StyledButton: View {
     let style: ButtonStyleType
     let action: ButtonStyleAction
     let title: String
-
+    
     var body: some View {
         baseView
             .font(Fonts.subheading)
-            .foregroundColor(style == .outlined ? .primary : .main)
+            .foregroundColor(style == .outlined ? Color.primary : Color.main)
             .padding(.horizontal, 20.0)
             .padding(.vertical, LayoutConst.normalPadding)
             .frame(maxWidth: .infinity)
@@ -42,16 +42,21 @@ struct StyledButton: View {
         switch action {
         case .simple:
             Text(LocalizedStringKey(title))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         case .link(let url):
             if let url = url {
                 Link(LocalizedStringKey(title), destination: url)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             } else {
                 Text(LocalizedStringKey(title))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
             }
-            
         }
     }
-
+    
     private var backgroundView: some View {
         switch style {
         case .filled:

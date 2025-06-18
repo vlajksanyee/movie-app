@@ -20,7 +20,7 @@ struct MovieDetailResponse: Decodable {
     let runtime: Int
     let spokenLanguages: [SpokenLanguageResponse]
     let overview: String
-    let imdbId: String
+    let imdbId: String?
     let productionCompanies: [ProductionCompanyResponse]
     
     enum CodingKeys: String, CodingKey {

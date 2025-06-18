@@ -1,13 +1,13 @@
 //
-//  GenreSectionView+UI.swift
+//  SearchView+UI.swift
 //  movie-app
 //
-//  Created by Sandor Vlajk on 2025. 04. 22..
+//  Created by Sandor Vlajk on 2025. 06. 17..
 //
 
 import XCTest
 
-final class GenreSectionViewUITests: XCTestCase {
+final class SearchViewUITests: XCTestCase {
     
     let app = XCUIApplication()
 
@@ -27,12 +27,12 @@ final class GenreSectionViewUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testGenreSelection() throws {
-        let collectionView = app.firstCellInCollectionView(withIdentifier: AccessibilityLabels.genreSectionCollectionView)
-        collectionView.swipeUp()
+    func testSearchTextField() throws {
+        app.images["search"].tap()
         
-        let adventureGenreCell = app.findElement(withId: "Adventure")
-        adventureGenreCell?.tap()
-
+        let searchTextField = app.findElement(withId: AccessibilityLabels.searchTextField)
+        searchTextField?.tap()
+        searchTextField?.typeText("Fight Club")
+        sleep(4)
     }
 }

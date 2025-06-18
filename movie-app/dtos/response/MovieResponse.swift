@@ -26,7 +26,7 @@ struct MovieResponse: Decodable {
     let posterPath: String?
     let voteAverage: Double?
     let voteCount: Int?
-    let popularity: Double
+    let popularity: Double?
 
     enum CodingKeys: String, CodingKey {
         case id

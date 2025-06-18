@@ -8,6 +8,7 @@
 import UIKit
 import InjectPropertyWrapper
 import Swinject
+import FirebaseCore
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     let assembler: MainAssembler
@@ -18,6 +19,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) -> Bool {
         print("AppDelegate - App launched")
         Bundle.setLanguage(lang: "en")
+        FirebaseApp.configure()
         return true
     }
     

@@ -16,11 +16,11 @@ struct CastMemberDetailResponse: Codable, Identifiable {
     let gender: Int
     let homepage: String?
     let id: Int
-    let imdbID: String
+    let imdbId: String?
     let knownForDepartment: String
     let name: String
     let placeOfBirth: String?
-    let popularity: Double
+    let popularity: Double?
     let profilePath: String?
 
     enum CodingKeys: String, CodingKey {
@@ -32,7 +32,7 @@ struct CastMemberDetailResponse: Codable, Identifiable {
         case gender
         case homepage
         case id
-        case imdbID = "imdb_id"
+        case imdbId = "imdb_id"
         case knownForDepartment = "known_for_department"
         case name
         case placeOfBirth = "place_of_birth"

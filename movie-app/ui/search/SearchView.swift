@@ -16,27 +16,27 @@ struct SearchView: View {
             VStack {
                 HStack(spacing: 12) {
                     Image(.icSearch)
-                        .renderingMode(.template)
-                        .foregroundColor(.invertedMain)
                         .frame(width: 24, height: 24)
                     
                     TextField("",
                               text: $viewModel.searchText,
                               prompt: Text("search.textfield.placeholder".localized())
-                        .foregroundStyle(.invertedMain))
+                        .foregroundStyle(.invertedMain)
+                    )
                     .textFieldStyle(PlainTextFieldStyle())
                     .font(Fonts.caption)
                     .foregroundColor(.invertedMain)
                     .onChange(of: viewModel.searchText) {
                         viewModel.startSearch.send(())
                     }
+                    .accessibilityLabel(AccessibilityLabels.searchTextField)
                 }
                 .frame(height: 56)
                 .padding(.horizontal, LayoutConst.normalPadding)
-                .background(.searchBarBackground)
+                .background(Color.searchBarBackground)
                 .overlay(
                     RoundedRectangle(cornerRadius: 28)
-                        .stroke(.invertedMain, lineWidth: 1)
+                        .stroke(Color.invertedMain, lineWidth: 1)
                 )
                 .cornerRadius(28)
                 .padding(.horizontal, LayoutConst.maxPadding)
