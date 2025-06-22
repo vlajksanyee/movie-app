@@ -15,9 +15,7 @@ struct MovieCell: View {
             ZStack(alignment: .topLeading) {
                 HStack(alignment: .center) {
                     LoadImageView(url: movie.imageUrl)
-                        .frame(height: 100)
-                        .frame(maxHeight: 180)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxHeight: MovieCellConst.imageHeight)
                         .cornerRadius(12)
                 }
                 HStack(spacing: 12.0) {
@@ -31,7 +29,7 @@ struct MovieCell: View {
                 VStack(alignment: .leading, spacing: LayoutConst.smallPadding) {
                     Text(movie.title)
                         .font(Fonts.subheading)
-                        .lineLimit(2)
+                        .minimumScaleFactor(0.6)
                     
                     Text("\(movie.year)")
                         .font(Fonts.paragraph)
@@ -45,6 +43,8 @@ struct MovieCell: View {
                 Image(.playButton)
             }
         }
+        .frame(maxWidth: MovieCellConst.maxWidth)
+        .frame(height: MovieCellConst.height)
     }
 }
 

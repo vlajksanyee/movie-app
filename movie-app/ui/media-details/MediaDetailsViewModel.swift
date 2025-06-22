@@ -17,6 +17,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var credits: [CastMember] = []
     @Published var isFavorite: Bool = false
     @Published var reviews: [MediaReview] = []
+    @Published var similars: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     
     let mediaItemIdSubject = PassthroughSubject<Int, Never>()
@@ -87,9 +88,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 let request = EditFavoriteRequest(movieId: self.mediaItemDetail.id, isFavorite: isFavorite)
                 return repository.editFavoriteMovie(req: request)
                     .map { result in
-                    (result, isFavorite)
-                }
-                .eraseToAnyPublisher()
+                        (result, isFavorite)
+                    }
+                    .eraseToAnyPublisher()
             }
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
