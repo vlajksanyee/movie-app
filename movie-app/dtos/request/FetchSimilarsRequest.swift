@@ -8,9 +8,13 @@
 struct FetchSimilarsRequest {
     let accessToken: String = Config.bearerToken
     let mediaId: Int
+    let page: Int
     
     func asRequestParams() -> [String: Any] {
-        return [:]
+        return [
+            "movie_id": mediaId,
+            "page": page
+        ]
     }
 }
 

@@ -62,29 +62,19 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 return self.repository.fetchReviews(req: request)
             }
         
-        let similars = mediaItemIdSubject
-            .flatMap { [weak self]mediaItemId in
-                guard let self = self else {
-                    preconditionFailure("There is no self")
-                }
-                let request = FetchSimilarsRequest(mediaId: mediaItemId)
-                return self.repository.fetchSimilars(req: request)
-            }
-        
-        Publishers.CombineLatest4(details, credits, reviews, similars)
+        Publishers.CombineLatest3(details, credits, reviews)
             .receive(on: RunLoop.main)
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self] details, credits, reviews, similars in
+            } receiveValue: { [weak self] details, credits, reviews in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
                 self.mediaItemDetail = details
                 self.credits = credits
                 self.reviews = reviews.prefix(4).map { $0 }
-                self.similars.append(contentsOf: similars.mediaItems)
                 self.isFavorite = self.mediaItemStore.isMediaItemStored(withId: details.id)
             }
             .store(in: &cancellables)
@@ -98,9 +88,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 let request = EditFavoriteRequest(movieId: self.mediaItemDetail.id, isFavorite: isFavorite)
                 return repository.editFavoriteMovie(req: request)
                     .map { result in
-                    (result, isFavorite)
-                }
-                .eraseToAnyPublisher()
+                        (result, isFavorite)
+                    }
+                    .eraseToAnyPublisher()
             }
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
