@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct SimilarsScrollView: View {
-    @StateObject private var viewModel = SimilarsScrollViewModel()
+struct SimilarScrollView: View {
+    @StateObject private var viewModel = SimilarScrollViewModel()
     let title: String
     let mediaItemId: Int
     

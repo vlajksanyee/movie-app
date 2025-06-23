@@ -66,7 +66,7 @@ struct MediaDetailsView: View {
                 
                 ReviewScrollView(reviews: viewModel.reviews)
                 
-                SimilarsScrollView(title: "Similars", mediaItemId: mediaItem.id)
+                SimilarScrollView(title: "Similars", mediaItemId: mediaItem.id)
             }
             .padding(.horizontal, LayoutConst.maxPadding)
             .padding(.bottom, LayoutConst.largePadding)

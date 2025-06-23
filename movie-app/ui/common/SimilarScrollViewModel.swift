@@ -9,11 +9,11 @@ import Foundation
 import InjectPropertyWrapper
 import Combine
 
-protocol SimilarsScrollViewModelProtocol: ObservableObject {
+protocol SimilarScrollViewModelProtocol: ObservableObject {
     var similars: [MediaItem] { get }
 }
 
-class SimilarsScrollViewModel: SimilarsScrollViewModelProtocol, ErrorPresentable {
+class SimilarScrollViewModel: SimilarScrollViewModelProtocol, ErrorPresentable {
     @Published var similars: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     @Published var isLoading: Bool = false
