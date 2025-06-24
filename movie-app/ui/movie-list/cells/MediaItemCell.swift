@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct MovieCell: View {
+// TODO: Height, width
+struct MediaItemCell: View {
     let movie: MediaItem
     
     var body: some View {
@@ -15,7 +16,8 @@ struct MovieCell: View {
             ZStack(alignment: .topLeading) {
                 HStack(alignment: .center) {
                     LoadImageView(url: movie.imageUrl)
-                        .frame(maxHeight: MovieCellConst.imageHeight)
+                        .frame(height: MovieCellConst.height)
+                        .frame(maxHeight: MovieCellConst.maxHeight)
                         .cornerRadius(12)
                 }
                 HStack(spacing: 12.0) {
@@ -30,6 +32,7 @@ struct MovieCell: View {
                     Text(movie.title)
                         .font(Fonts.subheading)
                         .minimumScaleFactor(0.6)
+                        .lineLimit(1)
                     
                     Text("\(movie.year)")
                         .font(Fonts.paragraph)
@@ -43,18 +46,16 @@ struct MovieCell: View {
                 Image(.playButton)
             }
         }
-        .frame(maxWidth: MovieCellConst.maxWidth)
-        .frame(height: MovieCellConst.height)
     }
 }
 
 #Preview {
-    MovieCell(movie: MediaItem(id: 2,
+    MediaItemCell(movie: MediaItem(id: 2,
                            title: "Mock movie2",
                            year: "2024",
                            duration: "1h 34m",
                            imageUrl: nil,
                            rating: 1.0,
-                           voteCount: 1000
-                              ))
+                           voteCount: 1000)
+    )
 }
