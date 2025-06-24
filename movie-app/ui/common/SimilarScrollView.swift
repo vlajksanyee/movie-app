@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SimilarScrollView: View {
     @StateObject private var viewModel = SimilarScrollViewModel()
+    
     let title: String
     let mediaItemId: Int
     
@@ -21,14 +22,16 @@ struct SimilarScrollView: View {
                     ForEach(viewModel.similars.indices, id: \.self) { index in
                         let similar = viewModel.similars[index]
                         NavigationLink(destination: MediaDetailsView(mediaItem: similar)) {
-                            MovieCell(movie: similar)
+                            MediaItemCell(movie: similar)
+                                .frame(width: MovieCellConst.smallWidth)
                                 .onAppear {
                                     if index == viewModel.similars.count - 1 {
                                         viewModel.similarsSubject.send(mediaItemId)
                                     }
                                 }
                         }
-                        .buttonStyle(PlainButtonStyle())                        .offset(CGSize(width: LayoutConst.maxPadding, height: 0))
+                        .buttonStyle(PlainButtonStyle())
+                        .offset(CGSize(width: LayoutConst.maxPadding, height: 0))
                     }
                     if viewModel.isLoading {
                         VStack {

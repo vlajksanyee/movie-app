@@ -29,7 +29,7 @@ struct FavoritesView: View {
                         ForEach(viewModel.mediaItems.indices, id: \.self) { index in
                             let movie = viewModel.mediaItems[index]
                             NavigationLink(destination: MediaDetailsView(mediaItem: movie)) {
-                                MovieCell(movie: movie)
+                                MediaItemCell(movie: movie)
                                     .frame(height: 277)
                             }
                             .accessibilityLabel("MediaItem\(index)")

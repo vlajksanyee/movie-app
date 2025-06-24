@@ -8,7 +8,9 @@
 import SwiftUI
 
 enum MovieCellConst {
-    static let maxWidth: CGFloat = 200
-    static let height: CGFloat = 170
-    static let imageHeight: CGFloat = 100
+    static let maxWidth: CGFloat = UIScreen.main.bounds.width - 20
+    static let height: CGFloat = 100
+    static let maxHeight: CGFloat = 200
+    static let imageHeight: CGFloat = 120
+    static let smallWidth: CGFloat = 200
 }

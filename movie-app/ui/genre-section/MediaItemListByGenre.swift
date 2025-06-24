@@ -16,7 +16,7 @@ struct MediaItemListByGenre: View {
     var body: some View {
         VStack{
             GenreSectionCell(genre: genre)
-            ScrollView(.horizontal){
+            ScrollView(.horizontal, showsIndicators: false){
                 LazyHStack(spacing: 20) {
                     ForEach(mediaItems) { mediaItem in
                         NavigationLink(destination: MediaDetailsView(mediaItem: mediaItem)) {
@@ -25,7 +25,7 @@ struct MediaItemListByGenre: View {
                                     .frame(width: 200, height: 100)
                                     .shimmering()
                             } else {
-                                MovieCell(movie: mediaItem)
+                                MediaItemCell(movie: mediaItem)
                                     .frame(width: 200)
                             }
                         }
