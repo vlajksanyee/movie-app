@@ -17,7 +17,6 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var credits: [CastMember] = []
     @Published var isFavorite: Bool = false
     @Published var reviews: [MediaReview] = []
-    @Published var similars: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     
     let mediaItemIdSubject = PassthroughSubject<Int, Never>()
@@ -41,7 +40,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = FetchDetailsRequest(mediaId: mediaItemId)
-                return self.repository.fetchDetails(req: request)
+                return Environments.name == .tv ?
+                self.repository.fetchTVDetails(req: request) :
+                self.repository.fetchMovieDetails(req: request)
             }
         
         let credits = mediaItemIdSubject

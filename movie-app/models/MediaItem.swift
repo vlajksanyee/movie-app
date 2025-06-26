@@ -37,7 +37,6 @@ struct MediaItem: Identifiable, Equatable {
     }
     
     init(dto: MovieResponse) {
-        let releaseDate: String? = dto.releaseDate
         let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
         let duration = "1h 25min" // TODO: placeholder – ha lesz ilyen adat, cserélhető
@@ -58,7 +57,6 @@ struct MediaItem: Identifiable, Equatable {
     }
     
     init(dto: TVResponse) {
-        let firstAirDate: String? = dto.firstAirDate
         let prefixedYear: Substring = dto.firstAirDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
         let duration = "58 min" // TODO: placeholder – ha lesz ilyen adat, cserélhető

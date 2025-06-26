@@ -13,7 +13,7 @@ protocol GenreSectionUseCase {
     func loadGenres() -> AnyPublisher<[Genre], MovieError>
     func genresAppeared()
     func loadMediaItems(genreId: Int) -> AnyPublisher<MediaItemPage, MovieError>
-    func loadMotdMovie(movie: MediaItem) -> AnyPublisher<MediaItemDetail, MovieError>
+    func loadRecommended(mediaItem: MediaItem) -> AnyPublisher<MediaItemDetail, MovieError>
 }
 
 class GenreSectionUseCaseImpl: GenreSectionUseCase {
@@ -53,14 +53,16 @@ class GenreSectionUseCaseImpl: GenreSectionUseCase {
     
     func loadMediaItems(genreId: Int) -> AnyPublisher<MediaItemPage, MovieError> {
         let request = FetchMediaListRequest(genreId: genreId, includeAdult: true, page: 1)
-//        return Environments.name == .tv ?
-//        self.repository.fetchTV(req: request) :
-        return self.repository.fetchMovies(req: request)
+        return Environments.name == .tv ?
+        self.repository.fetchTV(req: request) :
+        self.repository.fetchMovies(req: request)
     }
     
-    func loadMotdMovie(movie: MediaItem) -> AnyPublisher<MediaItemDetail, MovieError> {
-        let request = FetchDetailsRequest(mediaId: movie.id)
-        let detailMediaItem = self.repository.fetchDetails(req: request)
+    func loadRecommended(mediaItem: MediaItem) -> AnyPublisher<MediaItemDetail, MovieError> {
+        let request = FetchDetailsRequest(mediaId: mediaItem.id)
+        let detailMediaItem = Environments.name == .tv ?
+        self.repository.fetchTVDetails(req: request) :
+        self.repository.fetchMovieDetails(req: request)
         
         return detailMediaItem
     }

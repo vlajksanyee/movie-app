@@ -43,7 +43,7 @@ struct MovieLabel: View {
                 .font(Fonts.labelBold)
         }
         .padding(6.0)
-        .background(.label)
+        .background(.mediaItemLabel)
         .cornerRadius(12)
     }
 }

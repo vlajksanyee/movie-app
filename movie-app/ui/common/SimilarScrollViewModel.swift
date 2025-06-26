@@ -36,6 +36,7 @@ class SimilarScrollViewModel: SimilarScrollViewModelProtocol, ErrorPresentable {
                 }
                 return self.actualPage < self.totalPages
             }
+            .delay(for: 3, scheduler: RunLoop.main)
             .handleEvents(receiveOutput: { [weak self] _ in
                 guard let self = self else {
                     preconditionFailure("There is no self")
@@ -48,7 +49,9 @@ class SimilarScrollViewModel: SimilarScrollViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = FetchSimilarsRequest(mediaId: mediaItemId, page: actualPage)
-                return self.repository.fetchSimilars(req: request)
+                return Environments.name == .tv ?
+                self.repository.fetchSimilarTV(req: request) :
+                self.repository.fetchSimilarMovies(req: request)
             }
             .sink { completion in
                 switch completion {

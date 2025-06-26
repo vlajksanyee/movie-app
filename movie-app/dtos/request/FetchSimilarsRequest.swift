@@ -12,9 +12,7 @@ struct FetchSimilarsRequest {
     
     func asRequestParams() -> [String: Any] {
         return [
-            "movie_id": mediaId,
             "page": page
         ]
     }
 }
-

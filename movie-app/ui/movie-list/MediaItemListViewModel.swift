@@ -9,12 +9,12 @@ import Combine
 import Foundation
 import InjectPropertyWrapper
 
-protocol MovieListViewModelProtocol: ObservableObject {
-    var movies: [MediaItem] { get }
+protocol MediaItemListViewModelProtocol: ObservableObject {
+    var mediaItems: [MediaItem] { get }
 }
 
-class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
-    @Published var movies: [MediaItem] = []
+class MediaItemListViewModel: MediaItemListViewModelProtocol, ErrorPresentable {
+    @Published var mediaItems: [MediaItem] = []
     @Published var alertModel: AlertModel? = nil
     @Published var isLoading: Bool = false
     
@@ -28,12 +28,12 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
     var cancellables = Set<AnyCancellable>()
     
     @Inject
-    private var service: MovieRepository
+    private var repository: MovieRepository
     
     init() {
         let refreshPublisher = refreshSubject
             .handleEvents(receiveOutput: { [weak self] _ in
-                self?.movies = []
+                self?.mediaItems = []
                 self?.actualPage = 0
             })
         
@@ -53,9 +53,9 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = FetchMediaListRequest(genreId: genreId, includeAdult: true, page: actualPage)
-//                return Environments.name == .tv ?
-//                self.service.fetchTV(req: request) :
-                return self.service.fetchMovies(req: request)
+                return Environments.name == .tv ?
+                self.repository.fetchTV(req: request) :
+                self.repository.fetchMovies(req: request)
             }
             .sink { [weak self] completion in
                 if case let .failure(error) = completion {
@@ -66,7 +66,7 @@ class MovieListViewModel: MovieListViewModelProtocol, ErrorPresentable {
                 if mediaItemPage.totalPages < 500 {
                     self?.totalPages = mediaItemPage.totalPages
                 }
-                self?.movies.append(contentsOf: mediaItemPage.mediaItems)
+                self?.mediaItems.append(contentsOf: mediaItemPage.mediaItems)
                 self?.isLoading = true
             }
             .store(in: &cancellables)

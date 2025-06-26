@@ -15,15 +15,15 @@ struct GenreSectionView: View {
     var body: some View {
         NavigationView {
             List {
-                if let motd = viewModel.motdMovie {
-                    GenreMotdCell(mediaItem: motd)
+                if let recommended = viewModel.recommended {
+                    GenreMotdCell(mediaItem: recommended)
                         .background(Color.clear)
                         .listStyle(.plain)
                 }
                 ForEach(viewModel.genres) { genre in
                     VStack(alignment: .leading) {
                         ZStack {
-                            NavigationLink(destination: MovieListView(genre: genre)) {
+                            NavigationLink(destination: MediaItemListView(genre: genre)) {
                                 EmptyView()
                             }
                             .opacity(0)

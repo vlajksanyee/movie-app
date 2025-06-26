@@ -8,8 +8,8 @@
 import SwiftUI
 import InjectPropertyWrapper
 
-struct MovieListView: View {
-    @StateObject private var viewModel = MovieListViewModel()
+struct MediaItemListView: View {
+    @StateObject private var viewModel = MediaItemListViewModel()
     let genre: Genre
     
     let columns = [
@@ -19,12 +19,12 @@ struct MovieListView: View {
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: LayoutConst.largePadding) {
-                ForEach(viewModel.movies.indices, id: \.self) { index in
-                    let mediaItem = viewModel.movies[index]
+                ForEach(viewModel.mediaItems.indices, id: \.self) { index in
+                    let mediaItem = viewModel.mediaItems[index]
                     NavigationLink(destination: MediaDetailsView(mediaItem: mediaItem)) {
-                        MediaItemCell(movie: mediaItem)
+                        MediaItemCell(mediaItem: mediaItem)
                             .onAppear {
-                                if index == viewModel.movies.count - 1 {
+                                if index == viewModel.mediaItems.count - 1 {
                                     viewModel.genreIdSubject.send(genre.id)
                                 }
                             }
@@ -52,5 +52,5 @@ struct MovieListView: View {
 }
 
 #Preview {
-    MovieListView(genre: Genre(id: 28, name: "Action") )
+    MediaItemListView(genre: Genre(id: 28, name: "Action") )
 }

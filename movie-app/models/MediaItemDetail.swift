@@ -59,13 +59,11 @@ struct MediaItemDetail: Identifiable {
     
     init(dto: MovieDetailResponse) {
         let releaseDate: String? = dto.releaseDate
-        let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
+        let prefixedYear: Substring = releaseDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
         
-        var imageUrl: URL? {
-            dto.posterPath.flatMap {
-                URL(string: "https://image.tmdb.org/t/p/w500\($0)")
-            }
+        let imageUrl: URL? = dto.posterPath.flatMap {
+            URL(string: "https://image.tmdb.org/t/p/w500\($0)")
         }
                 
         self.id = dto.id
@@ -78,17 +76,38 @@ struct MediaItemDetail: Identifiable {
         self.overview = dto.overview
         self.popularity = dto.popularity
         self.adult = dto.adult
-        self.genres = dto.genres.map({$0.name})
-        self.spokenLanguages = dto.spokenLanguages
-            .map({ $0.englishName })
-            .joined(separator: ", ")
-        self.imdbUrl = URL(string: "https://www.imdb.com/title/\(dto.imdbId)/")
-        self.productionCompanies = dto.productionCompanies
-            .map({ ProductionCompany(dto: $0) })
+        self.genres = dto.genres.map { $0.name }
+        self.spokenLanguages = dto.spokenLanguages.map { $0.englishName }.joined(separator: ", ")
+        self.imdbUrl = dto.imdbId.flatMap { URL(string: "https://www.imdb.com/title/\($0)/") }
+        self.productionCompanies = dto.productionCompanies.map { ProductionCompany(dto: $0) }
+    }
+    
+    init(dto: TVDetailResponse) {
+        let firstAirDate: String? = dto.firstAirDate
+        let prefixedYear: Substring = firstAirDate?.prefix(4) ?? "-"
+        let year = String(prefixedYear)
+        
+        let imageUrl: URL? = dto.posterPath.flatMap {
+            URL(string: "https://image.tmdb.org/t/p/w500\($0)")
+        }
+        
+        self.id = dto.id
+        self.title = dto.name
+        self.year = year
+        self.runtime = dto.episodeRunTime.first ?? 0
+        self.imageUrl = imageUrl
+        self.rating = dto.voteAverage ?? 0.0
+        self.voteCount = dto.voteCount ?? 0
+        self.overview = dto.overview
+        self.popularity = dto.popularity
+        self.adult = dto.adult
+        self.genres = dto.genres.map { $0.name }
+        self.spokenLanguages = dto.spokenLanguages.map { $0.englishName }.joined(separator: ", ")
+        self.imdbUrl = nil
+        self.productionCompanies = dto.productionCompanies.map { ProductionCompany(dto: $0) }
     }
     
     var genreList: String {
         genres.joined(separator: ", ")
     }
-        
 }

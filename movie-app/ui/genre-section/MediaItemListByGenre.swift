@@ -25,7 +25,7 @@ struct MediaItemListByGenre: View {
                                     .frame(width: 200, height: 100)
                                     .shimmering()
                             } else {
-                                MediaItemCell(movie: mediaItem)
+                                MediaItemCell(mediaItem: mediaItem)
                                     .frame(width: 200)
                             }
                         }

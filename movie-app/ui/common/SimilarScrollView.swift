@@ -22,7 +22,7 @@ struct SimilarScrollView: View {
                     ForEach(viewModel.similars.indices, id: \.self) { index in
                         let similar = viewModel.similars[index]
                         NavigationLink(destination: MediaDetailsView(mediaItem: similar)) {
-                            MediaItemCell(movie: similar)
+                            MediaItemCell(mediaItem: similar)
                                 .frame(width: MovieCellConst.smallWidth)
                                 .onAppear {
                                     if index == viewModel.similars.count - 1 {

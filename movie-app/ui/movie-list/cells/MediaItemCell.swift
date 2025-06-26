@@ -9,35 +9,35 @@ import SwiftUI
 
 // TODO: Height, width
 struct MediaItemCell: View {
-    let movie: MediaItem
+    let mediaItem: MediaItem
     
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutConst.smallPadding) {
             ZStack(alignment: .topLeading) {
                 HStack(alignment: .center) {
-                    LoadImageView(url: movie.imageUrl)
+                    LoadImageView(url: mediaItem.imageUrl)
                         .frame(height: MovieCellConst.height)
                         .frame(maxHeight: MovieCellConst.maxHeight)
                         .cornerRadius(12)
                 }
                 HStack(spacing: 12.0) {
-                    MovieLabel(type: .rating(movie.rating))
-                    MovieLabel(type: .voteCount(movie.voteCount))
+                    MovieLabel(type: .rating(mediaItem.rating))
+                    MovieLabel(type: .voteCount(mediaItem.voteCount))
                 }
                 .padding(LayoutConst.smallPadding)
             }
 
             HStack {
                 VStack(alignment: .leading, spacing: LayoutConst.smallPadding) {
-                    Text(movie.title)
+                    Text(mediaItem.title)
                         .font(Fonts.subheading)
                         .minimumScaleFactor(0.6)
                         .lineLimit(1)
                     
-                    Text("\(movie.year)")
+                    Text("\(mediaItem.year)")
                         .font(Fonts.paragraph)
                     
-                    Text("\(movie.duration)")
+                    Text("\(mediaItem.duration)")
                         .font(Fonts.caption)
                 }
                 
@@ -50,7 +50,7 @@ struct MediaItemCell: View {
 }
 
 #Preview {
-    MediaItemCell(movie: MediaItem(id: 2,
+    MediaItemCell(mediaItem: MediaItem(id: 2,
                            title: "Mock movie2",
                            year: "2024",
                            duration: "1h 34m",
