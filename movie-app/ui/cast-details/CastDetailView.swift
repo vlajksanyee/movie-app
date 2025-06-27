@@ -80,8 +80,27 @@ struct CastDetailView: View {
                             }
                             .padding(.horizontal)
                             
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Combined Credits")
+                                    .font(Fonts.caption)
+                                    .foregroundColor(Color.primary)
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 20.0) {
+                                        ForEach(viewModel.combined, id: \.id) { cast in
+                                            NavigationLink(destination: MediaDetailsView(mediaItem: cast)) {
+                                                MediaItemCell(mediaItem: cast)
+                                                    .frame(width: MovieCellConst.smallWidth)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            
                         }
                         .padding(.bottom, 48)
+                        
                     } else {
                         ProgressView()
                     }
@@ -91,6 +110,7 @@ struct CastDetailView: View {
         .showAlert(model: $viewModel.alertModel)
         .onAppear {
             viewModel.castTypeSubject.send(castDetailType)
+            viewModel.combinedCreditsSubject.send((castDetailType.id))
         }
     }
 }

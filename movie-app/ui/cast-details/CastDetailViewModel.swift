@@ -28,7 +28,11 @@ class CastDetailViewModel: ObservableObject, ErrorPresentable {
     @Published var alertModel: AlertModel? = nil
     @Published var rating: Int = 0
     
+    var combined: [MediaItem] = []
+    
     let castTypeSubject = PassthroughSubject<CastDetailType, Never>()
+    
+    let combinedCreditsSubject = PassthroughSubject<Int, MovieError>()
     
     @Inject
     private var repository: MovieRepository
@@ -59,6 +63,27 @@ class CastDetailViewModel: ObservableObject, ErrorPresentable {
                 self?.castDetail = castDetail
                 self?.rating = self?.calculateStarRating(for: castDetail.popularity) ?? 0
             })
+            .store(in: &cancellables)
+                
+        combinedCreditsSubject
+            .flatMap { [weak self] combinedCreditsId -> AnyPublisher<[MediaItem], MovieError> in
+                guard let self = self else {
+                    return Fail(error: MovieError.unexpectedError).eraseToAnyPublisher()
+                }
+                let request = FetchCastMemberDetailsRequest(castMemberId: combinedCreditsId)
+                return self.repository.fetchCombinedCredits(req: request)
+            }
+            .receive(on: RunLoop.main)
+            .sink { [weak self] completion in
+                if case let .failure(error) = completion {
+                    self?.alertModel = self?.toAlertModel(error)
+                }
+            } receiveValue: { [weak self] combinedCredits in
+                guard let self = self else {
+                    preconditionFailure("There is no self")
+                }
+                self.combined = combinedCredits
+            }
             .store(in: &cancellables)
     }
     
