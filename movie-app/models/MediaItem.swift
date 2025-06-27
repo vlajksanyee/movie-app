@@ -85,4 +85,24 @@ struct MediaItem: Identifiable, Equatable {
             self.rating = detail.rating
             self.voteCount = detail.voteCount
         }
+    
+    init(dto: CombinedCreditsResponse) {
+        let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
+        let year = String(prefixedYear)
+        let duration = "58 min" // TODO: placeholder – ha lesz ilyen adat, cserélhető
+        
+        var imageUrl: URL? {
+            dto.posterPath.flatMap {
+                URL(string: "https://image.tmdb.org/t/p/w500\($0)")
+            }
+        }
+        
+        self.id = dto.id
+        self.title = dto.originalTitle ?? ""
+        self.year = year
+        self.duration = duration
+        self.imageUrl = imageUrl
+        self.rating = dto.voteAverage ?? 0.0
+        self.voteCount = dto.voteCount ?? 0
+    }
 }
