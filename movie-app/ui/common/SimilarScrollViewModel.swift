@@ -36,7 +36,6 @@ class SimilarScrollViewModel: SimilarScrollViewModelProtocol, ErrorPresentable {
                 }
                 return self.actualPage < self.totalPages
             }
-            .delay(for: 3, scheduler: RunLoop.main)
             .handleEvents(receiveOutput: { [weak self] _ in
                 guard let self = self else {
                     preconditionFailure("There is no self")

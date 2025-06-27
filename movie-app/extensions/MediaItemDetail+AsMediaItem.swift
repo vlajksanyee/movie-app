@@ -11,6 +11,5 @@ extension MediaItemDetail {
         return MediaItem(
             id: self.id, title: self.title, year: self.year, duration: String(self.runtime), imageUrl: self.imageUrl, rating: self.rating, voteCount: self.voteCount
         )
-        
     }
 }
