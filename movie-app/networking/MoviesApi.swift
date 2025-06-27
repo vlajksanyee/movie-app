@@ -22,6 +22,7 @@ enum MoviesApi {
     case fetchTVGenres(req: FetchGenreRequest)
     case fetchTV(req: FetchMediaListRequest)
     case fetchTVDetails(req: FetchDetailsRequest)
+    case fetchCombinedCredits(req: FetchCastMemberDetailsRequest)
     case searchMedia(req: SearchMediaRequest)
     case addReview(req: AddReviewRequest)
     case editFavoriteMovie(req: EditFavoriteRequest)
@@ -68,6 +69,8 @@ extension MoviesApi: TargetType {
             return "/discover/tv"
         case .fetchTVDetails(let req):
             return "/tv/\(req.mediaId)"
+        case .fetchCombinedCredits(let req):
+            return "person/\(req.castMemberId)/combined_credits"
         case .searchMedia:
             return Environments.name == .tv ?
             "/search/tv" :
@@ -83,7 +86,7 @@ extension MoviesApi: TargetType {
     
     var method: Moya.Method {
         switch self {
-        case .fetchMovieGenres, .fetchMovies, .fetchFavoriteMovies, .fetchMovieDetails, .fetchCredits, .fetchReviews, .fetchCastMemberDetails, .fetchCompanyDetails, .fetchSimilarMovies, .fetchSimilarTV, .fetchTVGenres, .fetchTV, .fetchTVDetails, .searchMedia:
+        case .fetchMovieGenres, .fetchMovies, .fetchFavoriteMovies, .fetchMovieDetails, .fetchCredits, .fetchReviews, .fetchCastMemberDetails, .fetchCompanyDetails, .fetchSimilarMovies, .fetchSimilarTV, .fetchTVGenres, .fetchTV, .fetchTVDetails, .fetchCombinedCredits, .searchMedia:
             return .get
         case .addReview, .editFavoriteMovie:
             return .post
@@ -117,6 +120,8 @@ extension MoviesApi: TargetType {
         case let .fetchTV(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .fetchTVDetails(req):
+            return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
+        case let .fetchCombinedCredits(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
         case let .searchMedia(req):
             return .requestParameters(parameters: req.asRequestParams(), encoding: URLEncoding.queryString)
@@ -156,6 +161,8 @@ extension MoviesApi: TargetType {
         case let .fetchTV(req):
             return ["Authorization": req.accessToken]
         case let .fetchTVDetails(req):
+            return ["Authorization": req.accessToken]
+        case let .fetchCombinedCredits(req):
             return ["Authorization": req.accessToken]
         case let .searchMedia(req):
             return [

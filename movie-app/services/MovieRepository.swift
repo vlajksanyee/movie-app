@@ -25,6 +25,7 @@ protocol MovieRepository {
     func fetchTVGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError>
     func fetchTV(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError>
     func fetchTVDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
+    func fetchCombinedCredits(req: FetchCastMemberDetailsRequest) -> AnyPublisher<[MediaItem], MovieError>
     func searchMedia(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
     func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
@@ -191,11 +192,20 @@ class MovieRepositoryImpl: MovieRepository {
     }
     
     func fetchTVDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError> {
-        
         requestAndTransform(
             target: MultiTarget(MoviesApi.fetchTVDetails(req: req)),
             decodeTo: TVDetailResponse.self,
             transform: { MediaItemDetail(dto: $0) }
+        )
+    }
+    
+    func fetchCombinedCredits(req: FetchCastMemberDetailsRequest) -> AnyPublisher<[MediaItem], MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchCombinedCredits(req: req)),
+            decodeTo: CombinedCreditsPageResponse.self,
+            transform: { response in
+                response.cast.map { MediaItem(dto: $0) }
+            }
         )
     }
     
