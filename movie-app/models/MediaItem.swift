@@ -15,6 +15,7 @@ struct MediaItem: Identifiable, Equatable {
     let imageUrl: URL?
     let rating: Double
     let voteCount: Int
+    let mediaType: MediaItemType
     
     init(id: Int = -1) {
         self.id = id
@@ -24,9 +25,10 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = nil
         self.rating = 0
         self.voteCount = 0
+        self.mediaType = .unknown
     }
     
-    init(id: Int, title: String, year: String, duration: String, imageUrl: URL?, rating: Double, voteCount: Int) {
+    init(id: Int, title: String, year: String, duration: String, imageUrl: URL?, rating: Double, voteCount: Int, mediaType: MediaItemType) {
         self.id = id
         self.title = title
         self.year = year
@@ -34,6 +36,7 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = rating
         self.voteCount = voteCount
+        self.mediaType = mediaType
     }
     
     init(dto: MovieResponse) {
@@ -54,6 +57,7 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
+        self.mediaType = .movie
     }
     
     init(dto: TVResponse) {
@@ -74,17 +78,19 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
+        self.mediaType = .tv
     }
     
     init(detail: MediaItemDetail) {
-            self.id = detail.id
-            self.title = detail.title
-            self.year = detail.year
-            self.duration = "1h 25min"
-            self.imageUrl = detail.imageUrl
-            self.rating = detail.rating
-            self.voteCount = detail.voteCount
-        }
+        self.id = detail.id
+        self.title = detail.title
+        self.year = detail.year
+        self.duration = "1h 25min"
+        self.imageUrl = detail.imageUrl
+        self.rating = detail.rating
+        self.voteCount = detail.voteCount
+        self.mediaType = .unknown
+    }
     
     init(dto: CombinedCreditsResponse) {
         let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
@@ -104,5 +110,6 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = imageUrl
         self.rating = dto.voteAverage ?? 0.0
         self.voteCount = dto.voteCount ?? 0
+        self.mediaType = dto.mediaType ?? .unknown
     }
 }

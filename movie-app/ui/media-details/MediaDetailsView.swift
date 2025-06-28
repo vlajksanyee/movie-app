@@ -87,7 +87,7 @@ struct MediaDetailsView: View {
         }
         .showAlert(model: $viewModel.alertModel)
         .onAppear {
-            viewModel.mediaItemIdSubject.send(mediaItem.id)
+            viewModel.mediaItemSubject.send(mediaItem)
         }
     }
 }

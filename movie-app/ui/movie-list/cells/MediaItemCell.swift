@@ -48,14 +48,3 @@ struct MediaItemCell: View {
         }
     }
 }
-
-#Preview {
-    MediaItemCell(mediaItem: MediaItem(id: 2,
-                           title: "Mock movie2",
-                           year: "2024",
-                           duration: "1h 34m",
-                           imageUrl: nil,
-                           rating: 1.0,
-                           voteCount: 1000)
-    )
-}

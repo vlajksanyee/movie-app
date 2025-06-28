@@ -19,7 +19,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     @Published var reviews: [MediaReview] = []
     @Published var alertModel: AlertModel? = nil
     
-    let mediaItemIdSubject = PassthroughSubject<Int, Never>()
+    let mediaItemSubject = PassthroughSubject<MediaItem, Never>()
     let favoriteButtonTapped = PassthroughSubject<Void, Never>()
     
     @Inject
@@ -32,34 +32,34 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
     
     init() {
         
-        let mediaItemIdSubject = mediaItemIdSubject.share()
+        let mediaItemSubject = mediaItemSubject.share()
         
-        let details = mediaItemIdSubject
-            .flatMap { [weak self]mediaItemId in
+        let details = mediaItemSubject
+            .flatMap { [weak self] mediaItem in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchDetailsRequest(mediaId: mediaItemId)
-                return Environments.name == .tv ?
+                let request = FetchDetailsRequest(mediaId: mediaItem.id)
+                return mediaItem.mediaType == .tv ?
                 self.repository.fetchTVDetails(req: request) :
                 self.repository.fetchMovieDetails(req: request)
             }
         
-        let credits = mediaItemIdSubject
-            .flatMap { [weak self]mediaItemId in
+        let credits = mediaItemSubject
+            .flatMap { [weak self] mediaItem in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchMediaCreditsRequest(mediaId: mediaItemId)
+                let request = FetchMediaCreditsRequest(mediaId: mediaItem.id)
                 return self.repository.fetchCredits(req: request)
             }
         
-        let reviews = mediaItemIdSubject
-            .flatMap { [weak self]mediaItemId in
+        let reviews = mediaItemSubject
+            .flatMap { [weak self] mediaItem in
                 guard let self = self else {
                     preconditionFailure("There is no self")
                 }
-                let request = FetchReviewsRequest(mediaId: mediaItemId)
+                let request = FetchReviewsRequest(mediaId: mediaItem.id)
                 return self.repository.fetchReviews(req: request)
             }
         

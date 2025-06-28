@@ -23,7 +23,7 @@ struct CombinedCreditsResponse: Decodable {
     let voteAverage: Double?
     let voteCount: Int?
     let popularity: Double?
-    let mediaType: String
+    let mediaType: MediaItemType?
 
     enum CodingKeys: String, CodingKey {
         case id
