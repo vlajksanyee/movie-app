@@ -89,7 +89,7 @@ struct MediaItem: Identifiable, Equatable {
         self.imageUrl = detail.imageUrl
         self.rating = detail.rating
         self.voteCount = detail.voteCount
-        self.mediaType = .unknown
+        self.mediaType = detail.mediaType
     }
     
     init(dto: CombinedCreditsResponse) {

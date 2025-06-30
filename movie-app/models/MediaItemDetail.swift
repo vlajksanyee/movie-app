@@ -22,6 +22,7 @@ struct MediaItemDetail: Identifiable {
     let spokenLanguages: String
     let imdbUrl: URL?
     let productionCompanies: [ProductionCompany]
+    let mediaType: MediaItemType
     
     init() {
         self.id = 0
@@ -38,9 +39,10 @@ struct MediaItemDetail: Identifiable {
         self.spokenLanguages = ""
         self.imdbUrl = nil
         self.productionCompanies = []
+        self.mediaType = .unknown
     }
     
-    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, imdbUrl: URL?, productionCompanies: [ProductionCompany]) {
+    init(id: Int, title: String, year: String, runtime: Int, imageUrl: URL?, rating: Double, voteCount: Int, overview: String, popularity: Double, adult: Bool, genres: [String], spokenLanguages: String, imdbUrl: URL?, productionCompanies: [ProductionCompany], mediaType: MediaItemType) {
         self.id = id
         self.title = title
         self.year = year
@@ -55,6 +57,7 @@ struct MediaItemDetail: Identifiable {
         self.spokenLanguages = spokenLanguages
         self.imdbUrl = imdbUrl
         self.productionCompanies = productionCompanies
+        self.mediaType = mediaType
     }
     
     init(dto: MovieDetailResponse) {
@@ -80,6 +83,7 @@ struct MediaItemDetail: Identifiable {
         self.spokenLanguages = dto.spokenLanguages.map { $0.englishName }.joined(separator: ", ")
         self.imdbUrl = dto.imdbId.flatMap { URL(string: "https://www.imdb.com/title/\($0)/") }
         self.productionCompanies = dto.productionCompanies.map { ProductionCompany(dto: $0) }
+        self.mediaType = .movie
     }
     
     init(dto: TVDetailResponse) {
@@ -105,6 +109,7 @@ struct MediaItemDetail: Identifiable {
         self.spokenLanguages = dto.spokenLanguages.map { $0.englishName }.joined(separator: ", ")
         self.imdbUrl = nil
         self.productionCompanies = dto.productionCompanies.map { ProductionCompany(dto: $0) }
+        self.mediaType = .tv
     }
     
     var genreList: String {
