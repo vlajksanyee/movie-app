@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// TODO: Height, width
 struct MediaItemCell: View {
     let mediaItem: MediaItem
     
@@ -46,16 +45,6 @@ struct MediaItemCell: View {
                 Image(.playButton)
             }
         }
+        .contentShape(Rectangle())
     }
-}
-
-#Preview {
-    MediaItemCell(mediaItem: MediaItem(id: 2,
-                           title: "Mock movie2",
-                           year: "2024",
-                           duration: "1h 34m",
-                           imageUrl: nil,
-                           rating: 1.0,
-                           voteCount: 1000)
-    )
 }

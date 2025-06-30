@@ -74,6 +74,7 @@ class GenreSectionViewModelImpl: GenreSectionViewModel, ErrorPresentable {
                 self.mediaItemsByGenre[genreId] = mediaItems
                 
                 if self.recommended == nil, let recommended = mediaItems.randomElement() {
+                    self.recommended = MediaItemDetail()
                     self.loadRecommended(mediaItem: recommended)
                 }
             }

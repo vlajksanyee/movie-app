@@ -10,13 +10,12 @@ import Combine
 import InjectPropertyWrapper
 
 protocol SearchViewModelProtocol: ObservableObject {
-    var movies: [MediaItem] { get set }
+    var mediaItems: [MediaItem] { get set }
     var searchText: String { get set }
-    //    func searchMovies() async
 }
 
 class SearchViewModel: SearchViewModelProtocol, ErrorPresentable {
-    @Published var movies: [MediaItem] = []
+    @Published var mediaItems: [MediaItem] = []
     @Published var searchText: String = ""
     @Published var alertModel: AlertModel? = nil
     
@@ -36,16 +35,18 @@ class SearchViewModel: SearchViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = SearchMediaRequest(query: self.searchText)
-                return self.repository.searchMedia(req: request)
+                return Environments.name == .tv ?
+                self.repository.searchTV(req: request) :
+                self.repository.searchMovie(req: request)
             }
             .sink { [weak self] completion in
                 print("<<< Completion: \(completion)")
                 if case let .failure(error) = completion {
                     self?.alertModel = self?.toAlertModel(error)
                 }
-            } receiveValue: { [weak self]movies in
-                print("<<< Received movies: \(movies.count)")
-                self?.movies = movies
+            } receiveValue: { [weak self] mediaItems in
+                print("<<< Received movies: \(mediaItems.count)")
+                self?.mediaItems = mediaItems
             }
             .store(in: &cancellables)
     }

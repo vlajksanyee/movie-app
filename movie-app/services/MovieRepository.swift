@@ -25,7 +25,9 @@ protocol MovieRepository {
     func fetchTVGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError>
     func fetchTV(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError>
     func fetchTVDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
-    func searchMedia(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
+    func fetchCombinedCredits(req: FetchCastMemberDetailsRequest) -> AnyPublisher<[MediaItem], MovieError>
+    func searchMovie(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
+    func searchTV(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
     func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
     func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
 }
@@ -191,7 +193,6 @@ class MovieRepositoryImpl: MovieRepository {
     }
     
     func fetchTVDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError> {
-        
         requestAndTransform(
             target: MultiTarget(MoviesApi.fetchTVDetails(req: req)),
             decodeTo: TVDetailResponse.self,
@@ -199,10 +200,30 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func searchMedia(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError> {
+    func fetchCombinedCredits(req: FetchCastMemberDetailsRequest) -> AnyPublisher<[MediaItem], MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.searchMedia(req: req)),
+            target: MultiTarget(MoviesApi.fetchCombinedCredits(req: req)),
+            decodeTo: CombinedCreditsPageResponse.self,
+            transform: { response in
+                response.cast.map { MediaItem(dto: $0) }
+            }
+        )
+    }
+    
+    func searchMovie(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.searchMovie(req: req)),
             decodeTo: MoviePageResponse.self,
+            transform: { response in
+                response.results.map { MediaItem(dto: $0) }
+            }
+        )
+    }
+    
+    func searchTV(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError> {
+        requestAndTransform(
+            target: MultiTarget(MoviesApi.searchTV(req: req)),
+            decodeTo: TVPageResponse.self,
             transform: { response in
                 response.results.map { MediaItem(dto: $0) }
             }
