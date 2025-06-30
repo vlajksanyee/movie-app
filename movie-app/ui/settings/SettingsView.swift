@@ -57,7 +57,7 @@ struct SettingsView: View {
                 
                 Spacer()
                 VStack(spacing: LayoutConst.smallPadding) {
-                    Text("Version 0.9.1")
+                    Text("Version \(viewModel.appInfo)")
                     Text("Created by iOS Academy")
                 }
                 .font(Fonts.subheading)
