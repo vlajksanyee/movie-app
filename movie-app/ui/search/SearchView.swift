@@ -41,7 +41,7 @@ struct SearchView: View {
                 .cornerRadius(28)
                 .padding(.horizontal, LayoutConst.maxPadding)
                 
-                if viewModel.movies.isEmpty {
+                if viewModel.mediaItems.isEmpty {
                     // Üres állapot
                     VStack {
                         Spacer()
@@ -54,7 +54,7 @@ struct SearchView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: LayoutConst.normalPadding) {
-                            ForEach(viewModel.movies) { movie in
+                            ForEach(viewModel.mediaItems) { movie in
                                 NavigationLink(destination: MediaDetailsView(mediaItem: movie)) {
                                     MediaItemCell(mediaItem: movie)
                                         .frame(height: 277)
