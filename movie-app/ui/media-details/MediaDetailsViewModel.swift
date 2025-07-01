@@ -88,7 +88,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let isFavorite = !self.isFavorite
-                let request = EditFavoriteRequest(movieId: self.mediaItemDetail.id, isFavorite: isFavorite)
+                let request = EditFavoriteRequest(mediaId: self.mediaItemDetail.id, isFavorite: isFavorite)
                 return repository.editFavoriteMovie(req: request)
                     .map { result in
                         (result, isFavorite)

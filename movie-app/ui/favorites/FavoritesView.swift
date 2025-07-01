@@ -27,9 +27,9 @@ struct FavoritesView: View {
                 ScrollView {
                     LazyVStack(spacing: LayoutConst.normalPadding) {
                         ForEach(viewModel.mediaItems.indices, id: \.self) { index in
-                            let movie = viewModel.mediaItems[index]
-                            NavigationLink(destination: MediaDetailsView(mediaItem: movie)) {
-                                MediaItemCell(mediaItem: movie)
+                            let mediaItem = viewModel.mediaItems[index]
+                            NavigationLink(destination: MediaDetailsView(mediaItem: mediaItem)) {
+                                MediaItemCell(mediaItem: mediaItem)
                                     .frame(height: 277)
                             }
                             .accessibilityLabel("MediaItem\(index)")

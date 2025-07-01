@@ -14,7 +14,8 @@ import Alamofire
 protocol MovieRepository {
     func fetchGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError>
     func fetchMovies(req: FetchMediaListRequest) -> AnyPublisher<MediaItemPage, MovieError>
-    func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
+    func fetchFavoriteMovies(req: FetchFavoriteMediaItemsRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
+    func fetchFavoriteTV(req: FetchFavoriteMediaItemsRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
     func fetchMovieDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
     func fetchCredits(req: FetchMediaCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
     func fetchMovieReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
@@ -58,11 +59,36 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest, fromLocal: Bool = false) -> AnyPublisher<[MediaItem], MovieError> {
+    func fetchFavoriteMovies(req: FetchFavoriteMediaItemsRequest, fromLocal: Bool = false) -> AnyPublisher<[MediaItem], MovieError> {
         
         let serviceResponse: AnyPublisher<[MediaItem], MovieError> = self.requestAndTransform(
             target: MultiTarget(MoviesApi.fetchFavoriteMovies(req: req)),
             decodeTo: MoviePageResponse.self,
+            transform: { $0.results.map(MediaItem.init(dto:)) }
+        )
+            .handleEvents(receiveOutput: { [weak self] mediaItems in
+                self?.store.saveMediaItems(mediaItems)
+            })
+            .eraseToAnyPublisher()
+        
+        let localResponse: AnyPublisher<[MediaItem], MovieError> = store.mediaItems
+        
+        return networkMonitor.isConnected
+            .flatMap { isConnected -> AnyPublisher<[MediaItem], MovieError> in
+                if isConnected {
+                    return serviceResponse
+                } else {
+                    return localResponse
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func fetchFavoriteTV(req: FetchFavoriteMediaItemsRequest, fromLocal: Bool = false) -> AnyPublisher<[MediaItem], MovieError> {
+        
+        let serviceResponse: AnyPublisher<[MediaItem], MovieError> = self.requestAndTransform(
+            target: MultiTarget(MoviesApi.fetchFavoriteTV(req: req)),
+            decodeTo: TVPageResponse.self,
             transform: { $0.results.map(MediaItem.init(dto:)) }
         )
             .handleEvents(receiveOutput: { [weak self] mediaItems in
