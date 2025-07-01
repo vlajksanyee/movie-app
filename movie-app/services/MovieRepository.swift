@@ -1,5 +1,5 @@
 //
-//  ReactiveMovieService.swift
+//  MovieRepository.swift
 //  movie-app
 //
 //  Created by Sandor Vlajk on 2025. 05. 06..
@@ -17,7 +17,8 @@ protocol MovieRepository {
     func fetchFavoriteMovies(req: FetchFavoriteMoviesRequest, fromLocal: Bool) -> AnyPublisher<[MediaItem], MovieError>
     func fetchMovieDetails(req: FetchDetailsRequest) -> AnyPublisher<MediaItemDetail, MovieError>
     func fetchCredits(req: FetchMediaCreditsRequest) -> AnyPublisher<[CastMember], MovieError>
-    func fetchReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
+    func fetchMovieReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
+    func fetchTVReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError>
     func fetchCastMemberDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError>
     func fetchCompanyDetail(req: FetchCastMemberDetailsRequest) -> AnyPublisher<CastDetail, MovieError>
     func fetchSimilarMovies(req: FetchSimilarsRequest) -> AnyPublisher<MediaItemPage, MovieError>
@@ -127,12 +128,29 @@ class MovieRepositoryImpl: MovieRepository {
             .eraseToAnyPublisher()
     }
     
-    func fetchReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError> {
+    func fetchMovieReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError> {
         return networkMonitor.isConnected
             .flatMap { isConnected -> AnyPublisher<[MediaReview], MovieError> in
                 if isConnected {
                     return self.requestAndTransform(
-                        target: MultiTarget(MoviesApi.fetchReviews(req: req)),
+                        target: MultiTarget(MoviesApi.fetchMovieReviews(req: req)),
+                        decodeTo: MediaReviewsResponse.self,
+                        transform: { $0.results.map(MediaReview.init(dto:)) }
+                    )
+                    .eraseToAnyPublisher()
+                } else {
+                    return Fail(error: MovieError.unexpectedError).eraseToAnyPublisher()
+                }
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func fetchTVReviews(req: FetchReviewsRequest) -> AnyPublisher<[MediaReview], MovieError> {
+        return networkMonitor.isConnected
+            .flatMap { isConnected -> AnyPublisher<[MediaReview], MovieError> in
+                if isConnected {
+                    return self.requestAndTransform(
+                        target: MultiTarget(MoviesApi.fetchTVReviews(req: req)),
                         decodeTo: MediaReviewsResponse.self,
                         transform: { $0.results.map(MediaReview.init(dto:)) }
                     )
