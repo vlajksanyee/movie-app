@@ -8,16 +8,31 @@
 import Foundation
 
 enum Config {
-    private static let apiToken: String = {
+    private static let config: NSDictionary = {
         guard let path = Bundle.main.path(forResource: "Config", ofType: "plist"),
-              let dict = NSDictionary(contentsOfFile: path),
-              let token = dict["API_TOKEN"] as? String else {
-            preconditionFailure("Config.plist file or API_TOKEN not found")
+              let dict = NSDictionary(contentsOfFile: path) else {
+            preconditionFailure("Config.plist file not found")
         }
-        return token
+        return dict
     }()
-    
+
+    private static func value(forKey key: String) -> String {
+        guard let value = config[key] as? String else {
+            preconditionFailure("Missing value for key: \(key)")
+        }
+        return value
+    }
+
+    static var apiToken: String {
+        value(forKey: "API_TOKEN")
+    }
+
+    static var accountId: String {
+        value(forKey: "ACCOUNT_ID")
+    }
+
     static var bearerToken: String {
         "Bearer \(apiToken)"
     }
 }
+

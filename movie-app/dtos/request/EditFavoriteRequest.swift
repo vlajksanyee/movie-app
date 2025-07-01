@@ -6,27 +6,27 @@
 //
 
 struct EditFavoriteBodyRequest: Encodable {
-    let movieId: Int
+    let mediaId: Int
     let isFavorite: Bool
     let mediaType = "movie"
     
     enum CodingKeys: String, CodingKey {
         case isFavorite = "favorite"
-        case movieId = "media_id"
+        case mediaId = "media_id"
         case mediaType = "media_type"
     }
 }
 
 struct EditFavoriteRequest {
     let accessToken: String = Config.bearerToken
-    let account_id: String = "21958080"
-    let movieId: Int
+    let account_id: String = Config.accountId
+    let mediaId: Int
     let isFavorite: Bool
     
     func asRequestParams() -> [String: Any] {
         return [
             "media_type": "movie",
-            "media_id": movieId,
+            "media_id": mediaId,
             "favorite": isFavorite
         ]
     }
