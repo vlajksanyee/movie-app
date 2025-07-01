@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FetchMediaListRequest {
+struct FetchMediaListRequest: LocalizedRequest {
     let accessToken: String = Config.bearerToken
     let genreId: Int
     let includeAdult: Bool
@@ -19,6 +19,6 @@ struct FetchMediaListRequest {
             "with_genres": genreId,
             "include_adult": includeAdult,
             "page": page
-        ]
+        ] + languageParam
     }
 }

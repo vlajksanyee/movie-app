@@ -63,3 +63,10 @@
 "rate.title" = "RATE THE APP!";
 "rate.text" = "PLEASE RATE THE APP! THANK YOU!";
 "rate.ok" = "OK";
+
+// CAST DETAILS
+"cast.birthYear" = "Birth Year";
+"cast.city" = "City";
+"cast.bio" = "Bio";
+"cast.popularity" = "Popularity";
+"cast.combinedCredits" = "Combined Credits";

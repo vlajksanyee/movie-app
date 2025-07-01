@@ -10,6 +10,7 @@ import InjectPropertyWrapper
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
+    @Environment(\.locale) private var locale
     
     var body: some View {
         NavigationView {
@@ -67,9 +68,6 @@ struct SearchView: View {
                     }
                 }
             }
-        }
-        .onAppear {
-            viewModel.searchText = ""
         }
     }
 }

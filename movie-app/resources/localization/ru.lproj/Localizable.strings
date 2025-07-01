@@ -62,3 +62,10 @@
 "rate.title" = "ОЦЕНИ ПРИЛОЖЕНИЕ!";
 "rate.text" = "ПОЖАЛУЙСТА, ОЦЕНИ ПРИЛОЖЕНИЕ! СПАСИБО!";
 "rate.ok" = "ОК";
+
+// CAST DETAILS
+"cast.birthYear" = "Год рождения";
+"cast.city" = "Город";
+"cast.bio" = "Биография";
+"cast.popularity" = "Популярность";
+"cast.combinedCredits" = "Общие кредиты";

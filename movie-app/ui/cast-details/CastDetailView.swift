@@ -38,7 +38,7 @@ struct CastDetailView: View {
                             
                             HStack(spacing: 40) {
                                 VStack(alignment: .leading) {
-                                    Text("Birth year")
+                                    Text("cast.birthYear".localized())
                                         .font(Fonts.caption)
                                         .foregroundColor(Color.primary)
                                     Text(castMember.birthYear ?? "" )
@@ -47,7 +47,7 @@ struct CastDetailView: View {
                                 }
                                 
                                 VStack(alignment: .leading) {
-                                    Text("City")
+                                    Text("cast.city".localized())
                                         .font(Fonts.caption)
                                         .foregroundColor(Color.primary)
                                     Text(castMember.originPlace ?? "")
@@ -59,7 +59,7 @@ struct CastDetailView: View {
                             .padding(.horizontal)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Bio")
+                                Text("cast.bio".localized())
                                     .font(Fonts.caption)
                                     .foregroundColor(Color.primary)
                                 Text(castMember.biography ?? "")
@@ -69,7 +69,7 @@ struct CastDetailView: View {
                             .padding(.horizontal)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Popularity")
+                                Text("cast.popularity".localized())
                                     .font(Fonts.caption)
                                     .foregroundColor(Color.primary)
                                 HStack {
@@ -82,7 +82,7 @@ struct CastDetailView: View {
                             .padding(.horizontal)
                             
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Combined Credits")
+                                Text("cast.combinedCredits".localized())
                                     .font(Fonts.caption)
                                     .foregroundColor(Color.primary)
                                 ScrollView(.horizontal, showsIndicators: false) {

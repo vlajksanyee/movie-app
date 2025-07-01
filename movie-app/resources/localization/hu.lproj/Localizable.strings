@@ -49,7 +49,7 @@
 "details.overview" = "Összefoglaló";
 "details.publishers" = "Kiadók";
 "details.cast" = "Színészek";
-"details.topreviews" = "Értékelések";
+"details.topreviews" = "Legjobb Értékelések";
 "details.noreviews" = "Nincs Értékelés";
 "details.similars" = "Hasonlóak";
 
@@ -64,3 +64,10 @@
 "rate.title" = "ÉRTÉKELD AZ APPOT!";
 "rate.text" = "KÉRLEK ÉRTÉKELD AZ APPOT! KÖSZÖNJÜK!";
 "rate.ok" = "OK";
+
+// CAST DETAILS
+"cast.birthYear" = "Születési év";
+"cast.city" = "Város";
+"cast.bio" = "Életrajz";
+"cast.popularity" = "Népszerűség";
+"cast.combinedCredits" = "Összesített szereplések";
