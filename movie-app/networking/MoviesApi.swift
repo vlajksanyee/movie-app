@@ -28,7 +28,7 @@ enum MoviesApi {
     case searchMovie(req: SearchMediaRequest)
     case searchTV(req: SearchMediaRequest)
     case addReview(req: AddReviewRequest)
-    case editFavoriteMovie(req: EditFavoriteRequest)
+    case editFavoriteMovies(req: EditFavoriteRequest)
 }
 
 extension MoviesApi: TargetType {
@@ -84,7 +84,7 @@ extension MoviesApi: TargetType {
             return Environments.name == .tv ?
             "/tv/\(req.mediaId)/rating" :
             "/movie/\(req.mediaId)/rating"
-        case .editFavoriteMovie(req: let req):
+        case .editFavoriteMovies(req: let req):
             return "/account/\(req.account_id)/favorite"
         }
     }
@@ -93,7 +93,7 @@ extension MoviesApi: TargetType {
         switch self {
         case .fetchMovieGenres, .fetchMovies, .fetchFavoriteMovies, .fetchFavoriteTV, .fetchMovieDetails, .fetchCredits, .fetchMovieReviews, .fetchTVReviews, .fetchCastMemberDetails, .fetchCompanyDetails, .fetchSimilarMovies, .fetchSimilarTV, .fetchTVGenres, .fetchTV, .fetchTVDetails, .fetchCombinedCredits, .searchMovie, .searchTV:
             return .get
-        case .addReview, .editFavoriteMovie:
+        case .addReview, .editFavoriteMovies:
             return .post
         }
     }
@@ -139,7 +139,7 @@ extension MoviesApi: TargetType {
         case let .addReview(req):
             let request = AddReviewBodyRequest(mediaId: req.mediaId, value: req.value)
             return .requestJSONEncodable(request)
-        case let .editFavoriteMovie(req):
+        case let .editFavoriteMovies(req):
             let request = EditFavoriteBodyRequest(mediaId: req.mediaId, isFavorite: req.isFavorite)
             return .requestJSONEncodable(request)
         }
@@ -194,7 +194,7 @@ extension MoviesApi: TargetType {
                 "Authorization": req.accessToken,
                 "accept": "application.json"
             ]
-        case let .editFavoriteMovie(req):
+        case let .editFavoriteMovies(req):
             return [
                 "Authorization": req.accessToken,
                 "accept": "application.json"

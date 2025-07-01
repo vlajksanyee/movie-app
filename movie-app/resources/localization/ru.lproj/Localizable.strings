@@ -24,6 +24,8 @@
 "settings.lang.hungarian" = "Венгерский";
 "settings.theme.light" = "Светлая тема";
 "settings.theme.dark" = "Темная тема";
+"settings.version" = "Версия";
+"settings.createdBy" = "Создано iOS Academy";
 
 // ERROR ALERTS
 "apierror.message" = "Ошибка API";
@@ -47,6 +49,7 @@
 "details.cast" = "Актерский состав";
 "details.topreviews" = "Лучшие отзывы";
 "details.noreviews" = "Нет отзывов";
+"details.similars" = "Похожие";
 
 // NO INTERNET
 "noInternet" = "Нет подключения к интернету";

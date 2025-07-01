@@ -42,13 +42,11 @@ struct SettingsView: View {
                 HStack(spacing: 12) {
                     StyledButton(style: viewModel.selectedTheme == .light ? .filled : .outlined, action: .simple, title: "settings.theme.light".localized())
                         .font(Fonts.detailsButton)
-                        .lineLimit(1)
                         .onTapGesture {
                             viewModel.changeTheme(AppColorScheme.light)
                         }
                     StyledButton(style: viewModel.selectedTheme == .dark ? .filled : .outlined, action: .simple, title: "settings.theme.dark".localized())
                         .font(Fonts.detailsButton)
-                        .lineLimit(1)
                         .onTapGesture {
                             viewModel.changeTheme(AppColorScheme.dark)
                         }
@@ -57,8 +55,8 @@ struct SettingsView: View {
                 
                 Spacer()
                 VStack(spacing: LayoutConst.smallPadding) {
-                    Text("Version \(viewModel.appInfo)")
-                    Text("Created by iOS Academy")
+                    Text("settings.version".localized() + ": \(viewModel.appInfo)")
+                    Text("settings.createdBy".localized())
                 }
                 .font(Fonts.subheading)
                 .frame(maxWidth: .infinity, alignment: .center)

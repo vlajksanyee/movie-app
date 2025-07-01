@@ -69,7 +69,7 @@ struct MediaDetailsView: View {
                 ReviewScrollView(reviews: viewModel.reviews)
                 
                 // TODO: Localization
-                SimilarScrollView(title: "Similars", mediaItemId: mediaItem.id)
+                SimilarScrollView(title: "details.similars".localized(), mediaItemId: mediaItem.id)
             }
             .padding(.horizontal, LayoutConst.maxPadding)
             .padding(.bottom, LayoutConst.largePadding)

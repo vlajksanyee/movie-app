@@ -25,6 +25,8 @@
 "settings.lang.hungarian" = "Hungarian";
 "settings.theme.light" = "Light Mode";
 "settings.theme.dark" = "Dark Mode";
+"settings.version" = "Version";
+"settings.createdBy" = "Created by iOS Academy";
 
 // ERROR ALERTS
 "apierror.message" = "API Error";
@@ -48,6 +50,7 @@
 "details.cast" = "Cast";
 "details.topreviews" = "Top Reviews";
 "details.noreviews" = "No Reviews";
+"details.similars" = "Similars";
 
 // NO INTERNET
 "noInternet" = "No Internet connection";

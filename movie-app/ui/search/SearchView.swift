@@ -68,6 +68,9 @@ struct SearchView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.searchText = ""
+        }
     }
 }
 

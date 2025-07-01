@@ -89,7 +89,7 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                 }
                 let isFavorite = !self.isFavorite
                 let request = EditFavoriteRequest(mediaId: self.mediaItemDetail.id, isFavorite: isFavorite)
-                return repository.editFavoriteMovie(req: request)
+                return repository.editFavoriteMovies(req: request)
                     .map { result in
                         (result, isFavorite)
                     }

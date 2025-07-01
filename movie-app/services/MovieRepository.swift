@@ -31,7 +31,7 @@ protocol MovieRepository {
     func searchMovie(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
     func searchTV(req: SearchMediaRequest) -> AnyPublisher<[MediaItem], MovieError>
     func addReview(req: AddReviewRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
-    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
+    func editFavoriteMovies(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError>
 }
 
 class MovieRepositoryImpl: MovieRepository {
@@ -282,9 +282,9 @@ class MovieRepositoryImpl: MovieRepository {
         )
     }
     
-    func editFavoriteMovie(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError> {
+    func editFavoriteMovies(req: EditFavoriteRequest) -> AnyPublisher<ModifyMediaResult, MovieError> {
         requestAndTransform(
-            target: MultiTarget(MoviesApi.editFavoriteMovie(req: req)),
+            target: MultiTarget(MoviesApi.editFavoriteMovies(req: req)),
             decodeTo: ModifyMediaResponse.self,
             transform: { ModifyMediaResult(dto: $0) }
         )
