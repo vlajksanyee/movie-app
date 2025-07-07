@@ -21,24 +21,22 @@ struct GenreSectionView: View {
                         .listStyle(.plain)
                 }
                 ForEach(viewModel.genres) { genre in
-                    VStack(alignment: .leading) {
-                        ZStack {
-                            NavigationLink(destination: MediaItemListView(genre: genre)) {
-                                EmptyView()
-                            }
-                            .opacity(0)
-                            
-                            let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
-                            MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
-                                .onAppear {
-                                    if viewModel.mediaItemsByGenre[genre.id] == nil {
-                                        viewModel.loadMediaItems(genreId: genre.id)
-                                    }
-                                }
+                    ZStack {
+                        NavigationLink(destination: MediaItemListView(genre: genre)) {
+                            EmptyView()
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .opacity(0)
+                        
+                        let mediaItems = viewModel.getMediaItemsByGenre(genre.id)
+                        MediaItemListByGenre(genre: genre, mediaItems: mediaItems)
+                            .onAppear {
+                                if viewModel.mediaItemsByGenre[genre.id] == nil {
+                                    viewModel.loadMediaItems(genreId: genre.id)
+                                }
+                            }
                     }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.plain)

@@ -37,8 +37,8 @@
 "mappingerror.message" = "Ошибка сопоставления";
 
 // DETAILS
-"details.available" = "Доступно";
-"details.unavailable" = "Недоступно";
+"details.adultOnly" = "Доступно";
+"details.nonAdultOnly" = "Недоступно";
 "details.label.release" = "Дата выхода";
 "details.label.runtime" = "Продолжительность";
 "details.label.languages" = "Языки";

@@ -41,6 +41,7 @@ class MovieRepositoryImpl: MovieRepository {
     @Inject private var store: MediaItemStoreProtocol
     @Inject private var detailStore: MediaItemDetailStoreProtocol
     @Inject private var castMemberStore: CastMemberStoreProtocol
+    @Inject private var reviewStore: ReviewStoreProtocol
     @Inject private var networkMonitor: NetworkMonitorProtocol
     
     func fetchGenres(req: FetchGenreRequest) -> AnyPublisher<[Genre], MovieError> {
@@ -163,9 +164,12 @@ class MovieRepositoryImpl: MovieRepository {
                         decodeTo: MediaReviewsResponse.self,
                         transform: { $0.results.map(MediaReview.init(dto:)) }
                     )
+                    .handleEvents(receiveOutput: { [weak self] reviews in
+                        self?.reviewStore.saveReviews(reviews, forMediaId: req.mediaId)
+                    })
                     .eraseToAnyPublisher()
                 } else {
-                    return Fail(error: MovieError.unexpectedError).eraseToAnyPublisher()
+                    return self.reviewStore.getReviews(fromMediaId: req.mediaId)
                 }
             }
             .eraseToAnyPublisher()
@@ -180,9 +184,12 @@ class MovieRepositoryImpl: MovieRepository {
                         decodeTo: MediaReviewsResponse.self,
                         transform: { $0.results.map(MediaReview.init(dto:)) }
                     )
+                    .handleEvents(receiveOutput: { [weak self] reviews in
+                        self?.reviewStore.saveReviews(reviews, forMediaId: req.mediaId)
+                    })
                     .eraseToAnyPublisher()
                 } else {
-                    return Fail(error: MovieError.unexpectedError).eraseToAnyPublisher()
+                    return self.reviewStore.getReviews(fromMediaId: req.mediaId)
                 }
             }
             .eraseToAnyPublisher()
@@ -278,7 +285,9 @@ class MovieRepositoryImpl: MovieRepository {
         requestAndTransform(
             target: MultiTarget(MoviesApi.addReview(req: req)),
             decodeTo: ModifyMediaResponse.self,
-            transform: { ModifyMediaResult(dto: $0) }
+            transform: { response in
+                ModifyMediaResult(dto: response)
+            }
         )
     }
     

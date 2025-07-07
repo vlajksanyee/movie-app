@@ -39,8 +39,8 @@
 "mappingerror.message" = "Leképezési Hiba";
 
 // DETAILS
-"details.available" = "Elérhető";
-"details.unavailable" = "Nem elérhető";
+"details.adultOnly" = "Korhatáros";
+"details.nonAdultOnly" = "Nem korhatáros";
 "details.label.release" = "Megjelenési Év";
 "details.label.runtime" = "Időtartam";
 "details.label.languages" = "Nyelvek";

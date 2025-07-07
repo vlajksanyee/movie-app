@@ -12,7 +12,9 @@ import InjectPropertyWrapper
 class AddReviewViewModel: ObservableObject, ErrorPresentable {
     @Published var mediaItemDetail: MediaItemDetail = MediaItemDetail()
     @Published var selectedRating: Int = 1
-    
+    @Published var success: Bool = false
+    @Published var alertModel: AlertModel? = nil
+        
     let mediaDetailSubject = PassthroughSubject<MediaItemDetail, Never>()
     let ratingButtonSubject = PassthroughSubject<Void, Never>()
     
@@ -36,13 +38,18 @@ class AddReviewViewModel: ObservableObject, ErrorPresentable {
                 
                 let rating: Double = Double(self.selectedRating)
                 let request = AddReviewRequest(mediaId: mediaItemDetail.id, value: rating)
-                
                 return self.repository.addReview(req: request)
             }
-            .sink(receiveCompletion: { _ in
-                
-            }, receiveValue: { result in
-                
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    self.alertModel = self.toAlertModel(error)
+                case .finished:
+                    break
+                }
+            }, receiveValue: { [weak self] result in
+                print(result)
+                self?.success = true
             })
             .store(in: &cancellables)
     }

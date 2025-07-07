@@ -16,10 +16,10 @@ struct SplashScreen: View {
     var body: some View {
         if animationFinished {
             RootView(selectedTab: selectedTab)
+                .environmentObject(LanguageManager.shared)
         } else {
             LottieView(animation: LottieAnimation.named("movies"))
-                .playing(loopMode: .repeatBackwards(1.0))
-                .animationSpeed(5.0)
+                .playing(loopMode: .playOnce)
                 .animationDidFinish { finished in
                     animationFinished.toggle()
                 }

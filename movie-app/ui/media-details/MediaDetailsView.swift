@@ -11,6 +11,7 @@ struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     let mediaItem: MediaItem
     @Environment(\.dismiss) private var dismiss: DismissAction
+    @EnvironmentObject var languageManager: LanguageManager
     
     var body: some View {
         var mediaItemDetail: MediaItemDetail {
@@ -68,7 +69,6 @@ struct MediaDetailsView: View {
                 
                 ReviewScrollView(reviews: viewModel.reviews)
                 
-                // TODO: Localization
                 SimilarScrollView(title: "details.similars".localized(), mediaItemId: mediaItem.id)
             }
             .padding(.horizontal, LayoutConst.maxPadding)

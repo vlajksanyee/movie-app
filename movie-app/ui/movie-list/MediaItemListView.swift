@@ -12,6 +12,8 @@ struct MediaItemListView: View {
     @StateObject private var viewModel = MediaItemListViewModel()
     let genre: Genre
     
+    @EnvironmentObject var languageManager: LanguageManager
+    
     let columns = [
         GridItem(.adaptive(minimum: 150), spacing: LayoutConst.normalPadding)
     ]

@@ -38,8 +38,8 @@
 "mappingerror.message" = "Mapping Error";
 
 // DETAILS
-"details.available" = "Available";
-"details.unavailable" = "Unavailable";
+"details.adultOnly" = "Adult Only";
+"details.nonAdultOnly" = "All Ages";
 "details.label.release" = "Release Date";
 "details.label.runtime" = "Runtime";
 "details.label.languages" = "Languages";
