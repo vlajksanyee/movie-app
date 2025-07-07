@@ -35,5 +35,6 @@ struct GenreMotdCell: View {
             }
             .padding(LayoutConst.maxPadding)
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }

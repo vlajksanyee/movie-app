@@ -11,6 +11,7 @@ struct MediaDetailsView: View {
     @StateObject private var viewModel = MediaDetailsViewModel()
     let mediaItem: MediaItem
     @Environment(\.dismiss) private var dismiss: DismissAction
+    @EnvironmentObject var languageManager: LanguageManager
     
     var body: some View {
         var mediaItemDetail: MediaItemDetail {
@@ -29,11 +30,11 @@ struct MediaDetailsView: View {
                     .cornerRadius(30)
                 
                 HStack(spacing: 12.0) {
-                    MovieLabel(type: .rating(mediaItemDetail.rating))
-                    MovieLabel(type: .voteCount(mediaItemDetail.voteCount))
-                    MovieLabel(type: .popularity(mediaItemDetail.popularity))
+                    MediaItemLabel(type: .rating(mediaItemDetail.rating))
+                    MediaItemLabel(type: .voteCount(mediaItemDetail.voteCount))
+                    MediaItemLabel(type: .popularity(mediaItemDetail.popularity))
                     Spacer()
-                    MovieLabel(type: .adult(mediaItemDetail.adult))
+                    MediaItemLabel(type: .adult(mediaItemDetail.adult))
                 }
                 
                 Text(viewModel.mediaItemDetail.genreList)
@@ -48,8 +49,10 @@ struct MediaDetailsView: View {
                         StyledButton(style: .outlined, action: .simple, title: "details.button.rate".localized())
                     }
                     
-                    Spacer()
-                    StyledButton(style: .filled, action: .link(mediaItemDetail.imdbUrl), title: "details.button.imdb".localized())
+                    if mediaItemDetail.imdbUrl != nil {
+                        Spacer()
+                        StyledButton(style: .filled, action: .link(mediaItemDetail.imdbUrl), title: "details.button.imdb".localized())
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 12.0) {
@@ -66,8 +69,7 @@ struct MediaDetailsView: View {
                 
                 ReviewScrollView(reviews: viewModel.reviews)
                 
-                // TODO: Localization
-                SimilarScrollView(title: "Similars", mediaItemId: mediaItem.id)
+                SimilarScrollView(title: "details.similars".localized(), mediaItemId: mediaItem.id)
             }
             .padding(.horizontal, LayoutConst.maxPadding)
             .padding(.bottom, LayoutConst.largePadding)

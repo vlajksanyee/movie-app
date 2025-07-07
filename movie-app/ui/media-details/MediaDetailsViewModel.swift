@@ -60,7 +60,9 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let request = FetchReviewsRequest(mediaId: mediaItem.id)
-                return self.repository.fetchReviews(req: request)
+                return Environments.name == .tv ?
+                self.repository.fetchTVReviews(req: request) :
+                self.repository.fetchMovieReviews(req: request)
             }
         
         Publishers.CombineLatest3(details, credits, reviews)
@@ -86,8 +88,8 @@ class MediaDetailsViewModel: MediaDetailsViewModelProtocol, ErrorPresentable {
                     preconditionFailure("There is no self")
                 }
                 let isFavorite = !self.isFavorite
-                let request = EditFavoriteRequest(movieId: self.mediaItemDetail.id, isFavorite: isFavorite)
-                return repository.editFavoriteMovie(req: request)
+                let request = EditFavoriteRequest(mediaId: self.mediaItemDetail.id, isFavorite: isFavorite)
+                return repository.editFavoriteMovies(req: request)
                     .map { result in
                         (result, isFavorite)
                     }

@@ -5,11 +5,11 @@
 //  Created by Sandor Vlajk on 2025. 05. 04..
 //
 
-struct FetchFavoriteMoviesRequest {
+struct FetchFavoriteMediaItemsRequest: LocalizedRequest {
     let accessToken: String = Config.bearerToken
-    let account_id: String = "21958080"
+    let account_id: String = Config.accountId
     
     func asRequestParams() -> [String: Any] {
-        return [:]
+        return languageParam
     }
 }

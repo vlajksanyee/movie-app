@@ -22,6 +22,8 @@ struct StyledButton: View {
     let action: ButtonStyleAction
     let title: String
     
+    @EnvironmentObject var languageManager: LanguageManager
+    
     var body: some View {
         baseView
             .font(Fonts.subheading)

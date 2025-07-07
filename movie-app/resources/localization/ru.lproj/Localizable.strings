@@ -24,6 +24,8 @@
 "settings.lang.hungarian" = "Венгерский";
 "settings.theme.light" = "Светлая тема";
 "settings.theme.dark" = "Темная тема";
+"settings.version" = "Версия";
+"settings.createdBy" = "Создано iOS Academy";
 
 // ERROR ALERTS
 "apierror.message" = "Ошибка API";
@@ -35,8 +37,8 @@
 "mappingerror.message" = "Ошибка сопоставления";
 
 // DETAILS
-"details.available" = "Доступно";
-"details.unavailable" = "Недоступно";
+"details.adultOnly" = "Доступно";
+"details.nonAdultOnly" = "Недоступно";
 "details.label.release" = "Дата выхода";
 "details.label.runtime" = "Продолжительность";
 "details.label.languages" = "Языки";
@@ -47,6 +49,7 @@
 "details.cast" = "Актерский состав";
 "details.topreviews" = "Лучшие отзывы";
 "details.noreviews" = "Нет отзывов";
+"details.similars" = "Похожие";
 
 // NO INTERNET
 "noInternet" = "Нет подключения к интернету";
@@ -59,3 +62,10 @@
 "rate.title" = "ОЦЕНИ ПРИЛОЖЕНИЕ!";
 "rate.text" = "ПОЖАЛУЙСТА, ОЦЕНИ ПРИЛОЖЕНИЕ! СПАСИБО!";
 "rate.ok" = "ОК";
+
+// CAST DETAILS
+"cast.birthYear" = "Год рождения";
+"cast.city" = "Город";
+"cast.bio" = "Биография";
+"cast.popularity" = "Популярность";
+"cast.combinedCredits" = "Общие кредиты";

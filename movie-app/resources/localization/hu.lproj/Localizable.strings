@@ -25,6 +25,9 @@
 "settings.lang.hungarian" = "Magyar";
 "settings.theme.light" = "Világos Mód";
 "settings.theme.dark" = "Sötét Mód";
+"settings.version" = "Verzió";
+"settings.createdBy" = "Készítette: iOS Akadémia";
+
 
 // ERROR ALERTS
 "apierror.message" = "API Hiba";
@@ -36,8 +39,8 @@
 "mappingerror.message" = "Leképezési Hiba";
 
 // DETAILS
-"details.available" = "Elérhető";
-"details.unavailable" = "Nem elérhető";
+"details.adultOnly" = "Korhatáros";
+"details.nonAdultOnly" = "Nem korhatáros";
 "details.label.release" = "Megjelenési Év";
 "details.label.runtime" = "Időtartam";
 "details.label.languages" = "Nyelvek";
@@ -46,8 +49,9 @@
 "details.overview" = "Összefoglaló";
 "details.publishers" = "Kiadók";
 "details.cast" = "Színészek";
-"details.topreviews" = "Értékelések";
+"details.topreviews" = "Legjobb Értékelések";
 "details.noreviews" = "Nincs Értékelés";
+"details.similars" = "Hasonlóak";
 
 // NO INTERNET
 "noInternet" = "Nincs Internetkapcsolat";
@@ -60,3 +64,10 @@
 "rate.title" = "ÉRTÉKELD AZ APPOT!";
 "rate.text" = "KÉRLEK ÉRTÉKELD AZ APPOT! KÖSZÖNJÜK!";
 "rate.ok" = "OK";
+
+// CAST DETAILS
+"cast.birthYear" = "Születési év";
+"cast.city" = "Város";
+"cast.bio" = "Életrajz";
+"cast.popularity" = "Népszerűség";
+"cast.combinedCredits" = "Összesített szereplések";

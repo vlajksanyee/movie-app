@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-enum MovieLabelType {
+enum MediaItemLabelType {
     case rating(_ value: Double)
     case voteCount(_ vote: Int)
     case popularity(_ popularity: Double)
     case adult(_ adult: Bool)
 }
 
-struct MovieLabel: View {
+struct MediaItemLabel: View {
 
-    let type: MovieLabelType
+    let type: MediaItemLabelType
     
     var body: some View {
         var imageRes: ImageResource
@@ -33,7 +33,7 @@ struct MovieLabel: View {
             text = "\(popularity)"
             imageRes = .person
         case .adult(let adult):
-            text = adult ? "details.available".localized() : "details.unavailable".localized()
+            text = adult ? "details.adultOnly".localized() : "details.nonAdultOnly".localized()
             imageRes = .closedCaption
         }
         
@@ -41,6 +41,8 @@ struct MovieLabel: View {
             Image(imageRes)
             Text(LocalizedStringKey(text))
                 .font(Fonts.labelBold)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
         }
         .padding(6.0)
         .background(.mediaItemLabel)

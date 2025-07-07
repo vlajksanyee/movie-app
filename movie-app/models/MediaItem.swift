@@ -42,7 +42,7 @@ struct MediaItem: Identifiable, Equatable {
     init(dto: MovieResponse) {
         let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
-        let duration = "1h 25min" // TODO: placeholder – ha lesz ilyen adat, cserélhető
+        let duration = "-" // TODO: placeholder – ha lesz ilyen adat, cserélhető
         
         var imageUrl: URL? {
             dto.posterPath.flatMap {
@@ -63,7 +63,7 @@ struct MediaItem: Identifiable, Equatable {
     init(dto: TVResponse) {
         let prefixedYear: Substring = dto.firstAirDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
-        let duration = "58 min" // TODO: placeholder – ha lesz ilyen adat, cserélhető
+        let duration = "-" // TODO: placeholder – ha lesz ilyen adat, cserélhető
         
         var imageUrl: URL? {
             dto.posterPath.flatMap {
@@ -85,7 +85,7 @@ struct MediaItem: Identifiable, Equatable {
         self.id = detail.id
         self.title = detail.title
         self.year = detail.year
-        self.duration = "1h 25min"
+        self.duration = "-"
         self.imageUrl = detail.imageUrl
         self.rating = detail.rating
         self.voteCount = detail.voteCount
@@ -95,7 +95,7 @@ struct MediaItem: Identifiable, Equatable {
     init(dto: CombinedCreditsResponse) {
         let prefixedYear: Substring = dto.releaseDate?.prefix(4) ?? "-"
         let year = String(prefixedYear)
-        let duration = "58 min" // TODO: placeholder – ha lesz ilyen adat, cserélhető
+        let duration = "-" // TODO: placeholder – ha lesz ilyen adat, cserélhető
         
         var imageUrl: URL? {
             dto.posterPath.flatMap {

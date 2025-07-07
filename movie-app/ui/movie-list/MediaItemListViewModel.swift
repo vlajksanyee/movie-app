@@ -19,7 +19,6 @@ class MediaItemListViewModel: MediaItemListViewModelProtocol, ErrorPresentable {
     @Published var isLoading: Bool = false
     
     let genreIdSubject = PassthroughSubject<Int, Never>()
-    
     let refreshSubject = CurrentValueSubject<Void, Never>(())
 
     var actualPage: Int = 0
@@ -36,6 +35,12 @@ class MediaItemListViewModel: MediaItemListViewModelProtocol, ErrorPresentable {
                 self?.mediaItems = []
                 self?.actualPage = 0
             })
+        
+        let genreIdNewValue = genreIdSubject.handleEvents(receiveOutput: { [weak self] _ in
+            self?.mediaItems.removeAll()
+            self?.actualPage = 1
+        })
+            .eraseToAnyPublisher()
         
         Publishers.CombineLatest(genreIdSubject, refreshPublisher)
             .filter { [weak self]_ in

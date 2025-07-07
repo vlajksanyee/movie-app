@@ -22,6 +22,8 @@ class SettingsViewModelImpl: SettingsViewModel {
     
     @Published var appInfo: String = ""
     
+    private let languageManager = LanguageManager.shared
+    
     @Inject
     private var appVersionProvider: AppVersionProviderProtocol
     
@@ -29,12 +31,12 @@ class SettingsViewModelImpl: SettingsViewModel {
         let storedTheme = UserDefaults.standard.string(forKey: "color-scheme")
         self.selectedTheme = AppColorScheme(rawValue: storedTheme ?? "") ?? .light
         
-        appInfo = appVersionProvider.version + appVersionProvider.build
+        appInfo = appVersionProvider.version + " (" + appVersionProvider.build + ")"
     }
     
     func changeSelectedLanguage(_ language: String) {
         self.selectedLanguage = language
-        Bundle.setLanguage(lang: language)
+        languageManager.setLanguage(language)
     }
     
     func changeTheme(_ theme: AppColorScheme) {

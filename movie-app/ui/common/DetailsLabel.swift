@@ -11,9 +11,11 @@ struct DetailsLabel: View {
     let title: String
     let desc: String
     
+    @EnvironmentObject var languageManager: LanguageManager
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text(LocalizedStringKey(title))
+            Text(LocalizedStringKey(title.localized()))
                 .font(Fonts.caption)
             Text(desc)
                 .font(Fonts.paragraph)

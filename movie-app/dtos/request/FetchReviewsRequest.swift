@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FetchReviewsRequest{
+struct FetchReviewsRequest {
     let accessToken: String = Config.bearerToken
     let mediaId: Int
     

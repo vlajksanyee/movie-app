@@ -13,6 +13,8 @@ struct AddReviewView: View {
         
     @StateObject private var viewModel = AddReviewViewModel()
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: LayoutConst.normalPadding) {
@@ -45,6 +47,9 @@ struct AddReviewView: View {
         .padding(.horizontal, LayoutConst.maxPadding)
         .onAppear {
             viewModel.mediaDetailSubject.send(mediaItemDetail)
+        }
+        .onChange(of: viewModel.success) { _ in
+            dismiss()
         }
     }
 }

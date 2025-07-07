@@ -5,7 +5,7 @@
 //  Created by Sandor Vlajk on 2025. 06. 18..
 //
 
-struct FetchSimilarsRequest {
+struct FetchSimilarsRequest: LocalizedRequest {
     let accessToken: String = Config.bearerToken
     let mediaId: Int
     let page: Int
@@ -13,6 +13,6 @@ struct FetchSimilarsRequest {
     func asRequestParams() -> [String: Any] {
         return [
             "page": page
-        ]
+        ] + languageParam
     }
 }

@@ -10,6 +10,7 @@ import InjectPropertyWrapper
 
 struct SearchView: View {
     @StateObject private var viewModel = SearchViewModel()
+    @EnvironmentObject var languageManager: LanguageManager
     
     var body: some View {
         NavigationView {

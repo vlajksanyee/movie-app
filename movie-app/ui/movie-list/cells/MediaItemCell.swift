@@ -20,8 +20,8 @@ struct MediaItemCell: View {
                         .cornerRadius(12)
                 }
                 HStack(spacing: 12.0) {
-                    MovieLabel(type: .rating(mediaItem.rating))
-                    MovieLabel(type: .voteCount(mediaItem.voteCount))
+                    MediaItemLabel(type: .rating(mediaItem.rating))
+                    MediaItemLabel(type: .voteCount(mediaItem.voteCount))
                 }
                 .padding(LayoutConst.smallPadding)
             }
